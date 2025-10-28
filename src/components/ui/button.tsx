@@ -5,7 +5,7 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium ring-offset-background transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 active:scale-95",
+  "inline-flex items-center justify-center gap-2 text-sm font-medium ring-offset-background transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 active:scale-95",
   {
     variants: {
       variant: {
@@ -19,11 +19,11 @@ const buttonVariants = cva(
         mobile: "w-full bg-primary text-primary-foreground hover:bg-primary/90 font-bold shadow-lg active:scale-95 md:w-auto md:shadow-none md:active:scale-100", // Mobile-optimized variant
       },
       size: {
-        default: "h-11 px-4 py-2 min-h-[44px]", // 44px minimum for touch targets
-        sm: "h-10 rounded-md px-3 min-h-[40px]",
-        lg: "h-12 rounded-md px-8 min-h-[48px]",
-        icon: "h-11 w-11 min-h-[44px] min-w-[44px]", // 44px minimum for touch
-        mobile: "h-12 px-6 min-h-[48px] text-base", // Extra large for mobile
+        default: "h-11 px-4 py-2 rounded-lg", // Use rounded-lg for button shape
+        sm: "h-10 px-3 rounded-lg",
+        lg: "h-12 px-8 rounded-lg",
+        icon: "h-11 w-11 rounded-lg", // Square buttons with rounded corners
+        mobile: "h-12 px-6 rounded-lg text-base", // Extra large for mobile
       },
     },
     defaultVariants: {
