@@ -10,7 +10,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import { 
-  Plus, Edit, Trash2, MapPin, Home, Work, 
+  Plus, Edit, Trash2, MapPin, Home, 
   Building, CheckCircle2
 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';

@@ -140,19 +140,24 @@ export default defineConfig(({ mode }) => ({
       },
     },
     sourcemap: 'hidden', // Generate hidden source maps for production debugging
+    commonjsOptions: {
+      include: [/node_modules/],
+      transformMixedEsModules: true,
+    },
     rollupOptions: {
       output: {
         // Add hash to filenames for cache busting  
         entryFileNames: 'assets/entry-[hash].js',
         chunkFileNames: 'assets/chunk-[hash].js',
         assetFileNames: 'assets/asset-[hash].[ext]',
-        // Manual chunking for better performance
+        // Ensure React is not split into separate chunks
         manualChunks: (id) => {
+          // Exclude React from chunking - keep it in vendor
+          if (id.includes('react') || id.includes('react-dom') || id.includes('scheduler')) {
+            return 'vendor';
+          }
           // Large deps into separate chunks
           if (id.includes('node_modules')) {
-            if (id.includes('react') || id.includes('react-dom')) {
-              return 'vendor-react';
-            }
             if (id.includes('@tanstack')) {
               return 'vendor-query';
             }
@@ -166,8 +171,6 @@ export default defineConfig(({ mode }) => ({
           }
         },
       },
-      // Ensure React is treated as external during SSR
-      external: [],
     },
     chunkSizeWarningLimit: 600,
     cssCodeSplit: true,

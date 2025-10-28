@@ -557,7 +557,6 @@ export default function UserAccount() {
                       </div>
                     </CardContent>
                   </Card>
-                </div>
               </TabsContent>
             </Tabs>
           </>
