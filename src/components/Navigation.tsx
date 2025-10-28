@@ -242,20 +242,17 @@ const Navigation = () => {
                     </DropdownMenuLabel>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem 
-                      onClick={() => navigate("/my-orders")}
+                      onSelect={() => navigate("/my-orders")}
                     >
                       My Orders
                     </DropdownMenuItem>
                     <DropdownMenuItem 
-                      onClick={() => navigate("/account/giveaway-entries")}
+                      onSelect={() => navigate("/account/giveaway-entries")}
                     >
                       My Entries
                     </DropdownMenuItem>
                     <DropdownMenuItem 
-                      onClick={() => {
-                        console.log("Navigating to Profile Settings");
-                        navigate("/account/settings");
-                      }}
+                      onSelect={() => navigate("/account/settings")}
                     >
                       Profile Settings
                     </DropdownMenuItem>
