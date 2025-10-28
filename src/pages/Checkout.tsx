@@ -59,6 +59,11 @@ const Checkout = () => {
   // Auth modal state
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [authMode, setAuthMode] = useState<"signin" | "signup">("signup");
+  
+  // Legal confirmation checkboxes
+  const [ageConfirmed, setAgeConfirmed] = useState(false);
+  const [legalConfirmed, setLegalConfirmed] = useState(false);
+  const [termsConfirmed, setTermsConfirmed] = useState(false);
 
   const timeSlots = [
     { value: "09:00-12:00", label: "Morning", time: "9:00 AM - 12:00 PM", icon: "🌅" },
@@ -290,6 +295,22 @@ const Checkout = () => {
 
     if (deliveryType === "economy" && (!selectedDate || !selectedTimeSlot)) {
       toast.error("Please select a delivery date and time slot");
+      return;
+    }
+    
+    // Validate legal confirmations
+    if (!ageConfirmed) {
+      toast.error("Please confirm you are 21+ to proceed");
+      return;
+    }
+    
+    if (!legalConfirmed) {
+      toast.error("Please accept the legal terms to proceed");
+      return;
+    }
+    
+    if (!termsConfirmed) {
+      toast.error("Please accept the terms and conditions to proceed");
       return;
     }
 
@@ -1077,32 +1098,79 @@ const Checkout = () => {
                   <span>${total.toFixed(2)}</span>
                 </div>
 
+                {/* Legal Confirmation Progress */}
+                {(ageConfirmed || legalConfirmed || termsConfirmed) && (
+                  <div className="p-3 bg-primary/10 border border-primary/20 rounded-lg">
+                    <div className="flex items-center justify-between text-sm">
+                      <span className="font-medium text-primary">Legal Confirmations</span>
+                      <span className="font-semibold text-primary">
+                        {[ageConfirmed, legalConfirmed, termsConfirmed].filter(Boolean).length} / 3 completed
+                      </span>
+                    </div>
+                    <div className="mt-2 flex gap-1">
+                      {[ageConfirmed, legalConfirmed, termsConfirmed].map((checked, i) => (
+                        <div
+                          key={i}
+                          className={cn(
+                            "h-1 flex-1 rounded-full transition-colors",
+                            checked ? "bg-primary" : "bg-muted"
+                          )}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                )}
+
                 {/* Legal Confirmation Checkboxes */}
                 <div className="space-y-3 pt-2">
-                  <div className="flex items-start gap-3 p-3 bg-muted/50 rounded-lg">
-                    <input 
-                      type="checkbox" 
+                  <div className={cn(
+                    "flex items-start gap-3 p-3 rounded-lg border-2 transition-all",
+                    ageConfirmed 
+                      ? "bg-primary/5 border-primary/30" 
+                      : "bg-muted/50 border-muted"
+                  )}>
+                    <Checkbox 
                       id="age-confirm"
-                      name="age-confirmation"
-                      required
-                      className="mt-1 h-4 w-4 rounded border-gray-300"
+                      checked={ageConfirmed}
+                      onCheckedChange={(checked) => setAgeConfirmed(checked as boolean)}
+                      className="mt-0.5"
                     />
-                    <label htmlFor="age-confirm" className="text-sm flex-1 cursor-pointer">
-                      I certify that I am 21 years of age or older and will provide valid government ID at delivery.
+                    <label htmlFor="age-confirm" className="text-sm flex-1 cursor-pointer leading-relaxed">
+                      <span className="font-semibold text-primary">Age Verification Required:</span> I certify that I am 21 years of age or older and will provide valid government ID at delivery. I acknowledge that the courier will verify my age before completing the delivery.
                     </label>
                   </div>
                   
-                  <div className="flex items-start gap-3 p-3 bg-muted/50 rounded-lg">
-                    <input 
-                      type="checkbox" 
+                  <div className={cn(
+                    "flex items-start gap-3 p-3 rounded-lg border-2 transition-all",
+                    legalConfirmed 
+                      ? "bg-primary/5 border-primary/30" 
+                      : "bg-muted/50 border-muted"
+                  )}>
+                    <Checkbox 
                       id="legal-confirm"
-                      name="legal-confirmation"
-                      required
-                      className="mt-1 h-4 w-4 rounded border-gray-300"
+                      checked={legalConfirmed}
+                      onCheckedChange={(checked) => setLegalConfirmed(checked as boolean)}
+                      className="mt-0.5"
                     />
-                    <label htmlFor="legal-confirm" className="text-sm flex-1 cursor-pointer">
-                      I understand these products are derived from hemp, may produce effects when consumed, and may result in positive drug tests. 
-                      I am responsible for compliance with local laws.
+                    <label htmlFor="legal-confirm" className="text-sm flex-1 cursor-pointer leading-relaxed">
+                      <span className="font-semibold text-primary">Legal Compliance:</span> I understand these products are derived from hemp, may produce effects when consumed, and may result in positive drug tests. I am responsible for compliance with local laws regarding hemp-derived products.
+                    </label>
+                  </div>
+                  
+                  <div className={cn(
+                    "flex items-start gap-3 p-3 rounded-lg border-2 transition-all",
+                    termsConfirmed 
+                      ? "bg-primary/5 border-primary/30" 
+                      : "bg-muted/50 border-muted"
+                  )}>
+                    <Checkbox 
+                      id="terms-confirm"
+                      checked={termsConfirmed}
+                      onCheckedChange={(checked) => setTermsConfirmed(checked as boolean)}
+                      className="mt-0.5"
+                    />
+                    <label htmlFor="terms-confirm" className="text-sm flex-1 cursor-pointer leading-relaxed">
+                      <span className="font-semibold text-primary">Terms & Conditions:</span> I agree to the terms of sale, delivery policy, and refund policy. I understand all sales are final unless the product is defective or incorrect. I agree to receive delivery updates via phone/SMS.
                     </label>
                   </div>
                 </div>
@@ -1112,9 +1180,9 @@ const Checkout = () => {
                   className="w-full h-14 text-lg"
                   size="lg"
                   onClick={handlePlaceOrder}
-                  disabled={!address || !borough || loading}
+                  disabled={!address || !borough || loading || !ageConfirmed || !legalConfirmed || !termsConfirmed}
                 >
-                  {loading ? "Placing Order..." : "Place Order"}
+                  {loading ? "Placing Order..." : (ageConfirmed && legalConfirmed && termsConfirmed) ? "Place Order" : "Accept All Terms to Continue"}
                 </Button>
 
                 {/* Prominent 21+ Age Verification Notice */}
