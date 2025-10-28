@@ -10,6 +10,7 @@ interface OptimizedImageProps {
   width?: number;
   height?: number;
   onError?: () => void;
+  onLoad?: () => void;
 }
 
 const OptimizedImage = memo(({
@@ -20,7 +21,8 @@ const OptimizedImage = memo(({
   priority = false,
   width,
   height,
-  onError
+  onError,
+  onLoad
 }: OptimizedImageProps) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const imgRef = useRef<HTMLImageElement>(null);
@@ -53,7 +55,10 @@ const OptimizedImage = memo(({
         isLoaded ? 'opacity-100' : 'opacity-0',
         className
       )}
-      onLoad={() => setIsLoaded(true)}
+      onLoad={() => {
+        setIsLoaded(true);
+        onLoad?.();
+      }}
       onError={onError}
       style={{
         contentVisibility: 'auto',
