@@ -21,19 +21,25 @@ export const OptimizedProductImage = ({
   const imageName = src.split('/').pop()?.split('.')[0] || '';
   const isPublicImage = src.includes('/products/') || src.includes('/public/');
   
+  // Fix image path for public images
+  const imageSrc = src?.startsWith('/products/') || src?.startsWith('/public/') 
+    ? src 
+    : src;
+
   return (
     <div className={`relative overflow-hidden ${className}`}>
       {isLoading && !error && (
         <Skeleton className="absolute inset-0" />
       )}
       <img
-        src={src}
+        src={imageSrc}
         alt={alt}
         loading={priority ? 'eager' : 'lazy'}
         decoding="async"
         fetchPriority={priority ? 'high' : 'auto'}
         onLoad={() => setIsLoading(false)}
         onError={() => {
+          console.error('Image failed to load:', imageSrc);
           setIsLoading(false);
           setError(true);
         }}
