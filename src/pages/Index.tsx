@@ -19,6 +19,9 @@ const TrendingProducts = lazy(() => import("@/components/TrendingProducts"));
 const InstallPWA = lazy(() => import("@/components/InstallPWA"));
 const EmailCaptureSection = lazy(() => import("@/components/EmailCaptureSection"));
 const FeaturedReviews = lazy(() => import("@/components/FeaturedReviews"));
+const QuickStats = lazy(() => import("@/components/home/QuickStats").then(m => ({ default: m.QuickStats })));
+const FlashSale = lazy(() => import("@/components/home/FlashSale").then(m => ({ default: m.FlashSale })));
+const FeaturedCategories = lazy(() => import("@/components/home/FeaturedCategories").then(m => ({ default: m.FeaturedCategories })));
 
 
 const Index = () => {
@@ -39,6 +42,11 @@ const Index = () => {
       {/* Enhanced Parallax Hero */}
       <ParallaxHero />
       
+      {/* Quick Stats */}
+      <Suspense fallback={null}>
+        <QuickStats />
+      </Suspense>
+      
       {/* First-Time Buyer Banner with Animation */}
       <motion.div
         initial={{ opacity: 0, y: -20 }}
@@ -57,6 +65,16 @@ const Index = () => {
           </div>
         </div>
       </motion.div>
+
+      {/* Featured Categories */}
+      <Suspense fallback={<EnhancedLoadingState variant="grid" count={5} />}>
+        <FeaturedCategories />
+      </Suspense>
+
+      {/* Flash Sale Banner */}
+      <Suspense fallback={null}>
+        <FlashSale />
+      </Suspense>
 
       {/* Trending Products Carousel */}
       <motion.div
