@@ -241,13 +241,13 @@ const Navigation = () => {
                       </div>
                     </DropdownMenuLabel>
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem onClick={() => navigate("/my-orders")}>
+                    <DropdownMenuItem onSelect={(e) => { navigate("/my-orders"); }}>
                       My Orders
                     </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => navigate("/account/giveaway-entries")}>
+                    <DropdownMenuItem onSelect={(e) => { navigate("/account/giveaway-entries"); }}>
                       My Entries
                     </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => navigate("/account/settings")}>
+                    <DropdownMenuItem onSelect={(e) => { navigate("/account/settings"); }}>
                       Profile Settings
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
