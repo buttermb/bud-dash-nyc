@@ -13,7 +13,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { MapPin, Package, Clock, Truck, Phone, DollarSign, CheckCircle } from "lucide-react";
+import { MapPin, Package, Clock, Truck, Phone, DollarSign, CheckCircle, 
+  AlertTriangle, User, RefreshCw, Search, Filter, Eye, MoreVertical } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { formatStatus } from "@/utils/stringHelpers";
 
@@ -22,6 +23,10 @@ const AdminLiveOrders = () => {
   const { toast } = useToast();
   const [liveOrders, setLiveOrders] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [statusFilter, setStatusFilter] = useState<string>("all");
+  const [autoRefresh, setAutoRefresh] = useState(true);
+  const [refreshInterval, setRefreshInterval] = useState<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     if (!session) return;
