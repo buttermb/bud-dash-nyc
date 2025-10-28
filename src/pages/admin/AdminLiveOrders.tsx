@@ -14,9 +14,13 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { MapPin, Package, Clock, Truck, Phone, DollarSign, CheckCircle, 
-  AlertTriangle, User, RefreshCw, Search, Filter, Eye, MoreVertical } from "lucide-react";
+  AlertTriangle, User, RefreshCw, Search, Filter, Eye, MoreVertical, Loader2 } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { formatStatus } from "@/utils/stringHelpers";
+import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
 
 const AdminLiveOrders = () => {
   const { session } = useAdminAuth();
@@ -28,6 +32,22 @@ const AdminLiveOrders = () => {
   const [autoRefresh, setAutoRefresh] = useState(true);
   const [refreshInterval, setRefreshInterval] = useState<NodeJS.Timeout | null>(null);
 
+  // Auto-refresh effect
+  useEffect(() => {
+    if (!autoRefresh) return;
+    
+    const interval = setInterval(() => {
+      fetchLiveOrders();
+    }, 15000); // Refresh every 15 seconds
+    
+    setRefreshInterval(interval);
+    
+    return () => {
+      if (interval) clearInterval(interval);
+    };
+  }, [autoRefresh]);
+
+  // Realtime subscription effect
   useEffect(() => {
     if (!session) return;
     
@@ -188,6 +208,19 @@ const AdminLiveOrders = () => {
     return statusFlow[currentStatus || 'pending'];
   };
 
+  // Filter orders based on search and status
+  const filteredOrders = liveOrders.filter((order) => {
+    const matchesSearch = 
+      !searchQuery ||
+      order.id.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      order.delivery_address?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      order.delivery_borough?.toLowerCase().includes(searchQuery.toLowerCase());
+    
+    const matchesStatus = statusFilter === "all" || order.status === statusFilter;
+    
+    return matchesSearch && matchesStatus;
+  });
+
   if (loading) {
     return (
       <div className="p-6 space-y-4">
@@ -199,31 +232,78 @@ const AdminLiveOrders = () => {
 
   return (
     <div className="p-6 space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight">Live Orders</h1>
-          <p className="text-muted-foreground">
-            Active orders ({liveOrders.length})
-          </p>
+      <div className="space-y-4">
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-3xl font-bold tracking-tight">Live Orders</h1>
+            <p className="text-muted-foreground">
+              Active orders ({filteredOrders.length} of {liveOrders.length})
+            </p>
+          </div>
+          <div className="flex items-center gap-2">
+            <Button 
+              onClick={fetchLiveOrders} 
+              variant="outline" 
+              size="icon"
+              title="Refresh now"
+            >
+              <RefreshCw className="h-4 w-4" />
+            </Button>
+            <div className="flex items-center gap-2">
+              <Switch 
+                id="auto-refresh" 
+                checked={autoRefresh}
+                onCheckedChange={setAutoRefresh}
+              />
+              <Label htmlFor="auto-refresh" className="text-sm cursor-pointer">
+                Auto-refresh (15s)
+              </Label>
+            </div>
+          </div>
         </div>
-        <Button onClick={fetchLiveOrders} variant="outline">
-          Refresh
-        </Button>
+
+        {/* Search and Filter Controls */}
+        <div className="flex flex-col md:flex-row gap-3">
+          <div className="relative flex-1">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <Input
+              placeholder="Search by order number, address, or borough..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="pl-9"
+            />
+          </div>
+          <Select value={statusFilter} onValueChange={setStatusFilter}>
+            <SelectTrigger className="w-full md:w-[200px]">
+              <Filter className="h-4 w-4 mr-2" />
+              <SelectValue placeholder="All statuses" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">All Statuses</SelectItem>
+              <SelectItem value="accepted">Accepted</SelectItem>
+              <SelectItem value="confirmed">Confirmed</SelectItem>
+              <SelectItem value="preparing">Preparing</SelectItem>
+              <SelectItem value="out_for_delivery">Out for Delivery</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
       </div>
 
-      {liveOrders.length === 0 ? (
+      {filteredOrders.length === 0 ? (
         <Card>
           <CardContent className="py-12 text-center">
             <Package className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
-            <p className="text-lg font-semibold">No active orders</p>
+            <p className="text-lg font-semibold">
+              {searchQuery || statusFilter !== "all" ? "No orders match your filters" : "No active orders"}
+            </p>
             <p className="text-sm text-muted-foreground">
-              All accepted orders will appear here
+              {searchQuery || statusFilter !== "all" ? "Try adjusting your search or filters" : "All accepted orders will appear here"}
             </p>
           </CardContent>
         </Card>
       ) : (
         <div className="grid gap-4">
-          {liveOrders.map((order) => {
+          {filteredOrders.map((order) => {
             const statusInfo = getStatusBadge(order.status);
             const nextStatus = getNextStatus(order.status);
             
