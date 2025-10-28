@@ -334,6 +334,17 @@ const Navigation = () => {
                       <Button 
                         variant="outline" 
                         className="h-12 text-base touch-manipulation active:scale-95"
+                        onClick={() => {
+                          navigate("/account/settings");
+                          const closeButton = document.querySelector('[aria-label="Close"]') as HTMLButtonElement;
+                          closeButton?.click();
+                        }}
+                      >
+                        Profile Settings
+                      </Button>
+                      <Button 
+                        variant="outline" 
+                        className="h-12 text-base touch-manipulation active:scale-95"
                         onClick={async () => {
                           await signOut();
                           navigate("/");
