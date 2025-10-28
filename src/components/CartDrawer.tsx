@@ -62,23 +62,35 @@ const CartDrawer = ({ open, onOpenChange }: CartDrawerProps) => {
     enabled: !user && guestCart.length > 0,
   });
 
-  // Combine guest cart items with product data
-  const guestCartItems = user ? [] : guestCart.map(item => ({
-    ...item,
-    id: `${item.product_id}-${item.selected_weight}`,
-    products: guestProducts.find(p => p.id === item.product_id)
-  })).filter(item => item.products);
+  // Combine guest cart items with product data (only items with valid products)
+  const guestCartItems = user ? [] : guestCart
+    .map(item => {
+      const product = guestProducts.find(p => p.id === item.product_id);
+      if (!product) return null;
+      return {
+        ...item,
+        id: `${item.product_id}-${item.selected_weight}`,
+        products: product
+      };
+    })
+    .filter(item => item !== null) as any[];
 
   const cartItems = user ? dbCartItems : guestCartItems;
+  
+  // Show loading state when products are still loading
+  const isLoading = !user && guestCart.length > 0 && guestCartItems.length === 0 && guestProducts.length === 0;
 
   const getItemPrice = (item: any) => {
-    const product = item.products;
-    const selectedWeight = item.selected_weight || "unit";
+    const product = item?.products;
+    if (!product) return 0;
+    
+    const selectedWeight = item?.selected_weight || "unit";
     
     if (product?.prices && typeof product.prices === 'object') {
-      return product.prices[selectedWeight] || product.price || 0;
+      const price = product.prices[selectedWeight];
+      return price ? Number(price) : Number(product.price) || 0;
     }
-    return product?.price || 0;
+    return Number(product.price) || 0;
   };
 
   const subtotal = cartItems.reduce(

@@ -118,11 +118,12 @@ export default defineConfig(({ mode }) => ({
     dedupe: ['react', 'react-dom', 'react/jsx-runtime'], // Force single React instance
   },
   optimizeDeps: {
-    include: ['react', 'react-dom'],
+    include: ['react', 'react-dom', 'react-router-dom'],
     exclude: [],
     esbuildOptions: {
       target: 'es2020',
     },
+    entries: ['src/main.tsx'], // Only pre-bundle main entry
   },
   build: {
     target: 'es2020',
@@ -145,8 +146,25 @@ export default defineConfig(({ mode }) => ({
         entryFileNames: 'assets/entry-[hash].js',
         chunkFileNames: 'assets/chunk-[hash].js',
         assetFileNames: 'assets/asset-[hash].[ext]',
-        // Disable manual chunking - let Vite optimize automatically
-        manualChunks: undefined,
+        // Manual chunking for better performance
+        manualChunks: (id) => {
+          // Large deps into separate chunks
+          if (id.includes('node_modules')) {
+            if (id.includes('react') || id.includes('react-dom')) {
+              return 'vendor-react';
+            }
+            if (id.includes('@tanstack')) {
+              return 'vendor-query';
+            }
+            if (id.includes('framer-motion')) {
+              return 'vendor-motion';
+            }
+            if (id.includes('mapbox') || id.includes('leaflet')) {
+              return 'vendor-maps';
+            }
+            return 'vendor';
+          }
+        },
       },
       // Ensure React is treated as external during SSR
       external: [],
