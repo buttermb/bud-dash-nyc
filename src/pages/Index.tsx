@@ -20,7 +20,6 @@ const InstallPWA = lazy(() => import("@/components/InstallPWA"));
 const EmailCaptureSection = lazy(() => import("@/components/EmailCaptureSection"));
 const FeaturedReviews = lazy(() => import("@/components/FeaturedReviews"));
 const QuickStats = lazy(() => import("@/components/home/QuickStats").then(m => ({ default: m.QuickStats })));
-const FlashSale = lazy(() => import("@/components/home/FlashSale").then(m => ({ default: m.FlashSale })));
 const FeaturedCategories = lazy(() => import("@/components/home/FeaturedCategories").then(m => ({ default: m.FeaturedCategories })));
 
 
@@ -69,11 +68,6 @@ const Index = () => {
       {/* Featured Categories */}
       <Suspense fallback={<EnhancedLoadingState variant="grid" count={5} />}>
         <FeaturedCategories />
-      </Suspense>
-
-      {/* Flash Sale Banner */}
-      <Suspense fallback={null}>
-        <FlashSale />
       </Suspense>
 
       {/* Trending Products Carousel */}
