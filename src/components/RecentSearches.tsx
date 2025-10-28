@@ -71,5 +71,3 @@ export function RecentSearches({ onSelect, maxItems = 5, className }: RecentSear
   );
 }
 
-export { RecentSearches };
-
