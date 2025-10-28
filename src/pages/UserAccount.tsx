@@ -22,6 +22,10 @@ import LoyaltyPoints from "@/components/LoyaltyPoints";
 import IDVerificationUpload from "@/components/IDVerificationUpload";
 import Navigation from "@/components/Navigation";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
+import UserActivityFeed from "@/components/account/UserActivityFeed";
+import AddressBook from "@/components/account/AddressBook";
+import PaymentMethods from "@/components/account/PaymentMethods";
+import NotificationPreferences from "@/components/account/NotificationPreferences";
 
 export default function UserAccount() {
   const navigate = useNavigate();
@@ -494,33 +498,40 @@ export default function UserAccount() {
 
               {/* Settings Tab */}
               <TabsContent value="settings" className="space-y-6">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                  <Card>
-                    <CardHeader>
-                      <CardTitle className="flex items-center gap-2">
-                        <Settings className="w-5 h-5" />
-                        Account Settings
-                      </CardTitle>
-                    </CardHeader>
-                    <CardContent className="space-y-4">
-                      <Button variant="outline" className="w-full justify-start" onClick={() => navigate("/account/settings")}>
-                        <User className="w-4 h-4 mr-2" />
-                        Edit Profile
-                      </Button>
-                      <Button variant="outline" className="w-full justify-start" onClick={() => navigate("/settings/notifications")}>
-                        <Gift className="w-4 h-4 mr-2" />
-                        Notification Preferences
-                      </Button>
-                      <Button variant="outline" className="w-full justify-start" disabled>
-                        <CreditCard className="w-4 h-4 mr-2" />
-                        Payment Methods (Coming Soon)
-                      </Button>
-                      <Button variant="outline" className="w-full justify-start" disabled>
-                        <MapPin className="w-4 h-4 mr-2" />
-                        Saved Addresses (Coming Soon)
-                      </Button>
-                    </CardContent>
-                  </Card>
+                <div className="grid grid-cols-1 gap-6">
+                  {/* Address Book */}
+                  <AddressBook />
+                  
+                  {/* Payment Methods */}
+                  <PaymentMethods />
+                  
+                  {/* Notification Preferences */}
+                  <NotificationPreferences />
+                  
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <Card>
+                      <CardHeader>
+                        <CardTitle className="flex items-center gap-2">
+                          <Settings className="w-5 h-5" />
+                          Account Settings
+                        </CardTitle>
+                      </CardHeader>
+                      <CardContent className="space-y-4">
+                        <Button variant="outline" className="w-full justify-start" onClick={() => navigate("/account/settings")}>
+                          <User className="w-4 h-4 mr-2" />
+                          Edit Profile
+                        </Button>
+                        <Button variant="outline" className="w-full justify-start" disabled>
+                          <Shield className="w-4 h-4 mr-2" />
+                          Security Settings
+                        </Button>
+                      </CardContent>
+                    </Card>
+                    
+                    {/* Activity Feed */}
+                    {profile && <UserActivityFeed userId={profile.user_id} />}
+                  </div>
+                </div>
 
                   <Card>
                     <CardHeader>
