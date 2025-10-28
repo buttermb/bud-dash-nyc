@@ -21,6 +21,7 @@ import PurchaseGiveawayEntries from "@/components/account/PurchaseGiveawayEntrie
 import LoyaltyPoints from "@/components/LoyaltyPoints";
 import IDVerificationUpload from "@/components/IDVerificationUpload";
 import Navigation from "@/components/Navigation";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 
 export default function UserAccount() {
   const navigate = useNavigate();

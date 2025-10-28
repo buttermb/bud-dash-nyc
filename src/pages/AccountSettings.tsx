@@ -42,17 +42,25 @@ export default function AccountSettings() {
         setEmail(user.email || "");
       const { data, error: profileError } = await supabase
         .from("profiles")
-        .select("user_id, full_name, phone, id_verified, user_id_code, marketing_opt_in")
+        .select("user_id, full_name, phone, id_verified, user_id_code")
         .eq("user_id", user.id)
         .maybeSingle();
 
         if (profileError) throw profileError;
         
         if (data) {
-          setProfile(data as Profile);
+          const profileData: Profile = {
+            user_id: data.user_id,
+            full_name: data.full_name,
+            phone: data.phone,
+            id_verified: data.id_verified,
+            user_id_code: data.user_id_code,
+            marketing_opt_in: null, // This column doesn't exist yet
+          };
+          setProfile(profileData);
           setFullName(data.full_name || "");
           setPhone(data.phone || "");
-          setMarketingOptIn(Boolean(data.marketing_opt_in));
+          setMarketingOptIn(false);
         } else {
           toast.error("Profile not found");
           navigate("/account");
@@ -73,7 +81,7 @@ export default function AccountSettings() {
     try {
       const { error } = await supabase
         .from("profiles")
-        .update({ full_name: fullName, phone, marketing_opt_in: marketingOptIn })
+        .update({ full_name: fullName, phone })
         .eq("user_id", profile.user_id);
       if (error) throw error;
       toast.success("Settings saved");
