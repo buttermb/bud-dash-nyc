@@ -11,7 +11,7 @@ import { Separator } from "@/components/ui/separator";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Checkbox } from "@/components/ui/checkbox";
-import { ArrowLeft, Bitcoin, DollarSign, Calendar as CalendarIcon, Clock, Zap, AlertTriangle, Download } from "lucide-react";
+import { ArrowLeft, Bitcoin, DollarSign, Calendar as CalendarIcon, Clock, Zap, AlertTriangle, Download, Save } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
@@ -32,12 +32,32 @@ import { getNeighborhoodFromZip, getRiskColor, getRiskLabel, getRiskTextColor } 
 import { analytics } from "@/utils/analytics";
 import { useGuestCart } from "@/hooks/useGuestCart";
 import { applyCoupon, getCouponByCode } from "@/lib/api/coupons";
+import { useHapticFeedback } from "@/hooks/useHapticFeedback";
 
 const Checkout = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
   const { guestCart, clearGuestCart } = useGuestCart();
   const queryClient = useQueryClient();
+  const { triggerSelection, triggerSuccess, triggerError } = useHapticFeedback();
+  
+  // Load saved guest info from localStorage
+  useEffect(() => {
+    if (!user) {
+      const saved = localStorage.getItem('guest_checkout_info');
+      if (saved) {
+        try {
+          const data = JSON.parse(saved);
+          setGuestName(data.name || "");
+          setGuestPhone(data.phone || "");
+          setGuestEmail(data.email || "");
+        } catch (e) {
+          // Ignore parse errors
+        }
+      }
+    }
+  }, [user]);
+  
   const [address, setAddress] = useState("");
   const [addressLat, setAddressLat] = useState<number>();
   const [addressLng, setAddressLng] = useState<number>();
@@ -64,6 +84,17 @@ const Checkout = () => {
   const [ageConfirmed, setAgeConfirmed] = useState(false);
   const [legalConfirmed, setLegalConfirmed] = useState(false);
   const [termsConfirmed, setTermsConfirmed] = useState(false);
+  
+  // Save guest info to localStorage when changed
+  useEffect(() => {
+    if (!user && (guestName || guestPhone || guestEmail)) {
+      localStorage.setItem('guest_checkout_info', JSON.stringify({
+        name: guestName,
+        phone: guestPhone,
+        email: guestEmail
+      }));
+    }
+  }, [guestName, guestPhone, guestEmail, user]);
 
   const timeSlots = [
     { value: "09:00-12:00", label: "Morning", time: "9:00 AM - 12:00 PM", icon: "🌅" },
@@ -267,12 +298,14 @@ const Checkout = () => {
     analytics.trackCheckoutStarted(subtotal, cartItems.length, !user);
 
     if (cartItems.length === 0) {
+      triggerError();
       toast.error("Your cart is empty");
       navigate("/");
       return;
     }
 
     if (!address || !borough) {
+      triggerError();
       toast.error("Please enter a delivery address and select borough");
       return;
     }
@@ -280,36 +313,43 @@ const Checkout = () => {
     // Guest checkout validation
     if (!user) {
       if (!guestName.trim()) {
+        triggerError();
         toast.error("Please enter your name");
         return;
       }
       if (!guestPhone.trim()) {
+        triggerError();
         toast.error("Please enter your phone number");
         return;
       }
       if (!guestEmail.trim() || !guestEmail.includes('@')) {
+        triggerError();
         toast.error("Please enter a valid email address");
         return;
       }
     }
 
     if (deliveryType === "economy" && (!selectedDate || !selectedTimeSlot)) {
+      triggerError();
       toast.error("Please select a delivery date and time slot");
       return;
     }
     
     // Validate legal confirmations
     if (!ageConfirmed) {
+      triggerError();
       toast.error("Please confirm you are 21+ to proceed");
       return;
     }
     
     if (!legalConfirmed) {
+      triggerError();
       toast.error("Please accept the legal terms to proceed");
       return;
     }
     
     if (!termsConfirmed) {
+      triggerError();
       toast.error("Please accept the terms and conditions to proceed");
       return;
     }
@@ -383,6 +423,7 @@ const Checkout = () => {
         queryClient.invalidateQueries({ queryKey: ["guest-cart-products"] });
       }
 
+      triggerSuccess();
       toast.success("Order placed successfully!");
       
       // Track order completion
@@ -390,6 +431,7 @@ const Checkout = () => {
       
       navigate(`/order-confirmation?orderId=${data.orderId}`);
     } catch (error: any) {
+      triggerError();
       console.error('Order error:', error);
       toast.error(error.message || "Failed to place order");
     } finally {
@@ -1132,7 +1174,10 @@ const Checkout = () => {
                     <Checkbox 
                       id="age-confirm"
                       checked={ageConfirmed}
-                      onCheckedChange={(checked) => setAgeConfirmed(checked as boolean)}
+                      onCheckedChange={(checked) => {
+                        triggerSelection();
+                        setAgeConfirmed(checked as boolean);
+                      }}
                       className="mt-0.5"
                     />
                     <label htmlFor="age-confirm" className="text-sm flex-1 cursor-pointer leading-relaxed">
@@ -1149,7 +1194,10 @@ const Checkout = () => {
                     <Checkbox 
                       id="legal-confirm"
                       checked={legalConfirmed}
-                      onCheckedChange={(checked) => setLegalConfirmed(checked as boolean)}
+                      onCheckedChange={(checked) => {
+                        triggerSelection();
+                        setLegalConfirmed(checked as boolean);
+                      }}
                       className="mt-0.5"
                     />
                     <label htmlFor="legal-confirm" className="text-sm flex-1 cursor-pointer leading-relaxed">
@@ -1166,7 +1214,10 @@ const Checkout = () => {
                     <Checkbox 
                       id="terms-confirm"
                       checked={termsConfirmed}
-                      onCheckedChange={(checked) => setTermsConfirmed(checked as boolean)}
+                      onCheckedChange={(checked) => {
+                        triggerSelection();
+                        setTermsConfirmed(checked as boolean);
+                      }}
                       className="mt-0.5"
                     />
                     <label htmlFor="terms-confirm" className="text-sm flex-1 cursor-pointer leading-relaxed">
