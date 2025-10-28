@@ -241,20 +241,23 @@ const Navigation = () => {
                       </div>
                     </DropdownMenuLabel>
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem 
-                      onSelect={() => navigate("/my-orders")}
-                    >
-                      My Orders
+                    <DropdownMenuItem asChild>
+                      <button onClick={() => navigate("/my-orders")} className="w-full text-left cursor-pointer">
+                        My Orders
+                      </button>
                     </DropdownMenuItem>
-                    <DropdownMenuItem 
-                      onSelect={() => navigate("/account/giveaway-entries")}
-                    >
-                      My Entries
+                    <DropdownMenuItem asChild>
+                      <button onClick={() => navigate("/account/giveaway-entries")} className="w-full text-left cursor-pointer">
+                        My Entries
+                      </button>
                     </DropdownMenuItem>
-                    <DropdownMenuItem 
-                      onSelect={() => navigate("/account/settings")}
-                    >
-                      Profile Settings
+                    <DropdownMenuItem asChild>
+                      <button onClick={() => {
+                        console.log("Navigating to /account/settings");
+                        navigate("/account/settings");
+                      }} className="w-full text-left cursor-pointer">
+                        Profile Settings
+                      </button>
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem onClick={async () => {
