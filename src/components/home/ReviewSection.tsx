@@ -249,6 +249,19 @@ export function ReviewSection() {
             ))
           )}
         </div>
+
+        {/* Load More Button */}
+        {hasMore && (
+          <div className="text-center mt-8 mb-16">
+            <Button
+              onClick={loadMore}
+              disabled={isLoading}
+              className="px-8 py-3 bg-white/[0.05] hover:bg-white/[0.1] border border-white/[0.1] text-white font-light tracking-wide transition-all"
+            >
+              {isLoading ? 'Loading...' : `Load More Reviews (${allReviews.length} shown of 10,000+)`}
+            </Button>
+          </div>
+        )}
         
         {/* Trust Indicators */}
         <motion.div
