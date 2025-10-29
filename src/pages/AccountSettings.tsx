@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -10,7 +10,8 @@ import { Separator } from "@/components/ui/separator";
 import { toast } from "sonner";
 import CopyButton from "@/components/CopyButton";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Home } from "lucide-react";
+import CustomerLayout from "@/layouts/CustomerLayout";
 
 interface Profile {
   user_id: string;
@@ -127,26 +128,48 @@ export default function AccountSettings() {
     }
   };
 
-  if (loading) return <div className="container mx-auto p-6">Loading...</div>;
+  if (loading) {
+    return (
+      <CustomerLayout>
+        <div className="container mx-auto p-6 max-w-3xl">
+          <div className="flex items-center justify-center h-64">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+          </div>
+        </div>
+      </CustomerLayout>
+    );
+  }
 
   return (
-    <div className="container mx-auto p-6 max-w-3xl">
-      <Breadcrumbs items={[
-        { label: "Home", href: "/" },
-        { label: "Account", href: "/account" },
-        { label: "Settings" }
-      ]} />
-      
-      <div className="flex items-center gap-4 mb-6">
-        <Button 
-          variant="ghost" 
-          size="icon"
-          onClick={() => navigate("/account")}
-        >
-          <ArrowLeft className="h-4 w-4" />
-        </Button>
-        <h1 className="text-3xl font-bold">Account Settings</h1>
-      </div>
+    <CustomerLayout>
+      <div className="container mx-auto p-6 max-w-3xl">
+        {/* Back to Home Button */}
+        <div className="mb-6">
+          <Link 
+            to="/"
+            className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors text-sm font-medium"
+          >
+            <Home className="w-4 h-4" />
+            <span>Back to Home</span>
+          </Link>
+        </div>
+
+        <Breadcrumbs items={[
+          { label: "Home", href: "/" },
+          { label: "Account", href: "/account" },
+          { label: "Settings" }
+        ]} />
+        
+        <div className="flex items-center gap-4 mb-6">
+          <Button 
+            variant="ghost" 
+            size="icon"
+            onClick={() => navigate("/account")}
+          >
+            <ArrowLeft className="h-4 w-4" />
+          </Button>
+          <h1 className="text-3xl font-bold">Account Settings</h1>
+        </div>
 
       <Card className="mb-6">
         <CardHeader>
@@ -215,7 +238,8 @@ export default function AccountSettings() {
           </div>
         </CardContent>
       </Card>
-    </div>
+      </div>
+    </CustomerLayout>
   );
 }
 

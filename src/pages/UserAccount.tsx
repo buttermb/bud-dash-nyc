@@ -20,7 +20,9 @@ import { BetterEmptyState } from "@/components/BetterEmptyState";
 import PurchaseGiveawayEntries from "@/components/account/PurchaseGiveawayEntries";
 import LoyaltyPoints from "@/components/LoyaltyPoints";
 import IDVerificationUpload from "@/components/IDVerificationUpload";
-import Navigation from "@/components/Navigation";
+import CustomerLayout from "@/layouts/CustomerLayout";
+import { Link } from "react-router-dom";
+import { Home } from "lucide-react";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import UserActivityFeed from "@/components/account/UserActivityFeed";
 import AddressBook from "@/components/account/AddressBook";
@@ -125,9 +127,19 @@ export default function UserAccount() {
   };
 
   return (
-    <>
-      <Navigation />
+    <CustomerLayout>
       <div className="container mx-auto p-6 max-w-7xl pb-20 md:pb-6">
+        {/* Back to Home Button */}
+        <div className="mb-6">
+          <Link 
+            to="/"
+            className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors text-sm font-medium"
+          >
+            <Home className="w-4 h-4" />
+            <span>Back to Home</span>
+          </Link>
+        </div>
+
         {/* Breadcrumbs */}
         <div className="mb-6">
           <Breadcrumbs />
@@ -592,9 +604,8 @@ export default function UserAccount() {
                   </Card>
               </TabsContent>
             </Tabs>
-          </>
         )}
       </div>
-    </>
+    </CustomerLayout>
   );
 }
