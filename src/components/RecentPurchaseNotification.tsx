@@ -101,21 +101,24 @@ const RecentPurchaseNotification = () => {
           transition={{ type: "spring", stiffness: 200, damping: 20 }}
           className="fixed bottom-6 left-6 z-50 max-w-sm"
         >
-          <div className="relative bg-card border border-primary/20 shadow-xl rounded-lg p-4 backdrop-blur-sm">
-            {/* Close Button - Positioned outside the card flow */}
+          <div className="relative bg-white/[0.02] backdrop-blur-2xl border border-white/[0.05] rounded-2xl p-6 shadow-2xl">
+            {/* Glow effect */}
+            <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/5 to-transparent rounded-2xl" />
+            
+            {/* Close Button */}
             <Button
               variant="ghost"
               size="icon"
-              className="absolute -top-2 -right-2 h-8 w-8 rounded-full bg-background border-2 border-border shadow-lg hover:bg-destructive hover:text-destructive-foreground hover:border-destructive z-10"
+              className="absolute -top-2 -right-2 h-8 w-8 rounded-full bg-black/50 backdrop-blur-sm border border-white/20 text-white/60 hover:text-white hover:bg-white/10 z-10"
               onClick={() => setShowNotification(false)}
               aria-label="Dismiss notification"
             >
               <X className="h-4 w-4" />
             </Button>
 
-            <div className="flex items-center gap-3">
-              {/* Product Image or Icon */}
-              <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0 overflow-hidden">
+            <div className="flex items-start gap-4 relative z-10">
+              {/* Product Image - Premium */}
+              <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-neutral-900 to-black border border-white/10 flex items-center justify-center flex-shrink-0 overflow-hidden">
                 {visiblePurchase.products?.image_url ? (
                   <img
                     src={visiblePurchase.products.image_url}
@@ -123,27 +126,31 @@ const RecentPurchaseNotification = () => {
                     className="w-full h-full object-cover"
                   />
                 ) : (
-                  <ShoppingBag className="w-6 h-6 text-primary" />
+                  <ShoppingBag className="w-8 h-8 text-emerald-400" />
                 )}
               </div>
 
-              {/* Content */}
-              <div className="flex-1 min-w-0 pr-2">
-                <div className="flex items-center gap-2 mb-1">
-                  <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                  <p className="text-sm font-semibold truncate">
+              {/* Content - Premium */}
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-2 mb-2">
+                  <motion.div
+                    className="w-2 h-2 bg-emerald-500 rounded-full"
+                    animate={{ scale: [1, 1.3, 1] }}
+                    transition={{ duration: 2, repeat: Infinity }}
+                  />
+                  <p className="text-sm text-white font-light tracking-wide uppercase">
                     {visiblePurchase.customer_name}
                   </p>
                 </div>
-                <p className="text-xs text-muted-foreground">
-                  just purchased{" "}
-                  <span className="font-medium text-foreground">
+                <p className="text-xs text-white/50 font-light leading-relaxed mb-2">
+                  Just purchased{" "}
+                  <span className="font-medium text-white">
                     {visiblePurchase.products?.name || "a product"}
                   </span>
                 </p>
-                <div className="flex items-center gap-1 mt-1 text-xs text-muted-foreground">
-                  <MapPin className="w-3 h-3" />
-                  <span className="capitalize">{visiblePurchase.location}</span>
+                <div className="flex items-center gap-1 text-xs text-white/30 font-light">
+                  <MapPin className="w-3 h-3 text-emerald-400" />
+                  <span className="capitalize tracking-wider">{visiblePurchase.location}</span>
                 </div>
               </div>
             </div>
