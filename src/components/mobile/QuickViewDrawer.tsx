@@ -118,11 +118,6 @@ export function QuickViewDrawer({ product, open, onOpenChange, onViewFull }: Qui
               <span className="text-3xl font-black text-primary">
                 ${Number(product.price).toFixed(2)}
               </span>
-              {product.thca_percentage && (
-                <Badge variant="outline" className="border-primary/20">
-                  {product.thca_percentage}% THCa
-                </Badge>
-              )}
             </div>
 
             {/* Rating */}

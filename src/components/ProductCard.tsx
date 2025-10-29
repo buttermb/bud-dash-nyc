@@ -242,11 +242,6 @@ const ProductCard = memo(function ProductCard({ product, onAuthRequired, stockLe
                 ${Number(product.price).toFixed(0)}
               </div>
             )}
-            {product.thca_percentage && (
-              <Badge className="bg-primary/10 text-primary border-primary/20 font-bold text-sm px-3 py-1">
-                {product.thca_percentage}%
-              </Badge>
-            )}
           </div>
 
           {/* Rating + Reviews - Social Proof */}

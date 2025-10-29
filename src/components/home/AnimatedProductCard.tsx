@@ -51,19 +51,6 @@ export function AnimatedProductCard({ product, onAddToCart, onQuickView }: Anima
           </motion.div>
         )}
 
-        {/* THCa Badge */}
-        {product.thca_percentage && (
-          <motion.div
-            initial={{ x: 100, opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            className="absolute top-3 right-3 z-10"
-          >
-            <Badge variant="secondary" className="font-bold">
-              {product.thca_percentage}% THCa
-            </Badge>
-          </motion.div>
-        )}
-
         {/* Image Container */}
         <div 
           className="relative h-64 overflow-hidden bg-muted"

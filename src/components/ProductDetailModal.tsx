@@ -320,16 +320,8 @@ export const ProductDetailModal = ({ product, open, onOpenChange, onAuthRequired
             </div>
 
             {/* Quick Stats */}
-            <div className="grid grid-cols-2 gap-4 mb-6">
-              {product.thca_percentage && (
-                <Card>
-                  <CardContent className="p-4 text-center">
-                    <p className="text-3xl font-bold text-primary">{product.thca_percentage}%</p>
-                    <p className="text-xs text-muted-foreground">Cannabinoid %</p>
-                  </CardContent>
-                </Card>
-              )}
-              {product.average_rating > 0 && (
+            {product.average_rating > 0 && (
+              <div className="grid grid-cols-1 gap-4 mb-6">
                 <Card>
                   <CardContent className="p-4 text-center">
                     <div className="flex items-center justify-center gap-1">
@@ -339,8 +331,8 @@ export const ProductDetailModal = ({ product, open, onOpenChange, onAuthRequired
                     <p className="text-xs text-muted-foreground">{product.review_count} Reviews</p>
                   </CardContent>
                 </Card>
-              )}
-            </div>
+              </div>
+            )}
 
             {/* Weight Selection - Larger touch targets for mobile */}
             {weights.length > 1 && (

@@ -63,8 +63,8 @@ export function ProductCard({
       <div className="space-y-3 p-4">
         <div>
           <h3 className="font-semibold line-clamp-1">{product.name}</h3>
-          <p className="text-sm text-muted-foreground">
-            {(product.category || 'uncategorized')} • {product.thca_percentage || 0}%
+          <p className="text-sm text-muted-foreground capitalize">
+            {product.category || 'uncategorized'}
           </p>
         </div>
 
