@@ -54,7 +54,7 @@ export const OptimizedProductImage = ({
         fetchPriority={priority ? 'high' : 'auto'}
         onLoad={() => setIsLoading(false)}
         onError={() => {
-          console.error('Image failed to load:', imageSrc);
+          // Silently handle error - no console logging
           setIsLoading(false);
           setError(true);
         }}

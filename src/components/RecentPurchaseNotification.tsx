@@ -124,6 +124,26 @@ const RecentPurchaseNotification = () => {
                     src={visiblePurchase.products.image_url}
                     alt={visiblePurchase.products.name}
                     className="w-full h-full object-cover"
+                    onError={(e) => {
+                      // Silently replace with icon if image fails
+                      const target = e.target as HTMLImageElement;
+                      target.style.display = 'none';
+                      const parent = target.parentElement;
+                      if (parent && !parent.querySelector('svg')) {
+                        const icon = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+                        icon.className.baseVal = 'w-8 h-8 text-emerald-400';
+                        icon.setAttribute('viewBox', '0 0 24 24');
+                        icon.setAttribute('fill', 'none');
+                        icon.setAttribute('stroke', 'currentColor');
+                        const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                        path.setAttribute('stroke-linecap', 'round');
+                        path.setAttribute('stroke-linejoin', 'round');
+                        path.setAttribute('stroke-width', '2');
+                        path.setAttribute('d', 'M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z');
+                        icon.appendChild(path);
+                        parent.appendChild(icon);
+                      }
+                    }}
                   />
                 ) : (
                   <ShoppingBag className="w-8 h-8 text-emerald-400" />

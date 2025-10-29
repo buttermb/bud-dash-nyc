@@ -4,6 +4,7 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { TrendingUp, Star, Flame } from "lucide-react";
+import ProductImage from "@/components/ProductImage";
 import {
   Carousel,
   CarouselContent,
@@ -33,7 +34,7 @@ const TrendingProducts = () => {
       <section className="py-12">
         <div className="container px-4 mx-auto">
           {/* Reserve exact space to prevent layout shift */}
-          <div className="flex items-center justify-between mb-8" style={{ height: '60px' }}>
+          <div className="flex items-center justify-between mb-8 h-[60px]">
             <div className="animate-pulse flex items-center gap-3">
               <div className="w-12 h-12 rounded-full bg-muted"></div>
               <div>
@@ -93,14 +94,11 @@ const TrendingProducts = () => {
             {products.map((product) => (
               <CarouselItem key={product.id} className="pl-4 md:basis-1/2 lg:basis-1/3">
                 <Card className="overflow-hidden backdrop-blur-2xl transition-all duration-500 cursor-pointer relative bg-white/[0.02] border border-white/[0.05] hover:border-white/10 hover:-translate-y-3 hover:scale-[1.02] group">
-                  <div className="relative aspect-square overflow-hidden bg-muted">
-                    <img
-                      src={product.image_url || "/placeholder.svg"}
+                  <div className="relative aspect-square overflow-hidden">
+                    <ProductImage
+                      src={product.image_url || undefined}
                       alt={product.name}
-                      loading="lazy"
-                      width="278"
-                      height="288"
-                      className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500"
+                      className="aspect-square w-full h-full group-hover:scale-105 transition-transform duration-500"
                     />
                     <div className="absolute top-3 right-3">
                       <Badge className="bg-primary/90 backdrop-blur-sm">

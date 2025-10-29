@@ -1,4 +1,5 @@
 import { cleanProductName } from '@/utils/productName'
+import ProductImage from '@/components/ProductImage'
 
 interface LuxuryProductCardProps {
   name: string
@@ -47,30 +48,18 @@ export default function LuxuryProductCard({
           </div>
         )}
         
-        {/* Image container */}
-        <div className="relative h-72 bg-gradient-to-br from-neutral-900 to-black overflow-hidden">
-          {image ? (
-            <>
-              <img 
-                src={image}
-                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                alt={cleanedName}
-              />
-              {/* Overlay gradient */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-            </>
-          ) : (
-            <div className="w-full h-full flex items-center justify-center">
-              <div className="w-20 h-20 rounded-full bg-white/5 flex items-center justify-center">
-                <svg className="w-10 h-10 text-white/10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                </svg>
-              </div>
-            </div>
-          )}
+        {/* Image container with ProductImage */}
+        <div className="relative h-72 overflow-hidden">
+          <ProductImage
+            src={image}
+            alt={cleanedName}
+            className="h-72 group-hover:scale-110 transition-transform duration-700"
+          />
+          {/* Overlay gradient */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
           
           {/* Type badge - floating */}
-          <div className={`absolute bottom-4 left-4 px-3 py-1.5 bg-gradient-to-r ${colorClass} backdrop-blur-xl rounded-full border border-white/10`}>
+          <div className={`absolute bottom-4 left-4 px-3 py-1.5 bg-gradient-to-r ${colorClass} backdrop-blur-xl rounded-full border border-white/10 z-10`}>
             <span className="text-xs font-light tracking-wider">{type}</span>
           </div>
         </div>
