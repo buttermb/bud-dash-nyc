@@ -8,8 +8,21 @@ import { Button } from '@/components/ui/button';
 import { ShieldCheck } from 'lucide-react';
 
 export function PremiumHero() {
-  const scrollToProducts = () => {
-    document.getElementById('products')?.scrollIntoView({ behavior: 'smooth' });
+  const scrollToProducts = (filterType?: string) => {
+    const productsSection = document.getElementById('products');
+    if (productsSection) {
+      productsSection.scrollIntoView({ behavior: 'smooth' });
+      
+      // Set filter in localStorage and trigger filter event
+      if (filterType) {
+        localStorage.setItem('productFilter', filterType);
+        setTimeout(() => {
+          window.dispatchEvent(new CustomEvent('setProductFilter', { 
+            detail: { filter: filterType } 
+          }));
+        }, 500);
+      }
+    }
   };
 
   return (
@@ -149,15 +162,15 @@ export function PremiumHero() {
             transition={{ duration: 1, delay: 2, ease: "easeOut" }}
             className="flex flex-col sm:flex-row items-start gap-4"
           >
-            <Button
-              onClick={scrollToProducts}
-              className="group px-8 py-4 bg-neutral-100 text-neutral-900 font-light tracking-wide hover:bg-emerald-500 hover:text-white transition-all duration-300 h-auto shadow-lg hover:shadow-emerald-500/30"
-            >
-              <span>Explore Collection</span>
-              <svg className="inline w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-              </svg>
-            </Button>
+                <Button
+                  onClick={() => scrollToProducts('premium')}
+                  className="group px-8 py-4 bg-neutral-100 text-neutral-900 font-light tracking-wide hover:bg-emerald-500 hover:text-white transition-all duration-300 h-auto shadow-lg hover:shadow-emerald-500/30"
+                >
+                  <span>Browse Collection</span>
+                  <svg className="inline w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                  </svg>
+                </Button>
             
             <Button
               variant="outline"

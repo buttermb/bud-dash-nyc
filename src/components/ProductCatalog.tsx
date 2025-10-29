@@ -19,6 +19,9 @@ const ProductCatalog = () => {
   
   // Persistent search query that remembers between sessions
   const [searchQuery, setSearchQuery] = useLocalStorageState("product-catalog-search", "");
+  
+  // Premium filter state
+  const [premiumFilter, setPremiumFilter] = useState(false);
 
   // Realtime subscription for product updates
   useEffect(() => {
@@ -60,8 +63,25 @@ const ProductCatalog = () => {
   const productIds = allProducts.map(p => p.id);
   const { data: inventoryMap = {} } = useInventoryBatch(productIds);
 
-  // Filter products by search
-  const filteredProducts = searchQuery
+  // Listen for filter events from hero button
+  useEffect(() => {
+    const handleFilterEvent = (e: CustomEvent) => {
+      if (e.detail?.filter === 'premium') {
+        setPremiumFilter(true);
+      }
+    };
+    
+    const savedFilter = localStorage.getItem('productFilter');
+    if (savedFilter === 'premium') {
+      setPremiumFilter(true);
+    }
+    
+    window.addEventListener('setProductFilter', handleFilterEvent as EventListener);
+    return () => window.removeEventListener('setProductFilter', handleFilterEvent as EventListener);
+  }, []);
+
+  // Filter products by search and premium
+  let filteredProducts = searchQuery
     ? allProducts.filter((p) => {
         const query = searchQuery.toLowerCase();
         return (
@@ -71,6 +91,15 @@ const ProductCatalog = () => {
         );
       })
     : allProducts;
+  
+  // Apply premium filter (products with higher price or premium indicator)
+  if (premiumFilter) {
+    filteredProducts = filteredProducts.filter((p) => {
+      const price = typeof p.price === 'number' ? p.price : parseFloat(p.price);
+      // Consider products over $40 as premium
+      return price >= 40 || p.description?.toLowerCase().includes('premium') || p.vendor_name?.toLowerCase().includes('premium');
+    });
+  }
 
   // Group products by category
   const productsByCategory = {
@@ -118,6 +147,20 @@ const ProductCatalog = () => {
             placeholder="Search products, strains, vendors..."
             className={isMobile ? "" : "relative"}
           />
+        </div>
+        
+        {/* Premium Filter Toggle */}
+        <div className="flex justify-center mb-8">
+          <Button
+            variant={premiumFilter ? "default" : "outline"}
+            onClick={() => {
+              setPremiumFilter(!premiumFilter);
+              localStorage.setItem('productFilter', !premiumFilter ? 'premium' : 'all');
+            }}
+            className={premiumFilter ? "bg-emerald-500 text-white hover:bg-emerald-600" : "border-white/30 text-white hover:bg-white/5"}
+          >
+            {premiumFilter ? "✓ Premium Only" : "Show Premium Only"}
+          </Button>
         </div>
 
         {isLoading ? (
