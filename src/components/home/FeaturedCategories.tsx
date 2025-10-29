@@ -64,7 +64,7 @@ export function FeaturedCategories() {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.8 }}
-      className="py-16 md:py-24 bg-gradient-to-b from-background to-muted/20"
+      className="py-16 md:py-24 bg-black"
     >
       <div className="container px-4 mx-auto max-w-7xl">
         <motion.div 
