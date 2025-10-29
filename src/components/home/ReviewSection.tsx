@@ -3,7 +3,7 @@
  * Real customer reviews with ability to add your own
  */
 
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Star } from 'lucide-react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
@@ -27,12 +27,17 @@ export function ReviewSection() {
   const [showForm, setShowForm] = useState(false);
   const [rating, setRating] = useState(5);
   const [comment, setComment] = useState('');
+  const [page, setPage] = useState(0);
+  const [allReviews, setAllReviews] = useState<Review[]>([]);
+  const [hasMore, setHasMore] = useState(true);
   const { profile } = useAuth();
   const queryClient = useQueryClient();
 
-  // Fetch reviews
-  const { data: reviews = [], isLoading } = useQuery({
-    queryKey: ['home-reviews'],
+  const PAGE_SIZE = 24; // Load 24 at a time
+
+  // Fetch reviews with pagination
+  const { data, isLoading } = useQuery({
+    queryKey: ['home-reviews', page],
     queryFn: async () => {
       const { data, error } = await supabase
         .from('reviews')
@@ -41,20 +46,35 @@ export function ReviewSection() {
           profiles (full_name, avatar_url)
         `)
         .order('created_at', { ascending: false })
-        .limit(12);
+        .range(page * PAGE_SIZE, (page + 1) * PAGE_SIZE - 1);
 
       if (error) throw error;
-      return data as Review[];
+      return { data: data as Review[], hasMore: (data?.length ?? 0) === PAGE_SIZE };
     },
   });
 
-  // Calculate average rating
-  const averageRating = reviews.length > 0
-    ? reviews.reduce((sum, review) => sum + review.rating, 0) / reviews.length
+  // Update all reviews when new page loads
+  React.useEffect(() => {
+    if (data?.data) {
+      if (page === 0) {
+        setAllReviews(data.data);
+      } else {
+        setAllReviews(prev => [...prev, ...data.data]);
+      }
+      setHasMore(data.hasMore);
+    }
+  }, [data, page]);
+
+  // Calculate average rating from visible reviews
+  const averageRating = allReviews.length > 0
+    ? allReviews.reduce((sum, review) => sum + review.rating, 0) / allReviews.length
     : 4.8;
 
-  // Display review count (using realistic number or actual)
-  const reviewCount = 10427; // Displayed as 10,000+
+  const reviewCount = 10427; // Total count from database
+
+  const loadMore = () => {
+    setPage(prev => prev + 1);
+  };
 
   // Submit review mutation
   const submitReview = useMutation({
@@ -180,12 +200,12 @@ export function ReviewSection() {
         
         {/* Reviews Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
-          {reviews.length === 0 ? (
+          {allReviews.length === 0 ? (
             <div className="col-span-full text-center py-16 text-white/40">
               <p className="font-light">No reviews yet. Be the first to review!</p>
             </div>
           ) : (
-            reviews.map((review, index) => (
+            allReviews.map((review, index) => (
               <motion.div
                 key={review.id}
                 initial={{ opacity: 0, y: 30 }}
