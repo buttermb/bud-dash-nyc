@@ -72,7 +72,7 @@ const Index = () => {
       {/* Full Product Catalog */}
       <section 
         id="products" 
-        className="bg-background" 
+        className="bg-black" 
         aria-label="Product catalog"
       >
         <Suspense fallback={<EnhancedLoadingState variant="grid" count={8} />}>
@@ -91,14 +91,18 @@ const Index = () => {
       </Suspense>
 
       {/* Trending Products */}
-      <Suspense fallback={<EnhancedLoadingState variant="grid" count={4} />}>
-        <TrendingProducts />
-      </Suspense>
+      <section className="bg-neutral-900">
+        <Suspense fallback={<EnhancedLoadingState variant="grid" count={4} />}>
+          <TrendingProducts />
+        </Suspense>
+      </section>
 
       {/* Trust Elements */}
-      <Suspense fallback={null}>
-        <ProductTrustElements />
-      </Suspense>
+      <section className="bg-black">
+        <Suspense fallback={null}>
+          <ProductTrustElements />
+        </Suspense>
+      </section>
 
       {/* PWA Install */}
       <Suspense fallback={null}>

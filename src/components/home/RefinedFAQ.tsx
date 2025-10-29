@@ -33,7 +33,7 @@ export function RefinedFAQ() {
   };
 
   return (
-    <section className="py-24 md:py-32 bg-white">
+    <section className="py-24 md:py-32 bg-neutral-900">
       <div className="container mx-auto px-6 max-w-4xl">
         
         <motion.div
@@ -43,7 +43,7 @@ export function RefinedFAQ() {
           transition={{ duration: 0.8, ease: "easeOut" }}
           className="text-center mb-16 md:mb-20"
         >
-          <h2 className="text-5xl md:text-7xl font-light text-neutral-900 mb-6 tracking-tight">
+          <h2 className="text-5xl md:text-7xl font-light text-white mb-6 tracking-tight">
             Common Questions
           </h2>
         </motion.div>
@@ -57,7 +57,7 @@ export function RefinedFAQ() {
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: index * 0.1 }}
               open={openIndex === index}
-              className="group border-b border-neutral-200 pb-6"
+              className="group border-b border-white/10 pb-6"
             >
               <summary
                 onClick={(e) => {
@@ -66,11 +66,11 @@ export function RefinedFAQ() {
                 }}
                 className="flex items-center justify-between cursor-pointer list-none"
               >
-                <h3 className="text-xl text-neutral-900 font-light pr-4">
+                <h3 className="text-xl text-white font-light pr-4">
                   {faq.question}
                 </h3>
                 <svg
-                  className={`w-6 h-6 text-neutral-400 transition-transform ${openIndex === index ? 'rotate-180' : ''}`}
+                  className={`w-6 h-6 text-white/40 transition-transform ${openIndex === index ? 'rotate-180' : ''}`}
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -90,7 +90,7 @@ export function RefinedFAQ() {
                   animate={{ opacity: 1, height: 'auto' }}
                   exit={{ opacity: 0, height: 0 }}
                   transition={{ duration: 0.3 }}
-                  className="mt-4 text-neutral-600 font-light leading-relaxed"
+                  className="mt-4 text-white/60 font-light leading-relaxed"
                 >
                   {faq.answer}
                 </motion.p>
