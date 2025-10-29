@@ -14,6 +14,7 @@ import { getDefaultWeight } from "@/utils/productHelpers";
 import { useProductViewCount } from "@/hooks/useProductViewCount";
 import { useGuestCart } from "@/hooks/useGuestCart";
 import { haptics } from "@/utils/haptics";
+import { cleanProductName } from "@/utils/productName";
 import {
   Carousel,
   CarouselContent,
