@@ -14,13 +14,17 @@ const Footer = () => {
     // If we're already on the home page, just scroll
     if (window.location.pathname === '/') {
       const element = document.getElementById(sectionId);
-      element?.scrollIntoView({ behavior: 'smooth' });
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
     } else {
       // Navigate to home first, then scroll
       navigate('/');
       setTimeout(() => {
         const element = document.getElementById(sectionId);
-        element?.scrollIntoView({ behavior: 'smooth' });
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
       }, 100);
     }
   };
@@ -81,35 +85,38 @@ const Footer = () => {
             <ul className="space-y-2 text-sm text-white/70">
               <li>
                 <button 
-                  onClick={() => handleScrollToSection('flower')} 
+                  onClick={() => handleScrollToSection('products')} 
                   className="hover:text-primary transition-colors text-left"
                 >
-                  Flower
+                  All Products
                 </button>
               </li>
               <li>
-                <button 
-                  onClick={() => handleScrollToSection('pre-rolls')} 
-                  className="hover:text-primary transition-colors text-left"
+                <Link 
+                  to="/menu" 
+                  className="hover:text-primary transition-colors"
+                  onClick={() => setTimeout(() => window.scrollTo({ top: 0, behavior: 'instant' }), 0)}
                 >
-                  Pre-Rolls
-                </button>
+                  Menu
+                </Link>
               </li>
               <li>
-                <button 
-                  onClick={() => handleScrollToSection('vapes')} 
-                  className="hover:text-primary transition-colors text-left"
+                <Link 
+                  to="/track-order" 
+                  className="hover:text-primary transition-colors"
+                  onClick={() => setTimeout(() => window.scrollTo({ top: 0, behavior: 'instant' }), 0)}
                 >
-                  Vapes
-                </button>
+                  Track Order
+                </Link>
               </li>
               <li>
-                <button 
-                  onClick={() => handleScrollToSection('edibles')} 
-                  className="hover:text-primary transition-colors text-left"
+                <Link 
+                  to="/cart" 
+                  className="hover:text-primary transition-colors"
+                  onClick={() => setTimeout(() => window.scrollTo({ top: 0, behavior: 'instant' }), 0)}
                 >
-                  Edibles
-                </button>
+                  Cart
+                </Link>
               </li>
             </ul>
           </div>
