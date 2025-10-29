@@ -46,6 +46,8 @@ export function ProductCard({
           checked={isSelected}
           onChange={onToggleSelect}
           className="absolute left-2 top-2 z-10 h-5 w-5"
+          aria-label={`Select ${product.name}`}
+          title={`Select ${product.name}`}
         />
         <img
           src={product.image_url || "/placeholder.svg"}
