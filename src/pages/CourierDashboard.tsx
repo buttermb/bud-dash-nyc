@@ -32,6 +32,7 @@ import DeviceStatusBar from '@/components/courier/DeviceStatusBar';
 import ShiftTimer from '@/components/courier/ShiftTimer';
 import EnhancedOrderCard from '@/components/courier/EnhancedOrderCard';
 import CourierKeyboardShortcuts from '@/components/courier/CourierKeyboardShortcuts';
+import CourierPerformanceTracker from '@/components/courier/CourierPerformanceTracker';
 import { useEnhancedAudio } from '@/hooks/useEnhancedAudio';
 import { 
   requestNotificationPermission, 
@@ -1081,6 +1082,8 @@ export default function CourierDashboard() {
       {/* Earnings View */}
       {currentView === 'earnings' && (
         <div className="p-4 space-y-4">
+          <CourierPerformanceTracker />
+          
           <TodayEarningSummary
             earnings={todayEarnings}
             commission={todayEarnings * 0.15}
