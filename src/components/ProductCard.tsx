@@ -162,7 +162,7 @@ const ProductCard = memo(function ProductCard({ product, onAuthRequired, stockLe
   return (
     <>
       <Card 
-        className="group overflow-hidden hover:ring-2 hover:ring-emerald-500/30 hover:shadow-2xl transition-all duration-500 cursor-pointer relative bg-neutral-900 border border-white/5 hover:-translate-y-3 hover:border-emerald-500/30"
+        className="group overflow-hidden backdrop-blur-2xl transition-all duration-500 cursor-pointer relative bg-white/[0.02] border border-white/[0.05] hover:border-white/10 hover:-translate-y-3 hover:scale-[1.02]"
         onClick={handleCardClick}
       >
         {/* Out of Stock Overlay */}
@@ -220,7 +220,7 @@ const ProductCard = memo(function ProductCard({ product, onAuthRequired, stockLe
           </Carousel>
         </div>
 
-        <CardContent className="p-6 space-y-4 bg-neutral-900">
+        <CardContent className="p-6 space-y-4">
           {/* Product Name */}
           <div>
             <h3 className="text-xl font-bold mb-1 line-clamp-1 text-white">{cleanProductName(product.name)}</h3>
@@ -269,7 +269,7 @@ const ProductCard = memo(function ProductCard({ product, onAuthRequired, stockLe
           </div>
         </CardContent>
 
-        <CardFooter className="p-6 pt-0 flex flex-col gap-3 bg-neutral-900">
+        <CardFooter className="p-6 pt-0 flex flex-col gap-3">
           {/* ONE BIG ADD TO CART BUTTON - Primary CTA */}
           <Button
             type="button"
