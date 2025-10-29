@@ -19,6 +19,7 @@ const InstallPWA = lazy(() => import("@/components/InstallPWA"));
 const SubtleActivityIndicator = lazy(() => import("@/components/home/SubtleActivityIndicator").then(m => ({ default: m.SubtleActivityIndicator })));
 const WhyUs = lazy(() => import("@/components/home/WhyUs").then(m => ({ default: m.WhyUs })));
 const ElegantTestimonials = lazy(() => import("@/components/home/ElegantTestimonials").then(m => ({ default: m.ElegantTestimonials })));
+const ReviewSection = lazy(() => import("@/components/home/ReviewSection").then(m => ({ default: m.ReviewSection })));
 const SophisticatedHowItWorks = lazy(() => import("@/components/home/SophisticatedHowItWorks").then(m => ({ default: m.SophisticatedHowItWorks })));
 const RefinedFAQ = lazy(() => import("@/components/home/RefinedFAQ").then(m => ({ default: m.RefinedFAQ })));
 const SubtleNotification = lazy(() => import("@/components/home/SubtleNotification").then(m => ({ default: m.SubtleNotification })));
@@ -93,9 +94,9 @@ const Index = () => {
         <RefinedFAQ />
       </Suspense>
 
-      {/* Elegant Testimonials - Moved to bottom for authenticity */}
+      {/* Review Section - Real database reviews */}
       <Suspense fallback={null}>
-        <ElegantTestimonials />
+        <ReviewSection />
       </Suspense>
 
       {/* PWA Install */}
