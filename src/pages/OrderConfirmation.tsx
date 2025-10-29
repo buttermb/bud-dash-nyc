@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { CheckCircle, Package, MapPin, CreditCard } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
-import Navigation from "@/components/Navigation";
+import CustomerLayout from "@/layouts/CustomerLayout";
 import { CustomerLocationSharing } from "@/components/CustomerLocationSharing";
 import PostPurchaseSignupPrompt from "@/components/PostPurchaseSignupPrompt";
 
@@ -59,8 +59,7 @@ const OrderConfirmation = () => {
   }
 
   return (
-    <>
-      <Navigation />
+    <CustomerLayout>
       <div className="min-h-screen bg-background py-12 px-4">
         <div className="container max-w-3xl mx-auto">
           <div className="text-center mb-8 animate-fade-in">
@@ -215,7 +214,7 @@ const OrderConfirmation = () => {
           </div>
         </div>
       </div>
-    </>
+    </CustomerLayout>
   );
 };
 

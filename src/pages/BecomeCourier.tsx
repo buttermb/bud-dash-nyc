@@ -1,5 +1,4 @@
-import Navigation from "@/components/Navigation";
-import Footer from "@/components/Footer";
+import CustomerLayout from "@/layouts/CustomerLayout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -65,9 +64,8 @@ const BecomeCourier = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
-      <Navigation />
-      <main className="container mx-auto px-4 py-16">
+    <CustomerLayout>
+      <div className="container mx-auto px-4 py-16">
         <div className="max-w-4xl mx-auto">
           <h1 className="text-4xl font-bold mb-6">Become a New York Minute Courier</h1>
           <p className="text-lg text-muted-foreground mb-12">
@@ -203,9 +201,8 @@ const BecomeCourier = () => {
             </form>
           </section>
         </div>
-      </main>
-      <Footer />
-    </div>
+      </div>
+    </CustomerLayout>
   );
 };
 

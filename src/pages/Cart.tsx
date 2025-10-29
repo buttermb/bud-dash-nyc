@@ -3,8 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import Navigation from "@/components/Navigation";
-import Footer from "@/components/Footer";
+import CustomerLayout from "@/layouts/CustomerLayout";
 import CouponInput from "@/components/CouponInput";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -143,10 +142,8 @@ const Cart = () => {
   const amountToFreeShipping = Math.max(freeShippingThreshold - subtotal, 0);
 
   return (
-    <div className="min-h-screen bg-background pb-24 md:pb-0">
-      <Navigation />
-      
-      <main className="container mx-auto px-4 md:px-6 py-6 md:py-12">
+    <CustomerLayout>
+      <div className="container mx-auto px-4 md:px-6 py-6 md:py-12">
         <div className="max-w-6xl mx-auto">
           <h1 className="text-3xl md:text-4xl font-bold mb-6 md:mb-8">Shopping Cart</h1>
 
@@ -345,10 +342,8 @@ const Cart = () => {
             </div>
           )}
         </div>
-      </main>
-
-      <Footer />
-    </div>
+      </div>
+    </CustomerLayout>
   );
 };
 

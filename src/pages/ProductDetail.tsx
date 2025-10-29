@@ -12,7 +12,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { useProductViewTracking } from "@/hooks/useProductViewTracking";
 import StickyAddToCart from "@/components/StickyAddToCart";
-import Navigation from "@/components/Navigation";
+import CustomerLayout from "@/layouts/CustomerLayout";
 import { haptics } from "@/utils/haptics";
 import { NativeShare } from "@/components/NativeShare";
 import { ImageGallerySwipe } from "@/components/ImageGallerySwipe";
@@ -150,8 +150,7 @@ const ProductDetail = () => {
   }
 
   return (
-    <>
-      <Navigation />
+    <CustomerLayout>
       <div className="container mx-auto px-4 py-8 pb-24 md:pb-8">
         <Button variant="ghost" onClick={() => navigate(-1)} className="mb-4">
           <ArrowLeft className="mr-2 h-4 w-4" />
@@ -411,7 +410,7 @@ const ProductDetail = () => {
         added={addedToCart}
       />
     </div>
-    </>
+    </CustomerLayout>
   );
 };
 

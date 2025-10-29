@@ -1,7 +1,7 @@
 import { ReactNode } from 'react'
 import { Link } from 'react-router-dom'
-import LuxuryNav from '@/components/luxury/LuxuryNav'
-import LuxuryFooter from '@/components/luxury/LuxuryFooter'
+import Navigation from '@/components/Navigation'
+import Footer from '@/components/Footer'
 
 interface CustomerLayoutProps {
   children: ReactNode
@@ -12,8 +12,8 @@ export default function CustomerLayout({ children, showBackHome = false }: Custo
   return (
     <div className="min-h-screen bg-black flex flex-col">
       
-      {/* Navigation */}
-      <LuxuryNav />
+      {/* Navigation - Same as homepage */}
+      <Navigation />
       
       {/* Back to Home - Optional */}
       {showBackHome && (
@@ -37,8 +37,8 @@ export default function CustomerLayout({ children, showBackHome = false }: Custo
         {children}
       </main>
       
-      {/* Footer */}
-      <LuxuryFooter />
+      {/* Footer - Same as homepage */}
+      <Footer />
       
     </div>
   )

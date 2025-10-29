@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import Navigation from "@/components/Navigation";
+import CustomerLayout from "@/layouts/CustomerLayout";
 import { ShoppingBag, Package } from "lucide-react";
 import { QuickReorderButton } from "@/components/QuickReorderButton";
 import { useToast } from "@/hooks/use-toast";
@@ -50,6 +50,12 @@ export default function MyOrders() {
       if (error) {
         // If join fails, try without join as fallback
         console.warn("Order items join failed, fetching orders without items:", error);
+        
+        // Check if it's an RLS/permission error for order_items
+        const isRLSError = error.message?.toLowerCase().includes('permission') || 
+                          error.message?.toLowerCase().includes('policy') ||
+                          error.code === 'PGRST116' || error.code === '42501';
+        
         const { data: ordersData, error: ordersError } = await supabase
           .from("orders")
           .select("*")
@@ -58,25 +64,68 @@ export default function MyOrders() {
 
         if (ordersError) throw ordersError;
         
-        // Manually fetch order items for each order
-        const ordersWithItems = await Promise.all(
-          (ordersData || []).map(async (order) => {
-            try {
-              const { data: items } = await supabase
-                .from("order_items")
-                .select("product_id, quantity, selected_weight")
-                .eq("order_id", order.id);
-              return { ...order, order_items: items || [] };
-            } catch {
-              return { ...order, order_items: [] };
+        // Only try to fetch order_items if it wasn't an RLS/permission error
+        // 400 Bad Request often indicates RLS blocking the query
+        if (!isRLSError && error.code !== 'PGRST301' && ordersData && ordersData.length > 0) {
+          const orderIds = ordersData.map(o => o.id);
+          
+          try {
+            // Batch fetch all order items in one query using .in() for better performance
+            const { data: itemsData, error: itemsError } = await supabase
+              .from("order_items")
+              .select("order_id, product_id, quantity, selected_weight")
+              .in("order_id", orderIds);
+            
+            // Check for 400 Bad Request - means we can't access order_items due to RLS
+            if (itemsError) {
+              const isBadRequest = itemsError.code === 'PGRST301' || 
+                                  itemsError.message?.includes('400') ||
+                                  itemsError.status === 400;
+              if (isBadRequest) {
+                console.warn("Cannot access order_items (likely RLS restriction), showing orders without items");
+              } else {
+                console.warn("Failed to fetch order items:", itemsError);
+              }
+            } else if (itemsData) {
+              // Successfully fetched items - combine with orders
+              const ordersWithItems = ordersData.map((order) => ({
+                ...order,
+                order_items: itemsData.filter(item => item.order_id === order.id) || []
+              }));
+              setOrders(ordersWithItems);
+              haptics.light();
+              return; // Exit early on success
             }
-          })
-        );
+          } catch (itemsErr: any) {
+            // Check if it's a 400 error
+            const isBadRequest = itemsErr?.code === 'PGRST301' || 
+                                itemsErr?.message?.includes('400') ||
+                                itemsErr?.status === 400;
+            if (isBadRequest) {
+              console.warn("Order items query blocked (RLS/permissions), showing orders without items");
+            } else {
+              console.warn("Failed to fetch order items:", itemsErr);
+            }
+            // Continue to show orders without items
+          }
+        } else {
+          // RLS error detected - skip order_items fetch entirely
+          console.info("Skipping order_items fetch due to RLS restrictions");
+        }
         
-        setOrders(ordersWithItems);
-      } else {
-        setOrders(data || []);
+        // If order_items fetch failed or was skipped, show orders without items
+        const ordersWithoutItems = (ordersData || []).map(order => ({
+          ...order,
+          order_items: [] // Empty array - orders will display but without item details
+        }));
+        
+        setOrders(ordersWithoutItems);
+        haptics.light();
+        return;
       }
+      
+      // Original query succeeded with join
+      setOrders(data || []);
       
       haptics.light(); // Light feedback on successful refresh
     } catch (error: any) {
@@ -161,20 +210,18 @@ export default function MyOrders() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-background">
-        <Navigation />
+      <CustomerLayout>
         <div className="container mx-auto px-4 py-8">
           <div className="flex items-center justify-center h-64">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
           </div>
         </div>
-      </div>
+      </CustomerLayout>
     );
   }
 
   return (
-    <div className="min-h-screen bg-background pb-20 md:pb-0">
-      <Navigation />
+    <CustomerLayout>
       <PullToRefresh onRefresh={fetchOrders}>
         <div className="container mx-auto px-4 py-8 max-w-6xl">
           <h1 className="text-3xl font-bold mb-6">My Orders</h1>
@@ -259,6 +306,6 @@ export default function MyOrders() {
           </Tabs>
         </div>
       </PullToRefresh>
-    </div>
+    </CustomerLayout>
   );
 }
