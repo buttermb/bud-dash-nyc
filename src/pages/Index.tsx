@@ -15,9 +15,8 @@ const ProductTrustElements = lazy(() => import("@/components/ProductTrustElement
 const TrendingProducts = lazy(() => import("@/components/TrendingProducts"));
 const InstallPWA = lazy(() => import("@/components/InstallPWA"));
 
-// Premium sections
+// Premium sections (some removed)
 const SubtleActivityIndicator = lazy(() => import("@/components/home/SubtleActivityIndicator").then(m => ({ default: m.SubtleActivityIndicator })));
-const PremiumProductShowcase = lazy(() => import("@/components/home/PremiumProductShowcase").then(m => ({ default: m.PremiumProductShowcase })));
 const WhyUs = lazy(() => import("@/components/home/WhyUs").then(m => ({ default: m.WhyUs })));
 const ElegantTestimonials = lazy(() => import("@/components/home/ElegantTestimonials").then(m => ({ default: m.ElegantTestimonials })));
 const SophisticatedHowItWorks = lazy(() => import("@/components/home/SophisticatedHowItWorks").then(m => ({ default: m.SophisticatedHowItWorks })));
@@ -47,11 +46,6 @@ const Index = () => {
       {/* Subtle Activity Indicator */}
       <Suspense fallback={null}>
         <SubtleActivityIndicator />
-      </Suspense>
-      
-      {/* Premium Product Showcase */}
-      <Suspense fallback={null}>
-        <PremiumProductShowcase />
       </Suspense>
 
       {/* Why Us Section */}
