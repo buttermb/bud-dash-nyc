@@ -53,11 +53,6 @@ const Index = () => {
         <WhyUs />
       </Suspense>
 
-      {/* Elegant Testimonials */}
-      <Suspense fallback={null}>
-        <ElegantTestimonials />
-      </Suspense>
-
       {/* Sophisticated How It Works */}
       <Suspense fallback={null}>
         <SophisticatedHowItWorks />
@@ -74,16 +69,6 @@ const Index = () => {
         </Suspense>
       </section>
 
-      {/* Elegant Final CTA */}
-      <Suspense fallback={null}>
-        <ElegantFinalCTA />
-      </Suspense>
-
-      {/* Refined FAQ */}
-      <Suspense fallback={null}>
-        <RefinedFAQ />
-      </Suspense>
-
       {/* Trending Products */}
       <section className="bg-black">
         <Suspense fallback={<EnhancedLoadingState variant="grid" count={4} />}>
@@ -97,6 +82,21 @@ const Index = () => {
           <ProductTrustElements />
         </Suspense>
       </section>
+
+      {/* Elegant Final CTA */}
+      <Suspense fallback={null}>
+        <ElegantFinalCTA />
+      </Suspense>
+
+      {/* Refined FAQ */}
+      <Suspense fallback={null}>
+        <RefinedFAQ />
+      </Suspense>
+
+      {/* Elegant Testimonials - Moved to bottom for authenticity */}
+      <Suspense fallback={null}>
+        <ElegantTestimonials />
+      </Suspense>
 
       {/* PWA Install */}
       <Suspense fallback={null}>
