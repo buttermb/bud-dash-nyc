@@ -7,6 +7,7 @@ import { BackToTop } from "@/components/mobile/BackToTop";
 import LuxuryNav from "@/components/luxury/LuxuryNav";
 import LuxuryHero from "@/components/luxury/LuxuryHero";
 import LuxuryFooter from "@/components/luxury/LuxuryFooter";
+import LuxuryShowcase from "@/sections/LuxuryShowcase";
 
 // Lazy load non-critical components for better initial page load
 const ProductCatalog = lazy(() => import("@/components/ProductCatalog"));
@@ -39,6 +40,8 @@ const Index = () => {
       {/* Luxury Hero */}
       <LuxuryHero />
       
+      {/* Luxury Showcase */}
+      <LuxuryShowcase />
 
       {/* Full Product Catalog */}
       <section 
