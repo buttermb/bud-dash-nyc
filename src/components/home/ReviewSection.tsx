@@ -8,7 +8,7 @@ import { motion } from 'framer-motion';
 import { Star } from 'lucide-react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
-import { useAuth } from '@/hooks/useAuth';
+import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 
@@ -30,7 +30,7 @@ export function ReviewSection() {
   const [page, setPage] = useState(0);
   const [allReviews, setAllReviews] = useState<Review[]>([]);
   const [hasMore, setHasMore] = useState(true);
-  const { profile } = useAuth();
+  const { user } = useAuth();
   const queryClient = useQueryClient();
 
   const PAGE_SIZE = 24; // Load 24 at a time
@@ -79,14 +79,14 @@ export function ReviewSection() {
   // Submit review mutation
   const submitReview = useMutation({
     mutationFn: async () => {
-      if (!profile) throw new Error('Please sign in to leave a review');
+      if (!user) throw new Error('Please sign in to leave a review');
       if (!comment.trim()) throw new Error('Please write a review');
 
       const { data, error } = await supabase
         .from('reviews')
         .insert({
           product_id: null, // General platform review
-          user_id: profile.user_id,
+          user_id: user.id,
           rating,
           comment: comment.trim(),
         })
@@ -127,7 +127,7 @@ export function ReviewSection() {
           </h2>
           
           {/* Add Review Button */}
-          {profile && (
+          {user && (
             <Button
               onClick={() => setShowForm(!showForm)}
               className="mt-6 px-6 py-3 bg-white/[0.05] hover:bg-white/[0.1] border border-white/[0.1] text-white font-light tracking-wide transition-all"
@@ -138,7 +138,7 @@ export function ReviewSection() {
         </motion.div>
 
         {/* Review Form */}
-        {showForm && profile && (
+        {showForm && user && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
