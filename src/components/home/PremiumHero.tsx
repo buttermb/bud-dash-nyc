@@ -98,7 +98,7 @@ export function PremiumHero() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, ease: "easeOut", delay: 0 }}
-              className="text-white font-extralight text-[clamp(4rem,15vw,9rem)] leading-[0.85] tracking-[-0.03em] mb-0"
+              className="text-white font-extralight text-[clamp(4rem,15vw,9rem)] leading-[0.9] tracking-[-0.03em] mb-0"
             >
               Premium
             </motion.h1>
@@ -110,7 +110,7 @@ export function PremiumHero() {
               transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
               className="relative inline-block"
             >
-              <h1 className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-300 via-emerald-400 to-teal-400 font-light text-[clamp(4rem,15vw,9rem)] leading-[0.85] tracking-[-0.03em] mb-0">
+              <h1 className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-300 via-emerald-400 to-teal-400 font-light text-[clamp(4rem,15vw,9rem)] leading-[0.9] tracking-[-0.03em] my-0">
                 Flower
               </h1>
               {/* Subtle glow effect */}
@@ -122,7 +122,7 @@ export function PremiumHero() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, ease: "easeOut", delay: 0.4 }}
-              className="text-white font-extralight text-[clamp(4rem,15vw,9rem)] leading-[0.85] tracking-[-0.03em] mt-0"
+              className="text-white font-extralight text-[clamp(4rem,15vw,9rem)] leading-[0.9] tracking-[-0.03em] mt-0"
             >
               Delivered
             </motion.h1>

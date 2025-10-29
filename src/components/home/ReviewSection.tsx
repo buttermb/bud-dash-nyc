@@ -172,6 +172,8 @@ export function ReviewSection() {
                   key={star}
                   onClick={() => setRating(star)}
                   className="transition-transform hover:scale-110"
+                  title={`Rate ${star} star${star !== 1 ? 's' : ''}`}
+                  aria-label={`Rate ${star} star${star !== 1 ? 's' : ''}`}
                 >
                   <Star
                     className={`w-8 h-8 ${
