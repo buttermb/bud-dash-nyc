@@ -90,6 +90,7 @@ const menuGroups = [
     items: [
       { title: "Analytics", url: "/admin/analytics", icon: TrendingUp },
       { title: "Audit Logs", url: "/admin/audit-logs", icon: FileText },
+      { title: "Quick Export", url: "/admin/quick-export", icon: FileUp },
       { title: "System Settings", url: "/admin/settings", icon: Settings },
       { title: "All Giveaways", url: "/admin/giveaways", icon: Gift },
       { title: "Current Giveaway", url: "/admin/giveaway", icon: Gift },

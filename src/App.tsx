@@ -306,8 +306,9 @@ const App = () => {
                 <Route path="search" element={<AdminErrorBoundary><GlobalSearch /></AdminErrorBoundary>} />
                 <Route path="settings" element={<AdminErrorBoundary><SystemSettings /></AdminErrorBoundary>} />
                 <Route path="button-tester" element={<AdminErrorBoundary><ButtonTester /></AdminErrorBoundary>} />
-                <Route path="live-chat" element={<AdminErrorBoundary><AdminLiveChat /></AdminErrorBoundary>} />
-              </Route>
+                        <Route path="live-chat" element={<AdminErrorBoundary><AdminLiveChat /></AdminErrorBoundary>} />
+                        <Route path="quick-export" element={<AdminErrorBoundary><AdminQuickExport /></AdminErrorBoundary>} />
+                      </Route>
 
                       <Route path="*" element={<NotFound />} />
                     </Routes>
