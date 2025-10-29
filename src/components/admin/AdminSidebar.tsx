@@ -97,6 +97,7 @@ const menuGroups = [
       { title: "Coupon Codes", url: "/admin/coupons", icon: Ticket },
       { title: "Test Notifications", url: "/admin/notifications", icon: Bell },
       { title: "Button Tester", url: "/admin/button-tester", icon: Bug },
+      { title: "Bug Scanner", url: "/admin/bug-scanner", icon: Bug },
     ]
   }
 ];

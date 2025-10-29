@@ -3,6 +3,7 @@ import { AlertTriangle, RefreshCw, Home } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { errorReporter } from '@/utils/errorReporting';
+import bugFinder from '@/utils/bugFinder';
 
 interface Props {
   children: ReactNode;
@@ -36,6 +37,14 @@ export class AdminErrorBoundary extends Component<Props, State> {
   componentDidCatch(error: Error, errorInfo: any) {
     // Report error to error reporter
     errorReporter.report(error, 'AdminErrorBoundary');
+    
+    // Also report to bug finder
+    bugFinder.reportRuntimeError(error, 'AdminErrorBoundary', {
+      componentStack: errorInfo?.componentStack,
+      isWebSocketError: error.message?.includes('WebSocket') || 
+                       error.message?.includes('realtime') ||
+                       error.message?.includes('connection'),
+    });
     
     // Log error details for debugging
     console.error('Admin Error Boundary caught an error:', error, errorInfo);

@@ -2,6 +2,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Home, ArrowLeft } from "lucide-react";
+import bugFinder from "@/utils/bugFinder";
 
 const NotFound = () => {
   const location = useLocation();
@@ -9,6 +10,11 @@ const NotFound = () => {
 
   useEffect(() => {
     console.error("404 Error: User attempted to access non-existent route:", location.pathname);
+    // Report 404 to bug finder
+    bugFinder.report404(location.pathname, {
+      timestamp: new Date().toISOString(),
+      referrer: document.referrer,
+    });
   }, [location.pathname]);
 
   return (

@@ -5,6 +5,7 @@
 
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
+import bugFinder from './bugFinder';
 
 interface FunctionCallOptions {
   functionName: string;
@@ -37,6 +38,13 @@ export async function callAdminFunction<T = any>({
     if (error) {
       console.error(`Error calling ${functionName}:`, error);
       
+      // Report to bug finder
+      bugFinder.reportEdgeFunctionError(
+        functionName,
+        error,
+        { body, errorType: 'invoke_error' }
+      );
+      
       if (showToast) {
         toast.error(errorMessage, {
           description: error.message || 'Please try again later',
@@ -49,6 +57,14 @@ export async function callAdminFunction<T = any>({
     return { data: data as T, error: null };
   } catch (error: any) {
     console.error(`Exception calling ${functionName}:`, error);
+    
+    // Report to bug finder
+    const errorObj = error instanceof Error ? error : new Error(String(error));
+    bugFinder.reportEdgeFunctionError(
+      functionName,
+      errorObj,
+      { body, errorType: 'exception' }
+    );
     
     if (showToast) {
       toast.error(errorMessage, {

@@ -19,6 +19,7 @@ import "./index.css";
 import { PerformanceMonitor } from "./utils/performance";
 import { initializeSecurityObfuscation } from "./utils/securityObfuscation";
 import { ErrorBoundary } from "./components/ErrorBoundary";
+import bugFinder from "./utils/bugFinder";
 
 // Log app initialization
 console.log('[NYM] Starting app initialization...');
@@ -71,6 +72,22 @@ if (import.meta.env.DEV) {
   } catch (error) {
     console.error('[NYM] Performance monitoring failed:', error);
   }
+}
+
+// Initialize bug finder (runs in all environments)
+try {
+  // BugFinder automatically starts monitoring on instantiation
+  console.log('[NYM] Bug Finder initialized');
+  
+  // Log bug scan on initialization
+  if (import.meta.env.DEV) {
+    const scan = bugFinder.scanBugs();
+    if (scan.totalBugs > 0) {
+      console.warn('[NYM] Existing bugs detected:', scan);
+    }
+  }
+} catch (error) {
+  console.error('[NYM] Bug Finder initialization failed:', error);
 }
 
 // Render application with error handling

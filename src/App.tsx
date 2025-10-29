@@ -98,6 +98,7 @@ const AdminAuditLogs = lazy(() => import("./pages/admin/AdminAuditLogs"));
 const AdminQuickExport = lazy(() => import("./pages/admin/AdminQuickExport"));
 const AdminAgeVerification = lazy(() => import("./pages/admin/AdminAgeVerification"));
 const AdminCourierApplications = lazy(() => import("./pages/admin/AdminCourierApplications"));
+const BugScanner = lazy(() => import("./components/admin/BugScanner"));
 const AdminDeliverySafety = lazy(() => import("./pages/admin/AdminDeliverySafety"));
 const AdminProducts = lazy(() => import("./pages/admin/AdminProducts"));
 const ProductForm = lazy(() => import("./pages/admin/ProductForm"));
@@ -306,6 +307,7 @@ const App = () => {
                 <Route path="search" element={<AdminErrorBoundary><GlobalSearch /></AdminErrorBoundary>} />
                 <Route path="settings" element={<AdminErrorBoundary><SystemSettings /></AdminErrorBoundary>} />
                 <Route path="button-tester" element={<AdminErrorBoundary><ButtonTester /></AdminErrorBoundary>} />
+                <Route path="bug-scanner" element={<AdminErrorBoundary><BugScanner /></AdminErrorBoundary>} />
                         <Route path="live-chat" element={<AdminErrorBoundary><AdminLiveChat /></AdminErrorBoundary>} />
                         <Route path="quick-export" element={<AdminErrorBoundary><AdminQuickExport /></AdminErrorBoundary>} />
                       </Route>

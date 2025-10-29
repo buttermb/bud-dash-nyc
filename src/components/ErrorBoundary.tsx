@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { AlertCircle, RefreshCw, Home } from 'lucide-react';
 import { analytics } from '@/utils/analytics';
+import bugFinder from '@/utils/bugFinder';
 
 interface Props {
   children: ReactNode;
@@ -26,6 +27,11 @@ export class ErrorBoundary extends Component<Props, State> {
   public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     console.error('ErrorBoundary caught an error:', error, errorInfo);
     analytics.trackError('error_boundary', error.message);
+    
+    // Report to bug finder
+    bugFinder.reportRuntimeError(error, 'ErrorBoundary', {
+      componentStack: errorInfo.componentStack,
+    });
   }
 
   private handleReset = () => {
