@@ -37,6 +37,19 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         if (mounted) {
           setSession(session);
           setUser(session?.user ?? null);
+          
+          // Update last_login_at when user signs in
+          if (event === 'SIGNED_IN' && session?.user) {
+            try {
+              await supabase
+                .from('profiles')
+                .update({ last_login_at: new Date().toISOString() })
+                .eq('user_id', session.user.id);
+            } catch (error) {
+              console.error('Error updating last_login_at:', error);
+            }
+          }
+          
           setLoading(false);
         }
       }
