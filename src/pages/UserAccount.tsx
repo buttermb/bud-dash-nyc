@@ -576,8 +576,8 @@ export default function UserAccount() {
                     {/* Activity Feed */}
                     {profile && <UserActivityFeed userId={profile.user_id} />}
                   </div>
-                </div>
 
+                  {/* Referral Card */}
                   <Card>
                     <CardHeader>
                       <CardTitle className="flex items-center gap-2">
@@ -602,8 +602,10 @@ export default function UserAccount() {
                       </div>
                     </CardContent>
                   </Card>
+                </div>
               </TabsContent>
             </Tabs>
+          </>
         )}
       </div>
     </CustomerLayout>
