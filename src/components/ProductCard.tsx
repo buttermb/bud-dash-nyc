@@ -137,11 +137,11 @@ const ProductCard = memo(function ProductCard({ product, onAuthRequired, stockLe
 
   const getCategoryColor = () => {
     const colors: Record<string, string> = {
-      flower: "bg-primary/10 text-primary border-primary/20",
-      edibles: "bg-secondary/10 text-secondary border-secondary/20",
-      vapes: "bg-accent/10 text-accent border-accent/20",
-      concentrates: "bg-primary/10 text-primary border-primary/20",
-      "pre-rolls": "bg-primary/10 text-primary border-primary/20",
+      flower: "bg-emerald-500/20 text-emerald-400 border-emerald-500/30",
+      edibles: "bg-purple-500/20 text-purple-400 border-purple-500/30",
+      vapes: "bg-blue-500/20 text-blue-400 border-blue-500/30",
+      concentrates: "bg-emerald-500/20 text-emerald-400 border-emerald-500/30",
+      "pre-rolls": "bg-emerald-500/20 text-emerald-400 border-emerald-500/30",
     };
     return colors[product.category] || colors.flower;
   };
@@ -180,7 +180,7 @@ const ProductCard = memo(function ProductCard({ product, onAuthRequired, stockLe
             {product.category}
           </Badge>
           {/* Lab Test Badge - Always Visible */}
-          <Badge className="bg-primary text-primary-foreground flex items-center gap-1 shadow-lg text-xs truncate">
+          <Badge className="bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center gap-1 shadow-lg text-xs truncate">
             <Award className="w-3 h-3 flex-shrink-0" />
             <span className="truncate">Lab Tested</span>
           </Badge>
