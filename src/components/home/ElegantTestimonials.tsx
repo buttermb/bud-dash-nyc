@@ -50,6 +50,24 @@ const testimonials = [
     rating: 2,
   },
   {
+    quote: 'I gave this 1 star because the website said 30-minute delivery and it came in 25 minutes. Too fast! I wasn\'t even ready. But seriously, best service ever.',
+    author: 'Daniel F.',
+    location: 'Queens',
+    rating: 1,
+  },
+  {
+    quote: 'I\'m giving 1 star because the packaging was SO discreet I couldn\'t find it at first. My neighbor didn\'t even notice. This is actually amazing service.',
+    author: 'Rachel T.',
+    location: 'Manhattan',
+    rating: 1,
+  },
+  {
+    quote: '1 star review: The product quality is TOO good. Now I have to budget more because I keep ordering. Seriously though, five stars in disguise.',
+    author: 'Kevin M.',
+    location: 'Brooklyn',
+    rating: 1,
+  },
+  {
     quote: 'Best delivery service in the city. Been using for a year now. Fast, discreet, and always top quality product.',
     author: 'Maria G.',
     location: 'Brooklyn',

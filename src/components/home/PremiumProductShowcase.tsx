@@ -72,7 +72,12 @@ export function PremiumProductShowcase() {
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: index * 0.1 }}
               className="group relative bg-neutral-800 overflow-hidden cursor-pointer transition-all duration-500 hover:shadow-2xl"
-              onClick={() => navigate('/menu')}
+              onClick={() => {
+                const productsSection = document.getElementById('products');
+                if (productsSection) {
+                  productsSection.scrollIntoView({ behavior: 'smooth' });
+                }
+              }}
             >
               
               {/* Subtle Badge */}

@@ -38,7 +38,12 @@ export function ElegantFinalCTA() {
         
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
           <Button
-            onClick={() => navigate('/menu')}
+            onClick={() => {
+              const productsSection = document.getElementById('products');
+              if (productsSection) {
+                productsSection.scrollIntoView({ behavior: 'smooth' });
+              }
+            }}
             className="px-10 py-4 bg-neutral-100 text-neutral-900 font-light tracking-wide hover:bg-emerald-500 hover:text-white transition-all duration-300 h-auto shadow-lg hover:shadow-emerald-500/30"
           >
             Browse Collection
@@ -46,7 +51,7 @@ export function ElegantFinalCTA() {
           
           <Button
             variant="outline"
-            onClick={() => navigate('/support')}
+            onClick={() => navigate('/user-account')}
             className="px-10 py-4 border border-white/20 text-white font-light tracking-wide hover:border-emerald-400 hover:text-emerald-400 transition-all duration-300 bg-transparent h-auto"
           >
             Contact Us
