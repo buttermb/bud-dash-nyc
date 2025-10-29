@@ -19,8 +19,7 @@ interface Review {
   created_at: string;
   profiles?: {
     full_name: string;
-    avatar_url?: string;
-  };
+  } | null;
 }
 
 export function ReviewSection() {
@@ -39,17 +38,36 @@ export function ReviewSection() {
   const { data, isLoading } = useQuery({
     queryKey: ['home-reviews', page],
     queryFn: async () => {
-      const { data, error } = await supabase
+      const { data: reviewsData, error } = await supabase
         .from('reviews')
-        .select(`
-          *,
-          profiles (full_name, avatar_url)
-        `)
+        .select('*')
         .order('created_at', { ascending: false })
         .range(page * PAGE_SIZE, (page + 1) * PAGE_SIZE - 1);
 
       if (error) throw error;
-      return { data: data as Review[], hasMore: (data?.length ?? 0) === PAGE_SIZE };
+      
+      // Fetch profiles for the reviews
+      const userIds = [...new Set(reviewsData?.map(r => r.user_id) || [])];
+      let profilesMap = new Map();
+      
+      if (userIds.length > 0) {
+        const { data: profilesData } = await supabase
+          .from('profiles')
+          .select('user_id, full_name')
+          .in('user_id', userIds);
+        
+        profilesData?.forEach(profile => {
+          profilesMap.set(profile.user_id, profile);
+        });
+      }
+      
+      // Combine reviews with profiles
+      const combinedData = reviewsData?.map(review => ({
+        ...review,
+        profiles: profilesMap.get(review.user_id) || null
+      })) || [];
+
+      return { data: combinedData as Review[], hasMore: (reviewsData?.length ?? 0) === PAGE_SIZE };
     },
   });
 
