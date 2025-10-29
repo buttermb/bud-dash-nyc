@@ -92,7 +92,7 @@ const TrendingProducts = () => {
           <CarouselContent className="-ml-4">
             {products.map((product) => (
               <CarouselItem key={product.id} className="pl-4 md:basis-1/2 lg:basis-1/3">
-                <Card className="overflow-hidden hover:shadow-elegant transition-all duration-300 hover:-translate-y-1 group">
+                <Card className="overflow-hidden backdrop-blur-2xl transition-all duration-500 cursor-pointer relative bg-white/[0.02] border border-white/[0.05] hover:border-white/10 hover:-translate-y-3 hover:scale-[1.02] group">
                   <div className="relative aspect-square overflow-hidden bg-muted">
                     <img
                       src={product.image_url || "/placeholder.svg"}

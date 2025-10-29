@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { Bug, X, Trash2, Download, Terminal, Network, AlertTriangle, Database, Gauge, Copy, Filter, ArrowDown, Check, Pin, Maximize2, Minimize2 } from 'lucide-react';
+import { Bug, X, Trash2, Download, Terminal, Network, AlertTriangle, Database, Gauge, Copy, Filter, ArrowDown, Check, Pin, Maximize2, Minimize2, Zap, Shield } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card } from '@/components/ui/card';
@@ -9,6 +9,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { toast } from 'sonner';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import bugFinder from '@/utils/bugFinder';
 
 interface LogEntry {
   id: number;
@@ -144,14 +145,59 @@ if (!intercepted) {
     }
   };
 
-  // Global error handlers
+  // Global error handlers - enhanced with bugFinder integration
   window.addEventListener('error', (event: ErrorEvent) => {
     addLog('error', [event.message, event.error]);
+    
+    // Also report to bugFinder
+    if (event.error) {
+      bugFinder.reportRuntimeError(
+        event.error instanceof Error ? event.error : new Error(event.message),
+        'GlobalErrorHandler',
+        {
+          filename: event.filename,
+          lineno: event.lineno,
+          colno: event.colno,
+        }
+      );
+    } else {
+      bugFinder.reportRuntimeError(
+        new Error(event.message),
+        'GlobalErrorHandler',
+        {
+          filename: event.filename,
+          lineno: event.lineno,
+          colno: event.colno,
+        }
+      );
+    }
   });
 
   window.addEventListener('unhandledrejection', (event: PromiseRejectionEvent) => {
     addLog('error', ['Unhandled Promise Rejection:', event.reason]);
+    
+    // Report to bugFinder (as promise rejection)
+    const error = event.reason instanceof Error 
+      ? event.reason 
+      : new Error(String(event.reason));
+    // Promise rejections are tracked automatically by bugFinder's global handlers
+    // This will be caught by the unhandledrejection listener in bugFinder
   });
+
+  // Track React errors via ErrorBoundary
+  const originalConsoleError = console.error;
+  console.error = (...args) => {
+    originalConsoleError(...args);
+    
+    // Check if it's a React error
+    const errorStr = args.join(' ');
+    if (errorStr.includes('ErrorBoundary') || 
+        errorStr.includes('React') || 
+        errorStr.includes('component') ||
+        errorStr.includes('Warning:')) {
+      addLog('error', args);
+    }
+  };
 }
 
 export const DevTools = () => {
@@ -332,13 +378,13 @@ export const DevTools = () => {
 
   const sizeClass = isMaximized 
     ? "inset-4" 
-    : "inset-x-4 bottom-4 md:right-4 md:left-auto md:w-[700px]";
-  const heightClass = isMaximized ? "h-[calc(100vh-2rem)]" : "h-[600px]";
+    : "inset-x-2 sm:inset-x-4 bottom-4 md:right-4 md:left-auto md:w-[800px] max-w-[calc(100vw-1rem)]";
+  const heightClass = isMaximized ? "h-[calc(100vh-2rem)]" : "h-[700px] md:h-[600px] min-h-[400px]";
 
   return (
     <>
       <div className={`fixed ${sizeClass} z-50`}>
-        <Card className={`${heightClass} flex flex-col shadow-2xl border-2 bg-background/95 backdrop-blur`}>
+        <Card className={`${heightClass} flex flex-col shadow-2xl border-2 bg-background/95 backdrop-blur overflow-hidden`}>
           <div className="flex items-center justify-between p-4 border-b bg-muted/50">
             <div className="flex items-center gap-2">
               <Bug className="h-5 w-5 text-primary" />
@@ -393,33 +439,39 @@ export const DevTools = () => {
             </div>
           </div>
 
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="flex-1 flex flex-col overflow-hidden">
-          <TabsList className="mx-4 mt-2">
-            <TabsTrigger value="logs" className="flex items-center gap-2">
-              <Terminal className="h-4 w-4" />
-              Console ({logs.length})
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="flex-1 flex flex-col overflow-hidden min-w-0">
+          <TabsList className="mx-4 mt-2 flex-shrink-0 flex-wrap">
+            <TabsTrigger value="logs" className="flex items-center gap-2 text-xs sm:text-sm">
+              <Terminal className="h-3 w-3 sm:h-4 sm:w-4" />
+              <span className="hidden sm:inline">Console</span>
+              <Badge variant="secondary" className="ml-1 text-xs">{logs.length}</Badge>
             </TabsTrigger>
-            <TabsTrigger value="network" className="flex items-center gap-2">
-              <Network className="h-4 w-4" />
-              Network ({network.length})
+            <TabsTrigger value="network" className="flex items-center gap-2 text-xs sm:text-sm">
+              <Network className="h-3 w-3 sm:h-4 sm:w-4" />
+              <span className="hidden sm:inline">Network</span>
+              <Badge variant="secondary" className="ml-1 text-xs">{network.length}</Badge>
             </TabsTrigger>
-            <TabsTrigger value="storage" className="flex items-center gap-2">
-              <Database className="h-4 w-4" />
+            <TabsTrigger value="storage" className="flex items-center gap-2 text-xs sm:text-sm">
+              <Database className="h-3 w-3 sm:h-4 sm:w-4" />
               Storage
             </TabsTrigger>
-            <TabsTrigger value="performance" className="flex items-center gap-2">
-              <Gauge className="h-4 w-4" />
-              Performance
+            <TabsTrigger value="performance" className="flex items-center gap-2 text-xs sm:text-sm">
+              <Gauge className="h-3 w-3 sm:h-4 sm:w-4" />
+              <span className="hidden sm:inline">Performance</span>
+            </TabsTrigger>
+            <TabsTrigger value="bugs" className="flex items-center gap-2 text-xs sm:text-sm">
+              <Shield className="h-3 w-3 sm:h-4 sm:w-4" />
+              <span className="hidden sm:inline">Bug Scanner</span>
             </TabsTrigger>
           </TabsList>
 
-          <TabsContent value="logs" className="flex-1 flex flex-col p-4 pt-2 space-y-2 min-h-0">
-            <div className="flex gap-2 flex-wrap">
+          <TabsContent value="logs" className="flex-1 flex flex-col p-2 sm:p-4 pt-2 space-y-2 min-h-0 overflow-hidden">
+            <div className="flex gap-2 flex-wrap flex-shrink-0">
               <Input
                 placeholder="Filter logs..."
                 value={filter}
                 onChange={(e) => setFilter(e.target.value)}
-                className="flex-1 min-w-[200px]"
+                className="flex-1 min-w-[150px] sm:min-w-[200px] text-sm"
               />
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
@@ -466,30 +518,30 @@ export const DevTools = () => {
               </Button>
             </div>
 
-            <div className="flex-1 min-h-0 rounded-md border bg-background">
-              <ScrollArea className="h-full p-3" ref={logScrollRef}>
-                <div className="space-y-2">
+            <div className="flex-1 min-h-0 rounded-md border bg-background overflow-hidden">
+              <ScrollArea className="h-full w-full" ref={logScrollRef}>
+                <div className="space-y-2 p-2 sm:p-3">
                   {filteredLogs.length === 0 ? (
-                    <div className="text-muted-foreground text-center py-8">No logs to display</div>
+                    <div className="text-muted-foreground text-center py-8 text-sm">No logs to display</div>
                   ) : (
                     filteredLogs.map((log) => (
-                      <div key={log.id} className={`p-3 rounded-lg border ${getTypeColor(log.type)} group relative hover:shadow-sm transition-shadow`}>
+                      <div key={log.id} className={`p-2 sm:p-3 rounded-lg border ${getTypeColor(log.type)} group relative hover:shadow-sm transition-shadow`}>
                         <Button
                           size="icon"
                           variant="ghost"
-                          className="absolute top-2 right-2 h-7 w-7 opacity-0 group-hover:opacity-100 transition-opacity"
+                          className="absolute top-2 right-2 h-7 w-7 opacity-0 group-hover:opacity-100 transition-opacity z-10"
                           onClick={() => copyToClipboard(log.message)}
                         >
                           <Copy className="h-3 w-3" />
                         </Button>
-                        <div className="flex items-start gap-3 pr-10">
-                          <Badge variant="outline" className="shrink-0 mt-0.5">
+                        <div className="flex items-start gap-2 sm:gap-3 pr-8 sm:pr-10 flex-wrap sm:flex-nowrap">
+                          <Badge variant="outline" className="shrink-0 mt-0.5 text-xs">
                             {log.type}
                           </Badge>
-                          <span className="text-muted-foreground shrink-0 text-xs mt-1">
+                          <span className="text-muted-foreground shrink-0 text-xs mt-1 whitespace-nowrap">
                             {log.timestamp.toLocaleTimeString()}
                           </span>
-                          <pre className="flex-1 whitespace-pre-wrap break-words text-sm leading-relaxed">
+                          <pre className="flex-1 whitespace-pre-wrap break-words text-xs sm:text-sm leading-relaxed min-w-0 overflow-wrap-anywhere">
                             {log.message}
                           </pre>
                         </div>
@@ -498,9 +550,9 @@ export const DevTools = () => {
                             <summary className="cursor-pointer hover:text-primary transition-colors font-medium">
                               View stack trace
                             </summary>
-                            <pre className="mt-2 p-3 bg-muted/50 rounded-md overflow-auto max-h-48 text-xs">
-                              {log.stack}
-                            </pre>
+                          <pre className="mt-2 p-2 sm:p-3 bg-muted/50 rounded-md overflow-auto max-h-48 text-xs whitespace-pre-wrap break-words">
+                            {log.stack}
+                          </pre>
                           </details>
                         )}
                       </div>
@@ -511,34 +563,34 @@ export const DevTools = () => {
             </div>
           </TabsContent>
 
-          <TabsContent value="network" className="flex-1 flex flex-col p-4 pt-2 space-y-2 min-h-0">
-            <div className="flex gap-2">
-              <Button onClick={clearNetwork} size="sm" variant="outline">
-                <Trash2 className="h-4 w-4 mr-2" />
+          <TabsContent value="network" className="flex-1 flex flex-col p-2 sm:p-4 pt-2 space-y-2 min-h-0 overflow-hidden">
+            <div className="flex gap-2 flex-shrink-0 flex-wrap">
+              <Button onClick={clearNetwork} size="sm" variant="outline" className="text-xs sm:text-sm">
+                <Trash2 className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
                 Clear
               </Button>
-              <Button onClick={exportNetwork} size="sm" variant="outline">
-                <Download className="h-4 w-4 mr-2" />
+              <Button onClick={exportNetwork} size="sm" variant="outline" className="text-xs sm:text-sm">
+                <Download className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
                 Export
               </Button>
             </div>
 
-            <div className="flex-1 min-h-0 rounded-md border bg-background">
-              <ScrollArea className="h-full p-3" ref={networkScrollRef}>
-                <div className="space-y-2">
+            <div className="flex-1 min-h-0 rounded-md border bg-background overflow-hidden">
+              <ScrollArea className="h-full w-full" ref={networkScrollRef}>
+                <div className="space-y-2 p-2 sm:p-3">
                   {network.length === 0 ? (
-                    <div className="text-muted-foreground text-center py-8">No network requests</div>
+                    <div className="text-muted-foreground text-center py-8 text-sm">No network requests</div>
                   ) : (
                     network.slice().reverse().map((req) => (
                       <div 
                         key={req.id} 
-                        className="p-3 rounded-lg border bg-card hover:bg-accent/50 group relative cursor-pointer transition-all hover:shadow-sm"
+                        className="p-2 sm:p-3 rounded-lg border bg-card hover:bg-accent/50 group relative cursor-pointer transition-all hover:shadow-sm"
                         onClick={() => setSelectedNetwork(req)}
                       >
                         <Button
                           size="icon"
                           variant="ghost"
-                          className="absolute top-2 right-2 h-7 w-7 opacity-0 group-hover:opacity-100 transition-opacity"
+                          className="absolute top-2 right-2 h-7 w-7 opacity-0 group-hover:opacity-100 transition-opacity z-10"
                           onClick={(e) => {
                             e.stopPropagation();
                             copyToClipboard(req.url);
@@ -546,34 +598,34 @@ export const DevTools = () => {
                         >
                           <Copy className="h-3 w-3" />
                         </Button>
-                        <div className="flex items-center gap-2 flex-wrap pr-10">
-                          <Badge variant="outline" className="shrink-0 font-semibold">
+                        <div className="flex items-center gap-2 flex-wrap pr-8 sm:pr-10">
+                          <Badge variant="outline" className="shrink-0 font-semibold text-xs">
                             {req.method}
                           </Badge>
                           {req.status && (
-                            <span className={`shrink-0 font-bold ${getStatusColor(req.status)}`}>
+                            <span className={`shrink-0 font-bold text-xs sm:text-sm ${getStatusColor(req.status)}`}>
                               {req.status}
                             </span>
                           )}
                           {req.error && (
-                            <AlertTriangle className="h-4 w-4 text-red-500" />
+                            <AlertTriangle className="h-3 w-3 sm:h-4 sm:w-4 text-red-500 shrink-0" />
                           )}
-                          <span className={`text-xs shrink-0 font-semibold ${
+                          <span className={`text-xs shrink-0 font-semibold whitespace-nowrap ${
                             req.duration && req.duration < 100 ? 'text-green-500' :
                             req.duration && req.duration < 500 ? 'text-yellow-500' :
                             'text-red-500'
                           }`}>
                             {req.duration}ms
                           </span>
-                          <span className="text-muted-foreground shrink-0 text-xs">
+                          <span className="text-muted-foreground shrink-0 text-xs whitespace-nowrap">
                             {req.timestamp.toLocaleTimeString()}
                           </span>
                         </div>
-                        <div className="mt-2 text-xs break-all font-medium">
+                        <div className="mt-2 text-xs break-words font-medium min-w-0 overflow-wrap-anywhere">
                           {req.url}
                         </div>
                         {req.error && (
-                          <div className="mt-2 text-xs text-red-500 font-semibold">
+                          <div className="mt-2 text-xs text-red-500 font-semibold break-words">
                             Error: {req.error}
                           </div>
                         )}
@@ -585,8 +637,8 @@ export const DevTools = () => {
             </div>
           </TabsContent>
 
-          <TabsContent value="storage" className="flex-1 flex flex-col p-4 pt-2 space-y-2 min-h-0">
-            <div className="flex gap-2">
+          <TabsContent value="storage" className="flex-1 flex flex-col p-2 sm:p-4 pt-2 space-y-2 min-h-0 overflow-hidden">
+            <div className="flex gap-2 flex-shrink-0 flex-wrap">
               <Button 
                 onClick={() => {
                   localStorage.clear();
@@ -594,30 +646,31 @@ export const DevTools = () => {
                 }} 
                 size="sm" 
                 variant="outline"
+                className="text-xs sm:text-sm"
               >
-                <Trash2 className="h-4 w-4 mr-2" />
+                <Trash2 className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
                 Clear Storage
               </Button>
             </div>
 
-            <div className="flex-1 min-h-0 rounded-md border bg-background">
-              <ScrollArea className="h-full p-3">
-                <div className="space-y-3">
+            <div className="flex-1 min-h-0 rounded-md border bg-background overflow-hidden">
+              <ScrollArea className="h-full w-full">
+                <div className="space-y-3 p-2 sm:p-3">
                   {Object.keys(storage).length === 0 ? (
-                    <div className="text-muted-foreground text-center py-8">No storage items</div>
+                    <div className="text-muted-foreground text-center py-8 text-sm">No storage items</div>
                   ) : (
                     Object.entries(storage).map(([key, value]) => (
-                      <div key={key} className="p-3 rounded-lg border bg-card group relative hover:shadow-sm transition-shadow">
+                      <div key={key} className="p-2 sm:p-3 rounded-lg border bg-card group relative hover:shadow-sm transition-shadow">
                         <Button
                           size="icon"
                           variant="ghost"
-                          className="absolute top-2 right-2 h-7 w-7 opacity-0 group-hover:opacity-100 transition-opacity"
+                          className="absolute top-2 right-2 h-7 w-7 opacity-0 group-hover:opacity-100 transition-opacity z-10"
                           onClick={() => copyToClipboard(JSON.stringify(value, null, 2))}
                         >
                           <Copy className="h-3 w-3" />
                         </Button>
-                        <div className="font-semibold text-primary mb-2 pr-10 text-sm">{key}</div>
-                        <pre className="text-xs whitespace-pre-wrap break-all text-muted-foreground leading-relaxed">
+                        <div className="font-semibold text-primary mb-2 pr-8 sm:pr-10 text-xs sm:text-sm break-words">{key}</div>
+                        <pre className="text-xs whitespace-pre-wrap break-words text-muted-foreground leading-relaxed overflow-wrap-anywhere">
                           {typeof value === 'object' ? JSON.stringify(value, null, 2) : String(value)}
                         </pre>
                       </div>
@@ -628,10 +681,10 @@ export const DevTools = () => {
             </div>
           </TabsContent>
 
-          <TabsContent value="performance" className="flex-1 flex flex-col p-4 pt-2 space-y-2 min-h-0">
-            <div className="flex-1 min-h-0 rounded-md border bg-background">
-              <ScrollArea className="h-full p-4">
-              <div className="space-y-4">
+          <TabsContent value="performance" className="flex-1 flex flex-col p-2 sm:p-4 pt-2 space-y-2 min-h-0 overflow-hidden">
+            <div className="flex-1 min-h-0 rounded-md border bg-background overflow-hidden">
+              <ScrollArea className="h-full w-full">
+              <div className="space-y-4 p-2 sm:p-4">
                 {performance ? (
                   <>
                     <div className="space-y-2">
@@ -746,6 +799,159 @@ export const DevTools = () => {
                 )}
               </div>
             </ScrollArea>
+            </div>
+          </TabsContent>
+
+          <TabsContent value="bugs" className="flex-1 flex flex-col p-2 sm:p-4 pt-2 space-y-2 min-h-0 overflow-hidden">
+            <div className="flex gap-2 flex-shrink-0 flex-wrap">
+              <Button 
+                onClick={() => {
+                  const scan = bugFinder.scanBugs();
+                  toast.success(`Found ${scan.totalBugs} bugs. Check Bug Scanner in admin panel.`);
+                }}
+                size="sm" 
+                variant="outline"
+                className="text-xs sm:text-sm"
+              >
+                <Zap className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
+                Scan Now
+              </Button>
+              <Button
+                onClick={() => {
+                  const issues = bugFinder.checkCommonIssues();
+                  if (issues.issues.length > 0) {
+                    toast.warning(`Found ${issues.issues.length} issues`, {
+                      description: issues.recommendations[0],
+                    });
+                  } else {
+                    toast.success('No issues detected');
+                  }
+                }}
+                size="sm"
+                variant="outline"
+                className="text-xs sm:text-sm"
+              >
+                <Shield className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
+                Check Issues
+              </Button>
+              <Button
+                onClick={() => {
+                  const stats = bugFinder.getAPIErrorStats();
+                  const edgeStats = bugFinder.getEdgeFunctionErrorStats();
+                  const total = Object.keys(stats).length + Object.keys(edgeStats).length;
+                  toast.info(`API Errors: ${Object.keys(stats).length}, Edge Functions: ${Object.keys(edgeStats).length}`);
+                }}
+                size="sm"
+                variant="outline"
+                className="text-xs sm:text-sm"
+              >
+                <Network className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
+                Stats
+              </Button>
+            </div>
+
+            <div className="flex-1 min-h-0 rounded-md border bg-background overflow-hidden">
+              <ScrollArea className="h-full w-full">
+                <div className="p-2 sm:p-3 space-y-3">
+                  {(() => {
+                    const scan = bugFinder.scanBugs();
+                    return (
+                      <>
+                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                          <Card className="p-3">
+                            <div className="text-lg sm:text-2xl font-bold text-red-600">{scan.critical}</div>
+                            <div className="text-xs text-muted-foreground">Critical</div>
+                          </Card>
+                          <Card className="p-3">
+                            <div className="text-lg sm:text-2xl font-bold text-orange-600">{scan.high}</div>
+                            <div className="text-xs text-muted-foreground">High</div>
+                          </Card>
+                          <Card className="p-3">
+                            <div className="text-lg sm:text-2xl font-bold text-yellow-600">{scan.medium}</div>
+                            <div className="text-xs text-muted-foreground">Medium</div>
+                          </Card>
+                          <Card className="p-3">
+                            <div className="text-lg sm:text-2xl font-bold">{scan.totalBugs}</div>
+                            <div className="text-xs text-muted-foreground">Total</div>
+                          </Card>
+                        </div>
+
+                        <div className="space-y-2">
+                          <h4 className="font-semibold text-sm">Error Breakdown</h4>
+                          <div className="grid grid-cols-2 gap-2 text-xs">
+                            <div className="flex justify-between">
+                              <span className="text-muted-foreground">API:</span>
+                              <span className="font-bold">{scan.summary.apiErrors}</span>
+                            </div>
+                            <div className="flex justify-between">
+                              <span className="text-muted-foreground">404:</span>
+                              <span className="font-bold">{scan.summary.notFoundErrors}</span>
+                            </div>
+                            <div className="flex justify-between">
+                              <span className="text-muted-foreground">Fetch:</span>
+                              <span className="font-bold">{scan.summary.fetchErrors}</span>
+                            </div>
+                            <div className="flex justify-between">
+                              <span className="text-muted-foreground">Edge:</span>
+                              <span className="font-bold">{scan.summary.edgeErrors}</span>
+                            </div>
+                            <div className="flex justify-between">
+                              <span className="text-muted-foreground">Realtime:</span>
+                              <span className="font-bold">{scan.summary.realtimeErrors}</span>
+                            </div>
+                            <div className="flex justify-between">
+                              <span className="text-muted-foreground">Promise:</span>
+                              <span className="font-bold">{scan.summary.promiseRejections}</span>
+                            </div>
+                            <div className="flex justify-between">
+                              <span className="text-muted-foreground">Runtime:</span>
+                              <span className="font-bold">{scan.summary.runtimeErrors}</span>
+                            </div>
+                          </div>
+                        </div>
+
+                        {(() => {
+                          const issues = bugFinder.checkCommonIssues();
+                          if (issues.issues.length > 0) {
+                            return (
+                              <div className="space-y-2">
+                                <h4 className="font-semibold text-sm text-orange-600">⚠️ Detected Issues</h4>
+                                <div className="space-y-1 text-xs">
+                                  {issues.issues.map((issue, i) => (
+                                    <div key={i} className="p-2 bg-orange-500/10 border border-orange-500/20 rounded">
+                                      <div className="font-semibold text-orange-600">{issue.severity.toUpperCase()}</div>
+                                      <div className="text-muted-foreground">{issue.message}</div>
+                                    </div>
+                                  ))}
+                                </div>
+                                {issues.recommendations.length > 0 && (
+                                  <div className="mt-2">
+                                    <h5 className="font-semibold text-xs mb-1">Recommendations:</h5>
+                                    <ul className="list-disc list-inside space-y-1 text-xs text-muted-foreground">
+                                      {issues.recommendations.map((rec, i) => (
+                                        <li key={i}>{rec}</li>
+                                      ))}
+                                    </ul>
+                                  </div>
+                                )}
+                              </div>
+                            );
+                          }
+                          return (
+                            <div className="text-center py-4 text-sm text-muted-foreground">
+                              ✅ No issues detected
+                            </div>
+                          );
+                        })()}
+
+                        <div className="text-xs text-muted-foreground text-center pt-2 border-t">
+                          For detailed bug reports, use the Bug Scanner in the admin panel
+                        </div>
+                      </>
+                    );
+                  })()}
+                </div>
+              </ScrollArea>
             </div>
           </TabsContent>
         </Tabs>

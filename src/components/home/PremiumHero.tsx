@@ -52,11 +52,7 @@ export function PremiumHero() {
         
         {/* Grid overlay - subtle */}
         <div 
-          className="absolute inset-0 opacity-[0.02]"
-          style={{
-            backgroundImage: 'linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px)',
-            backgroundSize: '50px 50px'
-          }}
+          className="absolute inset-0 opacity-[0.02] bg-[linear-gradient(rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[length:50px_50px]"
         />
       </div>
       
@@ -77,38 +73,100 @@ export function PremiumHero() {
             </span>
           </motion.div>
           
-          {/* Refined Headline with Stagger Animation */}
+          {/* Refined Headline with Enhanced Stagger Animation & Premium Typography */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 1.2, delay: 0.3 }}
+            className="overflow-hidden"
           >
-            <h1 className="text-4xl sm:text-6xl md:text-8xl font-light text-white mb-4 sm:mb-6 leading-[0.95] tracking-tight">
-              <motion.div
-                initial={{ opacity: 0, y: 50 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 1, delay: 0.3, ease: [0.4, 0, 0.2, 1] }}
+            <h1 className="text-5xl sm:text-7xl md:text-9xl font-extralight text-white mb-4 sm:mb-6 leading-[0.92] tracking-[-0.02em] font-display">
+              {/* Premium - With gradient and glow effect */}
+              <motion.span
+                initial={{ opacity: 0, y: 80, clipPath: "inset(0 100% 0 0)" }}
+                animate={{ 
+                  opacity: 1, 
+                  y: 0,
+                  clipPath: "inset(0 0% 0 0)"
+                }}
+                transition={{ 
+                  duration: 1.2, 
+                  delay: 0.4, 
+                  ease: [0.25, 0.46, 0.45, 0.94]
+                }}
+                className="block font-extralight tracking-wider relative font-display"
               >
-                Premium
-              </motion.div>
+                <span className="relative z-10 bg-gradient-to-r from-white via-white to-white/80 bg-clip-text text-transparent drop-shadow-[0_0_30px_rgba(255,255,255,0.3)]">
+                  Premium
+                </span>
+                <motion.span
+                  initial={{ opacity: 0, scaleX: 0 }}
+                  animate={{ opacity: 1, scaleX: 1 }}
+                  transition={{ duration: 0.8, delay: 1.0 }}
+                  className="absolute -bottom-1 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-emerald-400/50 to-transparent"
+                />
+              </motion.span>
+              
               <br />
-              <motion.div
-                initial={{ opacity: 0, x: -30 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.8, delay: 0.8, ease: "easeOut" }}
-                className="font-light italic text-emerald-400"
+              
+              {/* Flower - Animated italic with gradient */}
+              <motion.span
+                initial={{ opacity: 0, x: -50, rotateY: -90 }}
+                animate={{ opacity: 1, x: 0, rotateY: 0 }}
+                transition={{ 
+                  duration: 1.0, 
+                  delay: 0.9, 
+                  ease: [0.34, 1.56, 0.64, 1]
+                }}
+                className="block font-light italic tracking-normal relative font-display"
               >
-                Flower
-              </motion.div>
+                <motion.span
+                  animate={{
+                    backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
+                  }}
+                  transition={{
+                    duration: 5,
+                    repeat: Infinity,
+                    ease: "linear"
+                  }}
+                  className="block bg-gradient-to-r from-emerald-300 via-emerald-400 to-emerald-300 bg-[length:200%_auto] bg-clip-text text-transparent drop-shadow-[0_0_20px_rgba(16,185,129,0.4)]"
+                  style={{ WebkitBackgroundClip: "text" }}
+                >
+                  Flower
+                </motion.span>
+                <motion.div
+                  initial={{ scaleX: 0, opacity: 0 }}
+                  animate={{ scaleX: 1, opacity: [0, 0.5, 0] }}
+                  transition={{ duration: 0.6, delay: 1.3 }}
+                  className="absolute inset-0 bg-emerald-400/20 blur-xl"
+                />
+              </motion.span>
+              
               <br />
-              <motion.div
-                initial={{ opacity: 0, x: 30 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.8, delay: 1.2, ease: "easeOut" }}
-                className="text-3xl sm:text-5xl md:text-7xl text-white/60"
+              
+              {/* Delivered - Subtle fade with elegant motion */}
+              <motion.span
+                initial={{ opacity: 0, y: 40, filter: "blur(10px)" }}
+                animate={{ 
+                  opacity: 1, 
+                  y: 0,
+                  filter: "blur(0px)"
+                }}
+                transition={{ 
+                  duration: 1.1, 
+                  delay: 1.4, 
+                  ease: [0.16, 1, 0.3, 1]
+                }}
+                className="block text-4xl sm:text-6xl md:text-8xl font-extralight text-white/70 tracking-tight relative group font-display"
               >
-                Delivered
-              </motion.div>
+                <span className="relative z-10 drop-shadow-[0_2px_10px_rgba(255,255,255,0.1)]">Delivered</span>
+                <motion.div
+                  initial={{ width: 0 }}
+                  animate={{ width: "100%" }}
+                  transition={{ duration: 1.0, delay: 1.8, ease: "easeOut" }}
+                  className="absolute bottom-0 left-0 h-[1px] bg-gradient-to-r from-white/30 via-white/50 to-transparent"
+                />
+              </motion.span>
             </h1>
           </motion.div>
           
