@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
@@ -25,6 +25,75 @@ export default function MyOrders() {
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState("all");
 
+  // Define fetchOrders function - used by both useEffect and PullToRefresh
+  const fetchOrders = useCallback(async () => {
+    if (!user?.id) {
+      setLoading(false);
+      return;
+    }
+
+    try {
+      // First try with join
+      const { data, error } = await supabase
+        .from("orders")
+        .select(`
+          *,
+          order_items (
+            product_id,
+            quantity,
+            selected_weight
+          )
+        `)
+        .eq("user_id", user.id)
+        .order("created_at", { ascending: false });
+
+      if (error) {
+        // If join fails, try without join as fallback
+        console.warn("Order items join failed, fetching orders without items:", error);
+        const { data: ordersData, error: ordersError } = await supabase
+          .from("orders")
+          .select("*")
+          .eq("user_id", user.id)
+          .order("created_at", { ascending: false });
+
+        if (ordersError) throw ordersError;
+        
+        // Manually fetch order items for each order
+        const ordersWithItems = await Promise.all(
+          (ordersData || []).map(async (order) => {
+            try {
+              const { data: items } = await supabase
+                .from("order_items")
+                .select("product_id, quantity, selected_weight")
+                .eq("order_id", order.id);
+              return { ...order, order_items: items || [] };
+            } catch {
+              return { ...order, order_items: [] };
+            }
+          })
+        );
+        
+        setOrders(ordersWithItems);
+      } else {
+        setOrders(data || []);
+      }
+      
+      haptics.light(); // Light feedback on successful refresh
+    } catch (error: any) {
+      console.error("Error fetching orders:", error);
+      toast({
+        title: "Error loading orders",
+        description: error.message || "Could not load your order history. Please try refreshing.",
+        variant: "destructive",
+      });
+      haptics.error(); // Error feedback
+      // Set empty array on error to prevent stale data
+      setOrders([]);
+    } finally {
+      setLoading(false);
+    }
+  }, [user, toast]);
+
   useEffect(() => {
     if (!user) {
       navigate("/");
@@ -49,43 +118,16 @@ export default function MyOrders() {
           fetchOrders();
         }
       )
-      .subscribe();
+      .subscribe((status) => {
+        if (status === 'CHANNEL_ERROR') {
+          console.error('Failed to subscribe to order updates');
+        }
+      });
 
     return () => {
       supabase.removeChannel(channel);
     };
-  }, [user, navigate]);
-
-  const fetchOrders = async () => {
-    try {
-      const { data, error } = await supabase
-        .from("orders")
-        .select(`
-          *,
-          order_items (
-            product_id,
-            quantity,
-            selected_weight
-          )
-        `)
-        .eq("user_id", user?.id)
-        .order("created_at", { ascending: false });
-
-      if (error) throw error;
-      setOrders(data || []);
-      haptics.light(); // Light feedback on successful refresh
-    } catch (error) {
-      console.error("Error fetching orders:", error);
-      toast({
-        title: "Error loading orders",
-        description: "Could not load your order history.",
-        variant: "destructive",
-      });
-      haptics.error(); // Error feedback
-    } finally {
-      setLoading(false);
-    }
-  };
+  }, [user, navigate, fetchOrders]);
 
   const getStatusColor = (status: string) => {
     const colors: Record<string, string> = {

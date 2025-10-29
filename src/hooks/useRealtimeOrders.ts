@@ -27,6 +27,7 @@ interface UseRealtimeOrdersOptions {
 export const useRealtimeOrders = (options: UseRealtimeOrdersOptions = {}) => {
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<Error | null>(null);
   const [channel, setChannel] = useState<RealtimeChannel | null>(null);
   const { statusFilter } = options;
 
@@ -57,15 +58,29 @@ export const useRealtimeOrders = (options: UseRealtimeOrdersOptions = {}) => {
       
       if (error) throw error;
       setOrders(data || []);
+      // Clear any previous errors on successful fetch
+      setError(null);
     } catch (error) {
       console.error('Error fetching orders:', error);
+      // Set empty array on error to prevent stale data
+      setOrders([]);
+      // Store error for component to display
+      setError(error instanceof Error ? error : new Error(String(error)));
+      // Don't re-throw - let the hook handle the error gracefully
     } finally {
       setLoading(false);
     }
   }, [statusFilter?.join(',')]);
 
   useEffect(() => {
-    fetchOrders();
+    // Wrap in try-catch to handle any synchronous errors
+    try {
+      fetchOrders().catch((error) => {
+        console.error('Unhandled error in fetchOrders:', error);
+      });
+    } catch (error) {
+      console.error('Error initializing order fetch:', error);
+    }
 
     let connectionTimeout: NodeJS.Timeout;
     
@@ -138,6 +153,7 @@ export const useRealtimeOrders = (options: UseRealtimeOrdersOptions = {}) => {
   return {
     orders,
     loading,
+    error,
     refetch: fetchOrders,
     channel
   };

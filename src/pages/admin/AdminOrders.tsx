@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -76,9 +76,20 @@ export default function AdminOrders() {
   const [showMap, setShowMap] = useState(true);
   const [selectedOrders, setSelectedOrders] = useState<Set<string>>(new Set());
 
-  const { orders, loading, refetch } = useRealtimeOrders({
+  const { orders, loading, error: ordersError, refetch } = useRealtimeOrders({
     statusFilter: statusFilter === 'all' ? undefined : [statusFilter]
   });
+
+  // Show error toast if orders fail to load
+  useEffect(() => {
+    if (ordersError && !loading) {
+      toast({
+        title: "Error loading orders",
+        description: ordersError.message || "Failed to load orders. Please try refreshing.",
+        variant: "destructive",
+      });
+    }
+  }, [ordersError, loading]);
 
   const { eta } = useETATracking(selectedOrder?.id || null);
 
