@@ -73,6 +73,27 @@ export default function AccountSettings() {
       }
     };
     init();
+    
+    // Set up realtime subscription
+    const channel = supabase
+      .channel('account-settings-updates')
+      .on(
+        'postgres_changes',
+        {
+          event: 'UPDATE',
+          schema: 'public',
+          table: 'profiles',
+        },
+        () => {
+          console.log('Profile updated, refreshing settings...');
+          init();
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
   }, [navigate]);
 
   const saveProfile = async () => {

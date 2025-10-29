@@ -35,6 +35,39 @@ export default function UserAccount() {
 
   useEffect(() => {
     fetchUserData();
+    
+    // Set up realtime subscription to keep data updated
+    const channel = supabase
+      .channel('user-account-updates')
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'profiles',
+        },
+        () => {
+          console.log('Profile updated, refreshing...');
+          fetchUserData();
+        }
+      )
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'orders',
+        },
+        () => {
+          console.log('Order updated, refreshing orders...');
+          fetchUserData();
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
   }, []);
 
   const fetchUserData = async () => {
