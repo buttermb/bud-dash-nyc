@@ -29,7 +29,13 @@ export function SubtleNotification() {
   };
 
   const handleShopNow = () => {
-    navigate('/menu');
+    // Scroll to products section
+    const productsSection = document.getElementById('products');
+    if (productsSection) {
+      productsSection.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      navigate('/#products');
+    }
     handleDismiss();
   };
 
