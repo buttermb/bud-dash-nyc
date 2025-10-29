@@ -5,7 +5,7 @@ import GiveawayBanner from "@/components/GiveawayBanner";
 import { Badge } from "@/components/ui/badge";
 import { SEOHead } from "@/components/SEOHead";
 import { EnhancedLoadingState } from "@/components/EnhancedLoadingState";
-import { ParallaxHero } from "@/components/home/ParallaxHero";
+import { PremiumHero } from "@/components/home/PremiumHero";
 import { BackToTop } from "@/components/mobile/BackToTop";
 import { motion } from "framer-motion";
 
@@ -38,8 +38,8 @@ const Index = () => {
       <GiveawayBanner />
       <Navigation />
       
-      {/* Enhanced Parallax Hero */}
-      <ParallaxHero />
+      {/* Premium Sophisticated Hero */}
+      <PremiumHero />
       
       {/* Quick Stats */}
       <Suspense fallback={null}>
