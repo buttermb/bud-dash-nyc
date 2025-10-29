@@ -30,7 +30,7 @@ const TrendingProducts = () => {
 
   if (isLoading) {
     return (
-      <section className="py-12 bg-muted/30">
+      <section className="py-12">
         <div className="container px-4 mx-auto">
           {/* Reserve exact space to prevent layout shift */}
           <div className="flex items-center justify-between mb-8" style={{ height: '60px' }}>
@@ -64,7 +64,7 @@ const TrendingProducts = () => {
   if (!products || products.length === 0) return null;
 
   return (
-    <section className="py-12 bg-muted/30">
+    <section className="py-12">
       <div className="container px-4 mx-auto">
         <div className="flex items-center justify-between mb-8">
           <div className="flex items-center gap-3">
@@ -72,8 +72,8 @@ const TrendingProducts = () => {
               <Flame className="w-6 h-6 text-primary animate-pulse" />
             </div>
             <div>
-              <h2 className="text-3xl font-bold">Trending Now</h2>
-              <p className="text-muted-foreground">Popular products this week</p>
+              <h2 className="text-3xl font-bold text-white">Trending Now</h2>
+              <p className="text-white/60">Popular products this week</p>
             </div>
           </div>
           <Badge variant="outline" className="px-4 py-2 text-base">
