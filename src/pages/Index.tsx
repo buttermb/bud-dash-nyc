@@ -1,11 +1,12 @@
 import { lazy, Suspense } from "react";
-import Navigation from "@/components/Navigation";
 import AgeVerificationModal from "@/components/AgeVerificationModal";
 import GiveawayBanner from "@/components/GiveawayBanner";
 import { SEOHead } from "@/components/SEOHead";
 import { EnhancedLoadingState } from "@/components/EnhancedLoadingState";
-import { PremiumHero } from "@/components/home/PremiumHero";
 import { BackToTop } from "@/components/mobile/BackToTop";
+import LuxuryNav from "@/components/luxury/LuxuryNav";
+import LuxuryHero from "@/components/luxury/LuxuryHero";
+import LuxuryFooter from "@/components/luxury/LuxuryFooter";
 
 // Lazy load non-critical components for better initial page load
 const ProductCatalog = lazy(() => import("@/components/ProductCatalog"));
@@ -15,15 +16,9 @@ const ProductTrustElements = lazy(() => import("@/components/ProductTrustElement
 const TrendingProducts = lazy(() => import("@/components/TrendingProducts"));
 const InstallPWA = lazy(() => import("@/components/InstallPWA"));
 
-// New Premium Homepage Components
-const SubtleActivityIndicator = lazy(() => import("@/components/home/SubtleActivityIndicator").then(m => ({ default: m.SubtleActivityIndicator })));
-const PremiumProductShowcase = lazy(() => import("@/components/home/PremiumProductShowcase").then(m => ({ default: m.PremiumProductShowcase })));
-const WhyUs = lazy(() => import("@/components/home/WhyUs").then(m => ({ default: m.WhyUs })));
-const ElegantTestimonials = lazy(() => import("@/components/home/ElegantTestimonials").then(m => ({ default: m.ElegantTestimonials })));
-const SophisticatedHowItWorks = lazy(() => import("@/components/home/SophisticatedHowItWorks").then(m => ({ default: m.SophisticatedHowItWorks })));
+// Premium sections (keep some)
 const RefinedFAQ = lazy(() => import("@/components/home/RefinedFAQ").then(m => ({ default: m.RefinedFAQ })));
 const SubtleNotification = lazy(() => import("@/components/home/SubtleNotification").then(m => ({ default: m.SubtleNotification })));
-const ElegantFinalCTA = lazy(() => import("@/components/home/ElegantFinalCTA").then(m => ({ default: m.ElegantFinalCTA })));
 
 
 const Index = () => {
@@ -39,35 +34,11 @@ const Index = () => {
         <RecentPurchaseNotification />
       </Suspense>
       <GiveawayBanner />
-      <Navigation />
+      <LuxuryNav />
       
-      {/* Premium Sophisticated Hero */}
-      <PremiumHero />
+      {/* Luxury Hero */}
+      <LuxuryHero />
       
-      {/* Subtle Activity Indicator */}
-      <Suspense fallback={null}>
-        <SubtleActivityIndicator />
-      </Suspense>
-      
-      {/* Premium Product Showcase */}
-      <Suspense fallback={null}>
-        <PremiumProductShowcase />
-      </Suspense>
-
-      {/* Why Us Section */}
-      <Suspense fallback={null}>
-        <WhyUs />
-      </Suspense>
-
-      {/* Elegant Testimonials */}
-      <Suspense fallback={null}>
-        <ElegantTestimonials />
-      </Suspense>
-
-      {/* Sophisticated How It Works */}
-      <Suspense fallback={null}>
-        <SophisticatedHowItWorks />
-      </Suspense>
 
       {/* Full Product Catalog */}
       <section 
@@ -85,13 +56,8 @@ const Index = () => {
         <RefinedFAQ />
       </Suspense>
 
-      {/* Elegant Final CTA */}
-      <Suspense fallback={null}>
-        <ElegantFinalCTA />
-      </Suspense>
-
       {/* Trending Products */}
-      <section className="bg-neutral-900">
+      <section className="bg-black">
         <Suspense fallback={<EnhancedLoadingState variant="grid" count={4} />}>
           <TrendingProducts />
         </Suspense>
@@ -109,9 +75,7 @@ const Index = () => {
         <InstallPWA />
       </Suspense>
       
-      <Suspense fallback={null}>
-        <Footer />
-      </Suspense>
+      <LuxuryFooter />
       
       {/* Subtle Notification */}
       <Suspense fallback={null}>
