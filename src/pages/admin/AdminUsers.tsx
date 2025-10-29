@@ -56,7 +56,7 @@ interface UserProfile {
   account_status?: string;
   risk_score?: number;
   trust_level?: string;
-  last_login_at?: string | null;
+  last_sign_in?: string;
   pending_orders?: number;
 }
 
@@ -78,7 +78,7 @@ export default function AdminUsers() {
     try {
       const [profilesRes, ordersRes] = await Promise.all([
         supabase.from("profiles").select("*").order("created_at", { ascending: false }),
-        supabase.from("orders").select("user_id, total_amount, status, customer_email"),
+        supabase.from("orders").select("user_id, total_amount, status"),
       ]);
 
       const profiles = profilesRes.data || [];
@@ -92,17 +92,12 @@ export default function AdminUsers() {
 
       const enriched = profiles.map(p => {
         const userOrders = ordersByUser.get(p.user_id) || [];
-        // Try to get email from most recent order, otherwise show "Not available"
-        const recentOrderWithEmail = userOrders.find((o: any) => o.customer_email);
-        const email = recentOrderWithEmail?.customer_email || (p.email || null) || "Not available";
-        
         return {
           ...p,
-          email: email,
+          email: "Email hidden", // Email requires service role key
           order_count: userOrders.length,
           total_spent: userOrders.reduce((s, o) => s + Number(o.total_amount || 0), 0),
           pending_orders: userOrders.filter(o => ['pending', 'accepted', 'picked_up'].includes(o.status)).length,
-          last_login_at: p.last_login_at || null, // Ensure last_login_at is included
         };
       });
 
@@ -373,15 +368,7 @@ export default function AdminUsers() {
                   </TableCell>
                   <TableCell className="font-semibold text-green-600">${(user.total_spent || 0).toFixed(2)}</TableCell>
                   <TableCell className="text-sm text-muted-foreground">
-                    {user.last_login_at 
-                      ? new Date(user.last_login_at).toLocaleString('en-US', { 
-                          month: 'short', 
-                          day: 'numeric', 
-                          year: 'numeric',
-                          hour: 'numeric',
-                          minute: '2-digit'
-                        })
-                      : 'Never'}
+                    {user.last_sign_in ? new Date(user.last_sign_in).toLocaleDateString() : 'Never'}
                   </TableCell>
                   <TableCell>
                     <Button size="sm" variant="outline" onClick={() => navigate(`/admin/users/${user.user_id}`)}>
