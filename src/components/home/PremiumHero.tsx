@@ -64,17 +64,17 @@ export function PremiumHero() {
       
       {/* Content */}
       <div className="relative z-10 h-full flex items-center">
-        <div className="container mx-auto px-6 max-w-6xl">
+        <div className="container mx-auto px-4 sm:px-6 max-w-6xl">
           
           {/* Subtle Badge - Not flashy */}
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
-            className="inline-flex items-center gap-3 px-5 py-2 bg-white/5 backdrop-blur-xl rounded-full border border-white/10 mb-8"
+            className="inline-flex items-center gap-3 px-4 py-2 bg-white/5 backdrop-blur-xl rounded-full border border-white/10 mb-6 sm:mb-8"
           >
             <span className="w-2 h-2 bg-emerald-400 rounded-full" />
-            <span className="text-white/80 text-sm font-light tracking-wide">
+            <span className="text-white/80 text-xs sm:text-sm font-light tracking-wide">
               Licensed & Trusted in NYC
             </span>
           </motion.div>
@@ -85,7 +85,7 @@ export function PremiumHero() {
             animate={{ opacity: 1 }}
             transition={{ duration: 1.2, delay: 0.3 }}
           >
-            <h1 className="text-5xl sm:text-7xl md:text-9xl font-light text-white mb-6 leading-[0.95] tracking-tight">
+            <h1 className="text-4xl sm:text-6xl md:text-8xl font-light text-white mb-4 sm:mb-6 leading-[0.95] tracking-tight">
               <motion.div
                 initial={{ opacity: 0, y: 50 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -107,7 +107,7 @@ export function PremiumHero() {
                 initial={{ opacity: 0, x: 30 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.8, delay: 1.2, ease: "easeOut" }}
-                className="text-4xl sm:text-6xl md:text-8xl text-white/60"
+                className="text-3xl sm:text-5xl md:text-7xl text-white/60"
               >
                 Delivered
               </motion.div>
@@ -119,11 +119,11 @@ export function PremiumHero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 1.5, ease: "easeOut" }}
-            className="text-lg sm:text-xl md:text-2xl text-white/60 mb-12 max-w-2xl font-light leading-relaxed"
+            className="text-base sm:text-lg md:text-xl text-white/60 mb-8 sm:mb-12 max-w-2xl font-light leading-relaxed"
           >
             Curated strains. Same-day delivery.
             <br />
-            <span className="text-white/40">Discreet service throughout Manhattan, Brooklyn, and Queens.</span>
+            <span className="text-white/40 text-sm sm:text-base">Discreet service throughout Manhattan, Brooklyn, and Queens.</span>
           </motion.p>
           
           {/* Sophisticated Trust Row */}
@@ -131,7 +131,7 @@ export function PremiumHero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 1, ease: "easeOut" }}
-            className="flex flex-wrap items-center gap-8 md:gap-12 mb-12 text-white/40 text-sm font-light"
+            className="flex flex-wrap items-center gap-4 sm:gap-6 md:gap-8 mb-8 sm:mb-12 text-white/40 text-xs sm:text-sm font-light"
           >
             <div className="flex items-center gap-2">
               <ShieldCheck className="w-4 h-4 text-emerald-400" />
@@ -188,7 +188,7 @@ export function PremiumHero() {
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, delay: 2.5, ease: "easeOut" }}
-            className="mt-12 md:mt-16 inline-flex items-center gap-4 px-6 py-3 bg-white/5 backdrop-blur-xl rounded-full border border-white/10"
+            className="mt-8 sm:mt-12 md:mt-16 inline-flex items-center gap-3 sm:gap-4 px-4 sm:px-6 py-2 sm:py-3 bg-white/5 backdrop-blur-xl rounded-full border border-white/10"
           >
             <div className="flex -space-x-3">
               {[1,2,3,4].map(i => (
@@ -198,7 +198,7 @@ export function PremiumHero() {
                 />
               ))}
             </div>
-            <div className="text-white/60 text-sm font-light">
+            <div className="text-white/60 text-xs sm:text-sm font-light">
               Trusted by thousands across NYC
             </div>
           </motion.div>
@@ -211,7 +211,7 @@ export function PremiumHero() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1, delay: 3, ease: "easeOut" }}
-        className="absolute bottom-12 left-1/2 -translate-x-1/2 cursor-pointer"
+        className="absolute bottom-8 sm:bottom-12 left-1/2 -translate-x-1/2 cursor-pointer"
         onClick={scrollToProducts}
       >
         <div className="w-6 h-10 border border-white/20 rounded-full flex items-start justify-center p-2">
