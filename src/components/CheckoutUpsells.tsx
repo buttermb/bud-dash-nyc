@@ -8,6 +8,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { useAuth } from "@/contexts/AuthContext";
 import { getDefaultWeight } from "@/utils/productHelpers";
+import { cleanProductName } from "@/utils/productName";
 
 interface CheckoutUpsellsProps {
   cartItems: any[];
@@ -153,7 +154,7 @@ const CheckoutUpsells = ({ cartItems }: CheckoutUpsellsProps) => {
                 <div className="flex-1 min-w-0">
                   <div className="flex items-start justify-between gap-2">
                     <div className="flex-1 min-w-0">
-                      <h4 className="font-semibold text-sm truncate">{product.name}</h4>
+                      <h4 className="font-semibold text-sm truncate">{cleanProductName(product.name)}</h4>
                       <Badge variant="secondary" className="text-xs mt-1">
                         {product.category}
                       </Badge>

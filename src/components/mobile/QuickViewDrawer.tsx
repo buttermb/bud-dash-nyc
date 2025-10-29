@@ -1,4 +1,5 @@
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
+import { cleanProductName } from "@/utils/productName";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { OptimizedProductImage } from "@/components/OptimizedProductImage";
@@ -107,7 +108,7 @@ export function QuickViewDrawer({ product, open, onOpenChange, onViewFull }: Qui
           {/* Content */}
           <div className="flex-1 overflow-y-auto p-6 space-y-4">
             <SheetHeader>
-              <SheetTitle className="text-2xl">{product.name}</SheetTitle>
+              <SheetTitle className="text-2xl">{cleanProductName(product.name)}</SheetTitle>
               {product.strain_type && (
                 <p className="text-muted-foreground capitalize">{product.strain_type}</p>
               )}

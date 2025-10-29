@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { useDebounce } from '@/hooks/useDebounce';
 import { RecentSearches } from './RecentSearches';
+import { cleanProductName } from '@/utils/productName';
 
 interface SearchBarProps {
   variant?: 'full' | 'icon';
@@ -136,7 +137,7 @@ export function SearchBar({ variant = 'full' }: SearchBarProps) {
                     className="w-12 h-12 rounded object-cover flex-shrink-0"
                   />
                   <div className="flex-1 min-w-0">
-                    <div className="font-semibold truncate">{product.name}</div>
+                    <div className="font-semibold truncate">{cleanProductName(product.name)}</div>
                     <div className="text-sm text-muted-foreground">{product.category}</div>
                   </div>
                   <div className="text-right flex-shrink-0">

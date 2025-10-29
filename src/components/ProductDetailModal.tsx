@@ -12,6 +12,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
 import { useQueryClient, useQuery } from "@tanstack/react-query";
 import { sortProductWeights, getDefaultWeight, formatWeight } from "@/utils/productHelpers";
+import { cleanProductName } from "@/utils/productName";
 import ReactStars from 'react-rating-stars-component';
 import { toast as sonnerToast } from "sonner";
 import { haptics } from "@/utils/haptics";
@@ -313,7 +314,7 @@ export const ProductDetailModal = ({ product, open, onOpenChange, onAuthRequired
               <Badge variant="secondary" className="mb-3 uppercase text-xs">
                 {product.category}
               </Badge>
-              <h2 className="text-4xl font-bold mb-2">{product.name}</h2>
+              <h2 className="text-4xl font-bold mb-2">{cleanProductName(product.name)}</h2>
               {product.strain_type && (
                 <p className="text-muted-foreground capitalize">{product.strain_type} Strain</p>
               )}

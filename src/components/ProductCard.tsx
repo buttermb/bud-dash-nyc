@@ -222,7 +222,7 @@ const ProductCard = memo(function ProductCard({ product, onAuthRequired, stockLe
         <CardContent className="p-6 space-y-4">
           {/* Product Name */}
           <div>
-            <h3 className="text-xl font-bold mb-1 line-clamp-1">{product.name}</h3>
+            <h3 className="text-xl font-bold mb-1 line-clamp-1">{cleanProductName(product.name)}</h3>
             {product.strain_type && (
               <p className="text-sm text-muted-foreground capitalize">{product.strain_type}</p>
             )}
