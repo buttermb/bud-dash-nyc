@@ -129,7 +129,7 @@ const Navigation = () => {
             <NYMLogo size={48} />
             <div className="flex flex-col gap-0.5">
               <span className="font-black text-base tracking-wider">NYM</span>
-              <span className="text-[10px] text-muted-foreground tracking-widest uppercase">Premium Delivery</span>
+              <span className="text-[10px] text-white/50 tracking-widest uppercase">Premium Delivery</span>
             </div>
           </Link>
 
@@ -152,7 +152,7 @@ const Navigation = () => {
                   key={link.label}
                   href={link.href}
                   onClick={handleNavClick(link.href, link.scroll)}
-                  className="text-sm font-medium text-foreground/80 hover:text-foreground transition-colors cursor-pointer whitespace-nowrap"
+                  className="text-sm font-medium text-white/70 hover:text-white transition-colors cursor-pointer whitespace-nowrap"
                 >
                   {link.label}
                 </a>
@@ -163,7 +163,7 @@ const Navigation = () => {
                   onClick={() => {
                     setTimeout(() => window.scrollTo({ top: 0, behavior: 'instant' }), 0);
                   }}
-                  className="text-sm font-medium text-foreground/80 hover:text-foreground transition-colors cursor-pointer whitespace-nowrap"
+                  className="text-sm font-medium text-white/70 hover:text-white transition-colors cursor-pointer whitespace-nowrap"
                 >
                   {link.label}
                 </Link>

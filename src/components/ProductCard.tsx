@@ -161,7 +161,7 @@ const ProductCard = memo(function ProductCard({ product, onAuthRequired, stockLe
   return (
     <>
       <Card 
-        className="group overflow-hidden hover:ring-2 hover:ring-primary/50 hover:shadow-2xl transition-all duration-500 cursor-pointer relative bg-card hover:-translate-y-3 hover:brightness-105"
+        className="group overflow-hidden hover:ring-2 hover:ring-emerald-500/30 hover:shadow-2xl transition-all duration-500 cursor-pointer relative bg-neutral-900 border border-white/5 hover:-translate-y-3 hover:border-emerald-500/30"
         onClick={handleCardClick}
       >
         {/* Out of Stock Overlay */}
@@ -219,12 +219,12 @@ const ProductCard = memo(function ProductCard({ product, onAuthRequired, stockLe
           </Carousel>
         </div>
 
-        <CardContent className="p-6 space-y-4">
+        <CardContent className="p-6 space-y-4 bg-neutral-900">
           {/* Product Name */}
           <div>
-            <h3 className="text-xl font-bold mb-1 line-clamp-1">{cleanProductName(product.name)}</h3>
+            <h3 className="text-xl font-bold mb-1 line-clamp-1 text-white">{cleanProductName(product.name)}</h3>
             {product.strain_type && (
-              <p className="text-sm text-muted-foreground capitalize">{product.strain_type}</p>
+              <p className="text-sm text-white/60 capitalize">{product.strain_type}</p>
             )}
           </div>
           
@@ -232,13 +232,13 @@ const ProductCard = memo(function ProductCard({ product, onAuthRequired, stockLe
           <div className="flex items-end justify-between">
             {product.prices && typeof product.prices === 'object' && Object.keys(product.prices).length > 1 ? (
               <div>
-                <div className="text-4xl font-black text-primary">
+                <div className="text-4xl font-black text-emerald-500">
                   ${Number(Math.min(...Object.values(product.prices).map(p => Number(p)))).toFixed(0)}
                 </div>
-                <p className="text-xs text-muted-foreground">Starting price</p>
+                <p className="text-xs text-white/40">Starting price</p>
               </div>
             ) : (
-              <div className="text-4xl font-black text-primary">
+              <div className="text-4xl font-black text-emerald-500">
                 ${Number(product.price).toFixed(0)}
               </div>
             )}
@@ -248,9 +248,9 @@ const ProductCard = memo(function ProductCard({ product, onAuthRequired, stockLe
           <div className="flex items-center gap-3 text-sm">
             <div className="flex items-center gap-1">
               <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-              <span className="font-semibold">{product.average_rating || 4.8}</span>
+              <span className="font-semibold text-white">{product.average_rating || 4.8}</span>
             </div>
-            <span className="text-muted-foreground">({product.review_count || 127} reviews)</span>
+            <span className="text-white/60">({product.review_count || 127} reviews)</span>
           </div>
 
           {/* Stock + Social Proof Alerts */}
@@ -261,14 +261,14 @@ const ProductCard = memo(function ProductCard({ product, onAuthRequired, stockLe
                 Only {actualStockLevel} left
               </Badge>
             )}
-            <Badge variant="secondary" className="text-xs">
+            <Badge variant="secondary" className="text-xs bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
               <TrendingUp className="h-3 w-3 mr-1" />
               {Math.floor(Math.random() * 30) + 15} sold this week
             </Badge>
           </div>
         </CardContent>
 
-        <CardFooter className="p-6 pt-0 flex flex-col gap-3">
+        <CardFooter className="p-6 pt-0 flex flex-col gap-3 bg-neutral-900">
           {/* ONE BIG ADD TO CART BUTTON - Primary CTA */}
           <Button
             type="button"
