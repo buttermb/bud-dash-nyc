@@ -87,14 +87,15 @@ export const CourierDispatchPanel = ({
 
       toast({
         title: '✓ Courier Assigned',
-        description: `${data.courier.full_name} has been assigned to this order`
+        description: `${data?.courier?.full_name || 'Courier'} has been assigned to this order`
       });
 
       onAssigned?.();
     } catch (error: any) {
+      console.error('Assign courier error:', error);
       toast({
         title: 'Assignment Failed',
-        description: error.message,
+        description: error?.message || 'Unable to assign courier',
         variant: 'destructive'
       });
     } finally {

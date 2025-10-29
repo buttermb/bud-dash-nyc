@@ -156,11 +156,6 @@ const AdminLiveOrders = () => {
 
       if (error) {
         console.error("Error updating status:", error);
-        toast({
-          variant: "destructive",
-          title: "Update failed",
-          description: "Trying direct update...",
-        });
         
         // Fallback to direct update
         const { error: directError } = await supabase
@@ -168,7 +163,14 @@ const AdminLiveOrders = () => {
           .update({ status: newStatus })
           .eq('id', orderId);
         
-        if (directError) throw directError;
+        if (directError) {
+          throw new Error(directError.message);
+        } else {
+          toast({
+            title: "Update successful",
+            description: "Order status updated directly",
+          });
+        }
       }
 
       toast({

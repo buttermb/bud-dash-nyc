@@ -30,7 +30,11 @@ export function FraudCheckWrapper({
           body: { orderId, userId: user.id, orderTotal },
         });
 
-        if (error) throw error;
+        if (error) {
+          console.error("Fraud check function error:", error);
+          // Continue processing if fraud check fails - don't block legitimate orders
+          return;
+        }
 
         if (data && !data.allowed) {
           toast.error(data.message || "Order blocked due to fraud risk");
@@ -44,6 +48,7 @@ export function FraudCheckWrapper({
         }
       } catch (error: any) {
         console.error("Fraud check error:", error);
+        // Continue processing if fraud check fails
       }
     };
 
