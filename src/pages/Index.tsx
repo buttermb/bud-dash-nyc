@@ -4,10 +4,8 @@ import GiveawayBanner from "@/components/GiveawayBanner";
 import { SEOHead } from "@/components/SEOHead";
 import { EnhancedLoadingState } from "@/components/EnhancedLoadingState";
 import { BackToTop } from "@/components/mobile/BackToTop";
-import LuxuryNav from "@/components/luxury/LuxuryNav";
-import LuxuryHero from "@/components/luxury/LuxuryHero";
-import LuxuryFooter from "@/components/luxury/LuxuryFooter";
-import LuxuryShowcase from "@/sections/LuxuryShowcase";
+import Navigation from "@/components/Navigation";
+import { PremiumHero } from "@/components/home/PremiumHero";
 
 // Lazy load non-critical components for better initial page load
 const ProductCatalog = lazy(() => import("@/components/ProductCatalog"));
@@ -17,9 +15,15 @@ const ProductTrustElements = lazy(() => import("@/components/ProductTrustElement
 const TrendingProducts = lazy(() => import("@/components/TrendingProducts"));
 const InstallPWA = lazy(() => import("@/components/InstallPWA"));
 
-// Premium sections (keep some)
+// Premium sections
+const SubtleActivityIndicator = lazy(() => import("@/components/home/SubtleActivityIndicator").then(m => ({ default: m.SubtleActivityIndicator })));
+const PremiumProductShowcase = lazy(() => import("@/components/home/PremiumProductShowcase").then(m => ({ default: m.PremiumProductShowcase })));
+const WhyUs = lazy(() => import("@/components/home/WhyUs").then(m => ({ default: m.WhyUs })));
+const ElegantTestimonials = lazy(() => import("@/components/home/ElegantTestimonials").then(m => ({ default: m.ElegantTestimonials })));
+const SophisticatedHowItWorks = lazy(() => import("@/components/home/SophisticatedHowItWorks").then(m => ({ default: m.SophisticatedHowItWorks })));
 const RefinedFAQ = lazy(() => import("@/components/home/RefinedFAQ").then(m => ({ default: m.RefinedFAQ })));
 const SubtleNotification = lazy(() => import("@/components/home/SubtleNotification").then(m => ({ default: m.SubtleNotification })));
+const ElegantFinalCTA = lazy(() => import("@/components/home/ElegantFinalCTA").then(m => ({ default: m.ElegantFinalCTA })));
 
 
 const Index = () => {
@@ -35,13 +39,35 @@ const Index = () => {
         <RecentPurchaseNotification />
       </Suspense>
       <GiveawayBanner />
-      <LuxuryNav />
+      <Navigation />
       
-      {/* Luxury Hero */}
-      <LuxuryHero />
+      {/* Premium Sophisticated Hero */}
+      <PremiumHero />
       
-      {/* Luxury Showcase */}
-      <LuxuryShowcase />
+      {/* Subtle Activity Indicator */}
+      <Suspense fallback={null}>
+        <SubtleActivityIndicator />
+      </Suspense>
+      
+      {/* Premium Product Showcase */}
+      <Suspense fallback={null}>
+        <PremiumProductShowcase />
+      </Suspense>
+
+      {/* Why Us Section */}
+      <Suspense fallback={null}>
+        <WhyUs />
+      </Suspense>
+
+      {/* Elegant Testimonials */}
+      <Suspense fallback={null}>
+        <ElegantTestimonials />
+      </Suspense>
+
+      {/* Sophisticated How It Works */}
+      <Suspense fallback={null}>
+        <SophisticatedHowItWorks />
+      </Suspense>
 
       {/* Full Product Catalog */}
       <section 
@@ -53,6 +79,11 @@ const Index = () => {
           <ProductCatalog />
         </Suspense>
       </section>
+
+      {/* Elegant Final CTA */}
+      <Suspense fallback={null}>
+        <ElegantFinalCTA />
+      </Suspense>
 
       {/* Refined FAQ */}
       <Suspense fallback={null}>
@@ -78,7 +109,9 @@ const Index = () => {
         <InstallPWA />
       </Suspense>
       
-      <LuxuryFooter />
+      <Suspense fallback={null}>
+        <Footer />
+      </Suspense>
       
       {/* Subtle Notification */}
       <Suspense fallback={null}>
