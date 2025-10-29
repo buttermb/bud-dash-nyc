@@ -5,7 +5,7 @@
 
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
-import { ShieldCheck, Sparkles, ChevronDown } from 'lucide-react';
+import { ShieldCheck } from 'lucide-react';
 
 export function PremiumHero() {
   const scrollToProducts = () => {
@@ -69,13 +69,13 @@ export function PremiumHero() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-            className="text-7xl md:text-9xl font-light text-white mb-6 leading-[0.95] tracking-tight"
+            className="text-5xl sm:text-7xl md:text-9xl font-light text-white mb-6 leading-[0.95] tracking-tight"
           >
             Premium
             <br />
             <span className="font-light italic text-emerald-400">Flower</span>
             <br />
-            <span className="text-6xl md:text-8xl text-white/60">Delivered</span>
+            <span className="text-4xl sm:text-6xl md:text-8xl text-white/60">Delivered</span>
           </motion.h1>
           
           {/* Elegant Subheadline */}
@@ -83,7 +83,7 @@ export function PremiumHero() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.6, ease: "easeOut" }}
-            className="text-xl md:text-2xl text-white/60 mb-12 max-w-2xl font-light leading-relaxed"
+            className="text-lg sm:text-xl md:text-2xl text-white/60 mb-12 max-w-2xl font-light leading-relaxed"
           >
             Curated strains. Same-day delivery.
             <br />
@@ -95,7 +95,7 @@ export function PremiumHero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 1, ease: "easeOut" }}
-            className="flex flex-wrap items-center gap-12 mb-12 text-white/40 text-sm font-light"
+            className="flex flex-wrap items-center gap-8 md:gap-12 mb-12 text-white/40 text-sm font-light"
           >
             <div className="flex items-center gap-2">
               <ShieldCheck className="w-4 h-4 text-emerald-400" />
@@ -152,7 +152,7 @@ export function PremiumHero() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 1.8, ease: "easeOut" }}
-            className="mt-16 inline-flex items-center gap-4 px-6 py-3 bg-white/5 backdrop-blur-xl rounded-full border border-white/10"
+            className="mt-12 md:mt-16 inline-flex items-center gap-4 px-6 py-3 bg-white/5 backdrop-blur-xl rounded-full border border-white/10"
           >
             <div className="flex -space-x-3">
               {[1,2,3,4].map(i => (
@@ -190,4 +190,5 @@ export function PremiumHero() {
     </section>
   );
 }
+
 

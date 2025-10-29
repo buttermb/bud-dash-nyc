@@ -2,33 +2,36 @@ import { lazy, Suspense } from "react";
 import Navigation from "@/components/Navigation";
 import AgeVerificationModal from "@/components/AgeVerificationModal";
 import GiveawayBanner from "@/components/GiveawayBanner";
-import { Badge } from "@/components/ui/badge";
 import { SEOHead } from "@/components/SEOHead";
 import { EnhancedLoadingState } from "@/components/EnhancedLoadingState";
 import { PremiumHero } from "@/components/home/PremiumHero";
 import { BackToTop } from "@/components/mobile/BackToTop";
-import { motion } from "framer-motion";
 
 // Lazy load non-critical components for better initial page load
 const ProductCatalog = lazy(() => import("@/components/ProductCatalog"));
 const Footer = lazy(() => import("@/components/Footer"));
 const RecentPurchaseNotification = lazy(() => import("@/components/RecentPurchaseNotification"));
 const ProductTrustElements = lazy(() => import("@/components/ProductTrustElements"));
-const HowItWorks = lazy(() => import("@/components/HowItWorks"));
 const TrendingProducts = lazy(() => import("@/components/TrendingProducts"));
 const InstallPWA = lazy(() => import("@/components/InstallPWA"));
-const EmailCaptureSection = lazy(() => import("@/components/EmailCaptureSection"));
-const FeaturedReviews = lazy(() => import("@/components/FeaturedReviews"));
-const QuickStats = lazy(() => import("@/components/home/QuickStats").then(m => ({ default: m.QuickStats })));
-const FeaturedCategories = lazy(() => import("@/components/home/FeaturedCategories").then(m => ({ default: m.FeaturedCategories })));
+
+// New Premium Homepage Components
+const SubtleActivityIndicator = lazy(() => import("@/components/home/SubtleActivityIndicator").then(m => ({ default: m.SubtleActivityIndicator })));
+const PremiumProductShowcase = lazy(() => import("@/components/home/PremiumProductShowcase").then(m => ({ default: m.PremiumProductShowcase })));
+const WhyUs = lazy(() => import("@/components/home/WhyUs").then(m => ({ default: m.WhyUs })));
+const ElegantTestimonials = lazy(() => import("@/components/home/ElegantTestimonials").then(m => ({ default: m.ElegantTestimonials })));
+const SophisticatedHowItWorks = lazy(() => import("@/components/home/SophisticatedHowItWorks").then(m => ({ default: m.SophisticatedHowItWorks })));
+const RefinedFAQ = lazy(() => import("@/components/home/RefinedFAQ").then(m => ({ default: m.RefinedFAQ })));
+const SubtleNotification = lazy(() => import("@/components/home/SubtleNotification").then(m => ({ default: m.SubtleNotification })));
+const ElegantFinalCTA = lazy(() => import("@/components/home/ElegantFinalCTA").then(m => ({ default: m.ElegantFinalCTA })));
 
 
 const Index = () => {
   return (
     <>
       <SEOHead 
-        title="New York Minute NYC - Premium Cannabis Delivery | Manhattan, Brooklyn, Queens"
-        description="Fast, discreet premium cannabis delivery across NYC. Lab-tested flower, edibles, concentrates from licensed vendors. Same-day delivery to Manhattan, Brooklyn & Queens."
+        title="Bud Dash NYC - Premium Cannabis Delivery | Manhattan, Brooklyn, Queens"
+        description="Premium flower delivered with care. Curated strains. Same-day delivery. Discreet service throughout Manhattan, Brooklyn, and Queens."
       />
       <div className="min-h-screen pb-20 md:pb-0">
       <AgeVerificationModal />
@@ -41,127 +44,74 @@ const Index = () => {
       {/* Premium Sophisticated Hero */}
       <PremiumHero />
       
-      {/* Quick Stats */}
+      {/* Subtle Activity Indicator */}
       <Suspense fallback={null}>
-        <QuickStats />
+        <SubtleActivityIndicator />
       </Suspense>
       
-      {/* First-Time Buyer Banner with Animation */}
-      <motion.div
-        initial={{ opacity: 0, y: -20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.3 }}
-        transition={{ duration: 0.8, ease: "easeOut" }}
-        className="bg-gradient-to-r from-primary/20 via-primary/10 to-primary/20 border-y border-primary/30 shadow-inner"
-      >
-        <div className="container px-4 py-5 mx-auto">
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 text-center">
-            <span className="text-3xl">🎁</span>
-            <p className="text-lg font-semibold">
-              New customer? Get <span className="text-primary font-black text-xl">10% off</span> your first order
-            </p>
-            <Badge variant="outline" className="bg-primary/10 border-primary/50">+ Free Delivery</Badge>
-          </div>
-        </div>
-      </motion.div>
-
-      {/* Featured Categories */}
-      <Suspense fallback={<EnhancedLoadingState variant="grid" count={5} />}>
-        <FeaturedCategories />
+      {/* Premium Product Showcase */}
+      <Suspense fallback={null}>
+        <PremiumProductShowcase />
       </Suspense>
 
-      {/* Trending Products Carousel */}
-      <motion.div
-        initial={{ opacity: 0, y: 40 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.2 }}
-        transition={{ duration: 0.8, ease: "easeOut" }}
-      >
-        <Suspense fallback={<EnhancedLoadingState variant="grid" count={4} />}>
-          <TrendingProducts />
-        </Suspense>
-      </motion.div>
+      {/* Why Us Section */}
+      <Suspense fallback={null}>
+        <WhyUs />
+      </Suspense>
 
-      {/* PRODUCTS */}
-      <motion.section 
+      {/* Elegant Testimonials */}
+      <Suspense fallback={null}>
+        <ElegantTestimonials />
+      </Suspense>
+
+      {/* Sophisticated How It Works */}
+      <Suspense fallback={null}>
+        <SophisticatedHowItWorks />
+      </Suspense>
+
+      {/* Full Product Catalog */}
+      <section 
         id="products" 
         className="bg-background" 
         aria-label="Product catalog"
-        initial={{ opacity: 0, y: 40 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.1 }}
-        transition={{ duration: 0.8, ease: "easeOut" }}
       >
         <Suspense fallback={<EnhancedLoadingState variant="grid" count={8} />}>
           <ProductCatalog />
         </Suspense>
-      </motion.section>
+      </section>
 
-      {/* How It Works */}
-      <motion.section 
-        id="how-it-works" 
-        aria-label="How it works"
-        initial={{ opacity: 0, y: 40 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.2 }}
-        transition={{ duration: 0.8, ease: "easeOut" }}
-      >
-        <Suspense fallback={<EnhancedLoadingState variant="card" count={3} />}>
-          <HowItWorks />
-        </Suspense>
-      </motion.section>
+      {/* Refined FAQ */}
+      <Suspense fallback={null}>
+        <RefinedFAQ />
+      </Suspense>
+
+      {/* Elegant Final CTA */}
+      <Suspense fallback={null}>
+        <ElegantFinalCTA />
+      </Suspense>
+
+      {/* Trending Products */}
+      <Suspense fallback={<EnhancedLoadingState variant="grid" count={4} />}>
+        <TrendingProducts />
+      </Suspense>
 
       {/* Trust Elements */}
-      <motion.div
-        initial={{ opacity: 0, y: 40 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.2 }}
-        transition={{ duration: 0.8, ease: "easeOut" }}
-      >
-        <Suspense fallback={null}>
-          <ProductTrustElements />
-        </Suspense>
-      </motion.div>
+      <Suspense fallback={null}>
+        <ProductTrustElements />
+      </Suspense>
 
-      {/* Customer Reviews */}
-      <motion.section 
-        initial={{ opacity: 0, y: 40 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.2 }}
-        transition={{ duration: 0.8, ease: "easeOut" }}
-        className="bg-background"
-      >
-        <Suspense fallback={<EnhancedLoadingState variant="card" count={3} />}>
-          <FeaturedReviews />
-        </Suspense>
-      </motion.section>
-
-      {/* Newsletter Signup */}
-      <motion.section 
-        initial={{ opacity: 0, y: 40 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.2 }}
-        transition={{ duration: 0.8, ease: "easeOut" }}
-      >
-        <Suspense fallback={null}>
-          <EmailCaptureSection />
-        </Suspense>
-      </motion.section>
-      
-      {/* PWA Install Prompt */}
-      <motion.div
-        initial={{ opacity: 0, y: 40 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.2 }}
-        transition={{ duration: 0.8, ease: "easeOut" }}
-      >
-        <Suspense fallback={null}>
-          <InstallPWA />
-        </Suspense>
-      </motion.div>
+      {/* PWA Install */}
+      <Suspense fallback={null}>
+        <InstallPWA />
+      </Suspense>
       
       <Suspense fallback={null}>
         <Footer />
+      </Suspense>
+      
+      {/* Subtle Notification */}
+      <Suspense fallback={null}>
+        <SubtleNotification />
       </Suspense>
       
       {/* Mobile Back to Top */}

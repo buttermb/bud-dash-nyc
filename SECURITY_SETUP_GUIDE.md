@@ -220,3 +220,4 @@ If you need help:
 **Next:** Enable features in Supabase Dashboard  
 **Repository:** https://github.com/buttermb/bud-dash-nyc
 
+
