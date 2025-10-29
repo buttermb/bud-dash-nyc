@@ -66,6 +66,7 @@ export default function PinSetupModal({ open, onPinSet }: PinSetupModalProps) {
               onChange={(e) => setPin(e.target.value.replace(/\D/g, ''))}
               placeholder="4-6 digits"
               className="text-center text-2xl tracking-widest"
+              autoComplete="off"
             />
           </div>
 
@@ -79,6 +80,7 @@ export default function PinSetupModal({ open, onPinSet }: PinSetupModalProps) {
               onChange={(e) => setConfirmPin(e.target.value.replace(/\D/g, ''))}
               placeholder="Re-enter PIN"
               className="text-center text-2xl tracking-widest"
+              autoComplete="off"
             />
           </div>
 

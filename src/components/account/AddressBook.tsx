@@ -19,6 +19,7 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
+  DialogDescription,
   DialogTrigger,
   DialogFooter,
 } from '@/components/ui/dialog';
@@ -153,6 +154,9 @@ export default function AddressBook() {
             <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
               <DialogHeader>
                 <DialogTitle>{editing ? 'Edit' : 'Add'} Address</DialogTitle>
+                <DialogDescription className="sr-only">
+                  {editing ? 'Edit your saved delivery address' : 'Add a new delivery address to your account'}
+                </DialogDescription>
               </DialogHeader>
               <div className="space-y-4 py-4">
                 <div>

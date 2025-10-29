@@ -41,6 +41,9 @@ export function AdminKeyboardShortcutsDialog({
             <Keyboard className="h-5 w-5" />
             Keyboard Shortcuts
           </DialogTitle>
+          <DialogDescription className="sr-only">
+            List of keyboard shortcuts available in the admin panel
+          </DialogDescription>
         </DialogHeader>
         
         <div className="space-y-4 pt-4">

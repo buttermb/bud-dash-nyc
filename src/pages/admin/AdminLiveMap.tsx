@@ -335,25 +335,33 @@ const AdminLiveMap = () => {
     return statusMatch && boroughMatch && searchMatch;
   });
 
-  const mapOrders = filteredDeliveries.map(d => {
-    const order = d.order || d;
-    return {
-      id: order.id,
-      tracking_code: order.tracking_code || '',
-      status: order.status || 'pending',
-      delivery_address: order.delivery_address || '',
-      dropoff_lat: order.dropoff_lat || d.dropoff_lat,
-      dropoff_lng: order.dropoff_lng || d.dropoff_lng,
-      eta_minutes: order.eta_minutes,
-      courier_id: d.courier?.id,
-      courier: d.courier ? {
-        full_name: d.courier.full_name,
-        current_lat: d.courier.current_lat,
-        current_lng: d.courier.current_lng,
-        vehicle_type: d.courier.vehicle_type
-      } : undefined
-    };
-  });
+  const mapOrders = filteredDeliveries
+    .filter(d => {
+      const order = d.order || d;
+      const lat = order.dropoff_lat ?? d.dropoff_lat;
+      const lng = order.dropoff_lng ?? d.dropoff_lng;
+      // Only include orders with valid coordinates
+      return lat != null && lng != null && !isNaN(lat) && !isNaN(lng);
+    })
+    .map(d => {
+      const order = d.order || d;
+      return {
+        id: order.id || d.id,
+        tracking_code: order.tracking_code || order.order_number || d.tracking_code || '',
+        status: order.status || d.status || 'pending',
+        delivery_address: order.delivery_address || d.delivery_address || '',
+        dropoff_lat: (order.dropoff_lat ?? d.dropoff_lat) as number,
+        dropoff_lng: (order.dropoff_lng ?? d.dropoff_lng) as number,
+        eta_minutes: order.eta_minutes || d.eta_minutes,
+        courier_id: d.courier?.id || order.courier_id,
+        courier: d.courier ? {
+          full_name: d.courier.full_name,
+          current_lat: d.courier.current_lat,
+          current_lng: d.courier.current_lng,
+          vehicle_type: d.courier.vehicle_type
+        } : undefined
+      };
+    });
 
   const getStatusColor = (status: string) => {
     const colors: { [key: string]: string } = {

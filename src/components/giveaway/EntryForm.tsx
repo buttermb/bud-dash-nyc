@@ -309,6 +309,7 @@ export default function EntryForm({ giveaway, referralCode, onSuccess }: EntryFo
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                 required
+                autoComplete="email"
               />
 
               <input
@@ -319,6 +320,7 @@ export default function EntryForm({ giveaway, referralCode, onSuccess }: EntryFo
                 onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                 required
                 minLength={8}
+                autoComplete="new-password"
               />
             </>
           )}

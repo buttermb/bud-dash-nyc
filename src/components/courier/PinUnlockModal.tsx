@@ -56,6 +56,7 @@ export default function PinUnlockModal({ open, onUnlock }: PinUnlockModalProps) 
             onChange={(e) => setPin(e.target.value.replace(/\D/g, ''))}
             placeholder="Enter PIN"
             className="text-center text-2xl tracking-widest"
+            autoComplete="off"
             autoFocus
             onKeyDown={(e) => {
               if (e.key === 'Enter') handleSubmit();

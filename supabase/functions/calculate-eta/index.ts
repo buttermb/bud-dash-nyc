@@ -35,21 +35,60 @@ serve(async (req) => {
       throw new Error("Order not found");
     }
 
-    // Build coordinates for route: courier → pickup → dropoff
-    const coordinates = [
-      `${courierLng},${courierLat}`,
-      `${order.pickup_lng},${order.pickup_lat}`,
-      `${order.dropoff_lng},${order.dropoff_lat}`
-    ].join(";");
+    // Validate coordinates
+    if (!order.pickup_lat || !order.pickup_lng || !order.dropoff_lat || !order.dropoff_lng) {
+      throw new Error("Order is missing required coordinates");
+    }
+
+    // Build coordinates for route
+    // If courier location is available: courier → pickup → dropoff
+    // Otherwise: pickup → dropoff
+    let coordinates: string;
+    if (courierLat && courierLng && !isNaN(courierLat) && !isNaN(courierLng)) {
+      coordinates = [
+        `${courierLng},${courierLat}`,
+        `${order.pickup_lng},${order.pickup_lat}`,
+        `${order.dropoff_lng},${order.dropoff_lat}`
+      ].join(";");
+    } else {
+      // Fallback to pickup → dropoff route only
+      coordinates = [
+        `${order.pickup_lng},${order.pickup_lat}`,
+        `${order.dropoff_lng},${order.dropoff_lat}`
+      ].join(";");
+    }
 
     // Call Mapbox Directions API
     const directionsUrl = `https://api.mapbox.com/directions/v5/mapbox/driving/${coordinates}?access_token=${mapboxToken}&geometries=geojson&overview=full`;
 
     const response = await fetch(directionsUrl);
+    
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error("Mapbox API error:", response.status, errorText);
+      throw new Error(`Mapbox API error: ${response.status}`);
+    }
+
     const data = await response.json();
 
-    if (!data.routes || data.routes.length === 0) {
-      throw new Error("No route found");
+    if (data.code === "NoRoute" || !data.routes || data.routes.length === 0) {
+      // Return a fallback ETA estimate if no route found
+      // Use straight-line distance as fallback (rough estimate: 1 mile = ~2 minutes in city traffic)
+      const latDiff = order.dropoff_lat - (courierLat || order.pickup_lat);
+      const lngDiff = order.dropoff_lng - (courierLng || order.pickup_lng);
+      const straightLineMiles = Math.sqrt(latDiff * latDiff + lngDiff * lngDiff) * 69; // rough conversion
+      const fallbackEtaMinutes = Math.max(15, Math.ceil(straightLineMiles * 2));
+      
+      return new Response(
+        JSON.stringify({
+          success: true,
+          eta_minutes: fallbackEtaMinutes,
+          distance_miles: straightLineMiles.toFixed(2),
+          route: null,
+          warning: "Route calculation unavailable, using estimated ETA"
+        }),
+        { headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
     }
 
     const route = data.routes[0];

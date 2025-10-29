@@ -35,6 +35,32 @@ export const useETATracking = (orderId: string | null) => {
       });
     } catch (error) {
       console.error('ETA calculation error:', error);
+      // Fallback: try to use existing order ETA from DB, otherwise provide a safe default
+      try {
+        const { data: order } = await supabase
+          .from('orders')
+          .select('eta_minutes, eta_updated_at, distance_miles')
+          .eq('id', orderId)
+          .maybeSingle();
+
+        const fallbackEta = Math.max(15, Number(order?.eta_minutes) || 20);
+        const fallbackDistance = Number(order?.distance_miles) || 0;
+
+        setEta({
+          eta_minutes: fallbackEta,
+          distance_miles: fallbackDistance,
+          last_updated: order?.eta_updated_at || new Date().toISOString(),
+          route: null,
+        });
+      } catch (fallbackErr) {
+        console.warn('ETA fallback failed, using default:', fallbackErr);
+        setEta({
+          eta_minutes: 20,
+          distance_miles: 0,
+          last_updated: new Date().toISOString(),
+          route: null,
+        });
+      }
     } finally {
       setLoading(false);
     }

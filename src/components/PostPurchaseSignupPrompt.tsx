@@ -64,6 +64,7 @@ export default function PostPurchaseSignupPrompt({ orderEmail, orderNumber }: Po
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="h-12"
+                autoComplete="new-password"
                 onKeyDown={(e) => {
                   if (e.key === 'Enter' && password.length >= 6) {
                     handleCreateAccount();

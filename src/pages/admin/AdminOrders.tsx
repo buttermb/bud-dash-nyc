@@ -3,7 +3,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Checkbox } from '@/components/ui/checkbox';
 import { toast } from '@/hooks/use-toast';
 import { Loader2, RefreshCw, AlertTriangle, MapPin, Clock, Check, X } from 'lucide-react';
@@ -495,6 +495,9 @@ export default function AdminOrders() {
                     )}
                   </div>
                 </DialogTitle>
+                <DialogDescription className="sr-only">
+                  Detailed order information including risk, address and items
+                </DialogDescription>
                 <p className="text-sm text-muted-foreground">
                   Created: {new Date(selectedOrder.created_at).toLocaleString()}
                 </p>
