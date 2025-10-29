@@ -15,35 +15,50 @@ export function PremiumHero() {
   return (
     <section className="relative h-screen min-h-[600px] bg-black overflow-hidden">
       
-      {/* Sophisticated Gradient Background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-neutral-900 via-black to-emerald-950 opacity-90" />
+      {/* Sophisticated Gradient Background with Animation */}
+      <motion.div 
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1.5, ease: "easeInOut" }}
+        className="absolute inset-0 bg-gradient-to-br from-neutral-900 via-black to-emerald-950"
+      />
       
-      {/* Elegant Floating Elements */}
+      {/* Elegant Floating Elements with Enhanced Animation */}
       <div className="absolute inset-0 overflow-hidden opacity-10">
         <motion.div
-          animate={{
-            scale: [1, 1.2, 1],
-            opacity: [0.1, 0.3, 0.1]
-          }}
+          initial={{ scale: 0, opacity: 0 }}
+          animate={{ scale: [0, 1.2, 1], opacity: [0, 0.3, 0.1] }}
           transition={{
-            duration: 8,
+            duration: 3,
             repeat: Infinity,
+            repeatDelay: 5,
             ease: "easeInOut"
           }}
           className="absolute top-20 left-20 w-96 h-96 bg-emerald-500 rounded-full blur-3xl"
         />
         <motion.div
-          animate={{
-            scale: [1, 1.2, 1],
-            opacity: [0.1, 0.3, 0.1]
-          }}
+          initial={{ scale: 0, opacity: 0 }}
+          animate={{ scale: [0, 1.2, 1], opacity: [0, 0.3, 0.1] }}
           transition={{
-            duration: 10,
+            duration: 3,
             repeat: Infinity,
+            repeatDelay: 5,
+            ease: "easeInOut",
+            delay: 0.5
+          }}
+          className="absolute bottom-20 right-20 w-80 h-80 bg-emerald-400 rounded-full blur-3xl"
+        />
+        <motion.div
+          initial={{ scale: 0, opacity: 0 }}
+          animate={{ scale: [0, 1.5, 1], opacity: [0, 0.2, 0.05] }}
+          transition={{
+            duration: 4,
+            repeat: Infinity,
+            repeatDelay: 6,
             ease: "easeInOut",
             delay: 1
           }}
-          className="absolute bottom-20 right-20 w-80 h-80 bg-emerald-400 rounded-full blur-3xl"
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-emerald-500/30 rounded-full blur-3xl"
         />
       </div>
       
@@ -64,25 +79,46 @@ export function PremiumHero() {
             </span>
           </motion.div>
           
-          {/* Refined Headline */}
-          <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-            className="text-5xl sm:text-7xl md:text-9xl font-light text-white mb-6 leading-[0.95] tracking-tight"
+          {/* Refined Headline with Stagger Animation */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1.2, delay: 0.3 }}
           >
-            Premium
-            <br />
-            <span className="font-light italic text-emerald-400">Flower</span>
-            <br />
-            <span className="text-4xl sm:text-6xl md:text-8xl text-white/60">Delivered</span>
-          </motion.h1>
+            <h1 className="text-5xl sm:text-7xl md:text-9xl font-light text-white mb-6 leading-[0.95] tracking-tight">
+              <motion.div
+                initial={{ opacity: 0, y: 50 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 1, delay: 0.3, ease: [0.4, 0, 0.2, 1] }}
+              >
+                Premium
+              </motion.div>
+              <br />
+              <motion.div
+                initial={{ opacity: 0, x: -30 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8, delay: 0.8, ease: "easeOut" }}
+                className="font-light italic text-emerald-400"
+              >
+                Flower
+              </motion.div>
+              <br />
+              <motion.div
+                initial={{ opacity: 0, x: 30 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8, delay: 1.2, ease: "easeOut" }}
+                className="text-4xl sm:text-6xl md:text-8xl text-white/60"
+              >
+                Delivered
+              </motion.div>
+            </h1>
+          </motion.div>
           
           {/* Elegant Subheadline */}
           <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.6, ease: "easeOut" }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 1.5, ease: "easeOut" }}
             className="text-lg sm:text-xl md:text-2xl text-white/60 mb-12 max-w-2xl font-light leading-relaxed"
           >
             Curated strains. Same-day delivery.
@@ -123,9 +159,9 @@ export function PremiumHero() {
           
           {/* Elegant CTA Buttons */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 1.4, ease: "easeOut" }}
+            transition={{ duration: 1, delay: 2, ease: "easeOut" }}
             className="flex flex-col sm:flex-row items-start gap-4"
           >
             <Button
@@ -149,9 +185,9 @@ export function PremiumHero() {
           
           {/* Subtle Social Proof */}
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 1.8, ease: "easeOut" }}
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8, delay: 2.5, ease: "easeOut" }}
             className="mt-12 md:mt-16 inline-flex items-center gap-4 px-6 py-3 bg-white/5 backdrop-blur-xl rounded-full border border-white/10"
           >
             <div className="flex -space-x-3">
@@ -172,9 +208,9 @@ export function PremiumHero() {
       
       {/* Subtle Scroll Indicator */}
       <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1, delay: 2 }}
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1, delay: 3, ease: "easeOut" }}
         className="absolute bottom-12 left-1/2 -translate-x-1/2 cursor-pointer"
         onClick={scrollToProducts}
       >
