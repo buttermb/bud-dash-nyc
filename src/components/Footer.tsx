@@ -26,36 +26,36 @@ const Footer = () => {
   };
   
   return (
-    <footer className="bg-[hsl(222_47%_8%)] border-t border-border py-8 md:py-12">
+    <footer className="bg-black border-t border-white/5 py-8 md:py-12">
       <div className="container px-4 mx-auto">
         {/* Compliance Badges Section */}
-        <div className="mb-8 pb-8 border-b">
+        <div className="mb-8 pb-8 border-b border-white/5">
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-3xl mx-auto">
-            <div className="flex items-center gap-3 p-4 bg-primary/5 rounded-lg border border-primary/20">
-              <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-                <Shield className="w-5 h-5 text-primary" />
+            <div className="flex items-center gap-3 p-4 bg-emerald-500/5 rounded-lg border border-emerald-500/20">
+              <div className="w-10 h-10 rounded-full bg-emerald-500/10 flex items-center justify-center flex-shrink-0">
+                <Shield className="w-5 h-5 text-emerald-500" />
               </div>
               <div className="text-sm">
-                <p className="font-semibold">Licensed Vendors</p>
-                <p className="text-xs text-muted-foreground">NY State Compliant</p>
+                <p className="font-semibold text-white">Licensed Vendors</p>
+                <p className="text-xs text-white/60">NY State Compliant</p>
               </div>
             </div>
-            <div className="flex items-center gap-3 p-4 bg-primary/5 rounded-lg border border-primary/20">
-              <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-                <Award className="w-5 h-5 text-primary" />
+            <div className="flex items-center gap-3 p-4 bg-emerald-500/5 rounded-lg border border-emerald-500/20">
+              <div className="w-10 h-10 rounded-full bg-emerald-500/10 flex items-center justify-center flex-shrink-0">
+                <Award className="w-5 h-5 text-emerald-500" />
               </div>
               <div className="text-sm">
-                <p className="font-semibold">Lab Tested</p>
-                <p className="text-xs text-muted-foreground">Third-Party Verified</p>
+                <p className="font-semibold text-white">Lab Tested</p>
+                <p className="text-xs text-white/60">Third-Party Verified</p>
               </div>
             </div>
-            <div className="flex items-center gap-3 p-4 bg-primary/5 rounded-lg border border-primary/20">
-              <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-                <Lock className="w-5 h-5 text-primary" />
+            <div className="flex items-center gap-3 p-4 bg-emerald-500/5 rounded-lg border border-emerald-500/20">
+              <div className="w-10 h-10 rounded-full bg-emerald-500/10 flex items-center justify-center flex-shrink-0">
+                <Lock className="w-5 h-5 text-emerald-500" />
               </div>
               <div className="text-sm">
-                <p className="font-semibold">21+ Only</p>
-                <p className="text-xs text-muted-foreground">Age Verified</p>
+                <p className="font-semibold text-white">21+ Only</p>
+                <p className="text-xs text-white/60">Age Verified</p>
               </div>
             </div>
           </div>
@@ -67,18 +67,18 @@ const Footer = () => {
               <NYMLogo size={50} />
               <div className="flex flex-col">
                 <span className="font-black text-lg tracking-wider">NEW YORK MINUTE NYC</span>
-                <span className="text-xs text-muted-foreground tracking-widest">PREMIUM FLOWER DELIVERY</span>
+                <span className="text-xs text-white/50 tracking-widest">PREMIUM FLOWER DELIVERY</span>
               </div>
             </div>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-sm text-white/60">
               Premium flower from licensed NYC cultivators. Lab-tested. Fast delivery.
             </p>
           </div>
 
           {/* Quick Links */}
           <div>
-            <h3 className="font-black mb-4 uppercase tracking-wide">Shop</h3>
-            <ul className="space-y-2 text-sm text-muted-foreground">
+            <h3 className="font-black mb-4 uppercase tracking-wide text-white">Shop</h3>
+            <ul className="space-y-2 text-sm text-white/70">
               <li>
                 <button 
                   onClick={() => handleScrollToSection('flower')} 
@@ -116,8 +116,8 @@ const Footer = () => {
 
           {/* Company */}
           <div>
-            <h3 className="font-black mb-4 uppercase tracking-wide">Company</h3>
-            <ul className="space-y-2 text-sm text-muted-foreground">
+            <h3 className="font-black mb-4 uppercase tracking-wide text-white">Company</h3>
+            <ul className="space-y-2 text-sm text-white/70">
               <li><Link to="/about" onClick={() => setTimeout(() => window.scrollTo({ top: 0, behavior: 'instant' }), 0)} className="hover:text-primary transition-colors">About Us</Link></li>
               <li><Link to="/partner-shops" onClick={() => setTimeout(() => window.scrollTo({ top: 0, behavior: 'instant' }), 0)} className="hover:text-primary transition-colors">Partner Shops</Link></li>
               <li><Link to="/become-courier" onClick={() => setTimeout(() => window.scrollTo({ top: 0, behavior: 'instant' }), 0)} className="hover:text-primary transition-colors">Become a Courier</Link></li>
@@ -127,18 +127,18 @@ const Footer = () => {
 
           {/* Support & Contact */}
           <div>
-            <h3 className="font-black mb-4 uppercase tracking-wide">Support</h3>
-            <ul className="space-y-2 text-sm text-muted-foreground">
+            <h3 className="font-black mb-4 uppercase tracking-wide text-white">Support</h3>
+            <ul className="space-y-2 text-sm text-white/70">
               <li><Link to="/faq" onClick={() => setTimeout(() => window.scrollTo({ top: 0, behavior: 'instant' }), 0)} className="hover:text-primary transition-colors">FAQ</Link></li>
               <li><Link to="/track-order" onClick={() => setTimeout(() => window.scrollTo({ top: 0, behavior: 'instant' }), 0)} className="hover:text-primary transition-colors">Track Order</Link></li>
               <li><Link to="/terms" onClick={() => setTimeout(() => window.scrollTo({ top: 0, behavior: 'instant' }), 0)} className="hover:text-primary transition-colors">Terms of Service</Link></li>
               <li><Link to="/privacy" onClick={() => setTimeout(() => window.scrollTo({ top: 0, behavior: 'instant' }), 0)} className="hover:text-primary transition-colors">Privacy Policy</Link></li>
             </ul>
-            <div className="mt-4 pt-4 border-t border-border space-y-1">
-              <p className="font-semibold text-foreground">Contact Us</p>
-              <p className="text-xs">📞 (212) 555-DASH</p>
-              <p className="text-xs">📧 support@newyorkminutenyc.com</p>
-              <p className="text-xs">🕐 8 AM - 10 PM Daily</p>
+            <div className="mt-4 pt-4 border-t border-white/10 space-y-1">
+              <p className="font-semibold text-white">Contact Us</p>
+              <p className="text-xs text-white/60">📞 (212) 555-DASH</p>
+              <p className="text-xs text-white/60">📧 support@newyorkminutenyc.com</p>
+              <p className="text-xs text-white/60">🕐 8 AM - 10 PM Daily</p>
             </div>
           </div>
         </div>
@@ -157,11 +157,11 @@ const Footer = () => {
             </CollapsibleTrigger>
             
             <CollapsibleContent className="md:!block">
-              <div className="bg-muted/50 border border-border rounded-lg p-4 mt-4 md:mt-0">
+              <div className="bg-neutral-900/50 border border-white/10 rounded-lg p-4 mt-4 md:mt-0">
                 <div className="flex items-start gap-3">
-                  <Badge variant="outline" className="mt-1 flex-shrink-0">21+</Badge>
-                  <div className="text-[11px] text-muted-foreground space-y-2 leading-relaxed">
-                    <p className="font-semibold text-foreground">Legal & Compliance Information:</p>
+                  <Badge variant="outline" className="mt-1 flex-shrink-0 border-white/20">21+</Badge>
+                  <div className="text-[11px] text-white/60 space-y-2 leading-relaxed">
+                    <p className="font-semibold text-white">Legal & Compliance Information:</p>
                     <p><strong>Licensed Cannabinoid Hemp Retailer</strong><br/>
                     NY Office of Cannabis Management License #[Pending]</p>
                     <p>All products are derived from hemp and contain less than 0.3% Delta-9 THC on a dry-weight basis, complying with federal and New York State regulations.</p>
@@ -176,9 +176,9 @@ const Footer = () => {
           </Collapsible>
 
           {/* Copyright */}
-          <div className="flex flex-col gap-4 text-sm text-muted-foreground">
+          <div className="flex flex-col gap-4 text-sm text-white/60">
             {/* Mobile Login Buttons - Prominent */}
-            <div className="flex items-center justify-center gap-4 md:hidden py-3 border-t border-border">
+            <div className="flex items-center justify-center gap-4 md:hidden py-3 border-t border-white/10">
               <Link 
                 to="/admin/login" 
                 className="flex items-center gap-2 px-4 py-2 rounded-lg bg-primary/10 hover:bg-primary/20 transition-colors active:scale-95 touch-manipulation"

@@ -123,7 +123,7 @@ const Navigation = () => {
         </div>
       </div>
 
-      <header className="sticky top-0 z-50 w-full border-b border-border bg-background/98 backdrop-blur-lg supports-[backdrop-filter]:bg-background/95 shadow-soft" role="navigation" aria-label="Main navigation">
+      <header className="sticky top-0 z-50 w-full border-b border-white/5 bg-black/95 backdrop-blur-xl supports-[backdrop-filter]:bg-black/90" role="navigation" aria-label="Main navigation">
         <div className="container flex h-24 items-center justify-between px-6 gap-8">
           <Link to="/" className="flex items-center gap-4 min-w-fit">
             <NYMLogo size={48} />
