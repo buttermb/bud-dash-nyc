@@ -1,11 +1,11 @@
-import Navigation from "@/components/Navigation";
-import Footer from "@/components/Footer";
+import CustomerLayout from '@/layouts/CustomerLayout';
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { Button } from "@/components/ui/button";
 
 const FAQ = () => {
   const faqs = [
@@ -67,54 +67,74 @@ const FAQ = () => {
   ];
 
   return (
-    <div className="min-h-screen flex flex-col pb-20 md:pb-0">
-      <Navigation />
-      
-      <main className="flex-1 py-20">
-        <div className="container max-w-4xl mx-auto px-4">
-          <div className="text-center mb-12">
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">
+    <CustomerLayout>
+      <section className="py-32 bg-black relative overflow-hidden">
+        
+        {/* Background */}
+        <div className="absolute inset-0 opacity-30">
+          <div className="absolute top-0 left-0 w-96 h-96 bg-emerald-500/5 rounded-full blur-3xl" />
+          <div className="absolute bottom-0 right-0 w-96 h-96 bg-emerald-500/5 rounded-full blur-3xl" />
+        </div>
+        
+        <div className="container mx-auto px-6 relative z-10">
+          
+          {/* Header */}
+          <div className="max-w-3xl mx-auto text-center mb-20">
+            <div className="inline-block px-4 py-1.5 mb-6 bg-white/[0.02] backdrop-blur-xl border border-white/[0.05] rounded-full">
+              <span className="text-[10px] text-white/50 font-light tracking-[0.2em] uppercase">
+                Get Answers
+              </span>
+            </div>
+            
+            <h1 className="text-white font-light text-6xl md:text-7xl tracking-tight mb-6">
               Frequently Asked Questions
             </h1>
-            <p className="text-xl text-muted-foreground">
+            
+            <p className="text-white/40 text-xl font-light leading-relaxed">
               Everything you need to know about premium flower delivery in NYC
             </p>
           </div>
-
-          <Accordion type="single" collapsible className="space-y-4">
-            {faqs.map((faq, index) => (
-              <AccordionItem
-                key={index}
-                value={`item-${index}`}
-                className="border rounded-lg px-6 bg-card"
-              >
-                <AccordionTrigger className="text-left hover:no-underline">
-                  <span className="font-semibold">{faq.question}</span>
-                </AccordionTrigger>
-                <AccordionContent className="text-muted-foreground">
-                  {faq.answer}
-                </AccordionContent>
-              </AccordionItem>
-            ))}
-          </Accordion>
-
-          <div className="mt-12 p-6 bg-muted/50 rounded-lg text-center">
-            <h3 className="text-xl font-semibold mb-2">Still have questions?</h3>
-            <p className="text-muted-foreground mb-4">
-              Our support team is here to help
-            </p>
-            <a
-              href="/support"
-              className="inline-block px-6 py-3 bg-primary text-primary-foreground rounded-lg hover:opacity-90 transition-opacity"
-            >
-              Contact Support
-            </a>
+          
+          {/* FAQs */}
+          <div className="max-w-3xl mx-auto mb-16">
+            <Accordion type="single" collapsible className="space-y-4">
+              {faqs.map((faq, index) => (
+                <AccordionItem
+                  key={index}
+                  value={`item-${index}`}
+                  className="bg-white/[0.02] backdrop-blur-2xl border border-white/[0.05] rounded-xl px-6 hover:border-white/10 transition-colors"
+                >
+                  <AccordionTrigger className="text-left hover:no-underline py-6">
+                    <span className="text-white font-light text-lg">{faq.question}</span>
+                  </AccordionTrigger>
+                  <AccordionContent className="text-white/60 text-sm font-light leading-relaxed pb-6">
+                    {faq.answer}
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
           </div>
+          
+          {/* CTA */}
+          <div className="max-w-2xl mx-auto text-center">
+            <div className="bg-white/[0.02] backdrop-blur-2xl border border-white/[0.05] rounded-2xl p-8">
+              <h3 className="text-white text-xl font-light mb-2">Still have questions?</h3>
+              <p className="text-white/40 text-sm font-light mb-6">
+                Our support team is here to help
+              </p>
+              <Button
+                asChild
+                className="bg-emerald-500 text-black hover:bg-emerald-400 font-light"
+              >
+                <a href="/support">Contact Support</a>
+              </Button>
+            </div>
+          </div>
+          
         </div>
-      </main>
-
-      <Footer />
-    </div>
+        
+      </section>
+    </CustomerLayout>
   );
 };
 

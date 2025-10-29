@@ -51,7 +51,7 @@ export const OptimizedProductImage = ({
         alt={alt}
         loading={priority ? 'eager' : 'lazy'}
         decoding="async"
-        fetchPriority={priority ? 'high' : 'auto'}
+        fetchpriority={priority ? 'high' : 'auto'}
         onLoad={() => setIsLoading(false)}
         onError={() => {
           // Silently handle error - no console logging
