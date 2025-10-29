@@ -166,7 +166,7 @@ export function PremiumHero() {
           >
             <Button
               onClick={scrollToProducts}
-              className="group px-8 py-4 bg-white text-black font-light tracking-wide hover:bg-emerald-400 transition-all duration-300 h-auto"
+              className="group px-8 py-4 bg-neutral-100 text-neutral-900 font-light tracking-wide hover:bg-emerald-500 hover:text-white transition-all duration-300 h-auto shadow-lg hover:shadow-emerald-500/30"
             >
               <span>Explore Collection</span>
               <svg className="inline w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -177,7 +177,7 @@ export function PremiumHero() {
             <Button
               variant="outline"
               onClick={scrollToProducts}
-              className="px-8 py-4 border border-white/20 text-white font-light tracking-wide hover:border-emerald-400 hover:text-emerald-400 transition-all duration-300 bg-transparent h-auto"
+              className="px-8 py-4 border-2 border-white/30 text-white font-light tracking-wide hover:border-emerald-400 hover:text-emerald-400 hover:bg-white/5 transition-all duration-300 bg-white/5 backdrop-blur-sm h-auto"
             >
               View Menu
             </Button>

@@ -26,7 +26,7 @@ const testimonials = [
 
 export function ElegantTestimonials() {
   return (
-    <section className="py-24 md:py-32 bg-white">
+    <section className="py-24 md:py-32 bg-neutral-900">
       <div className="container mx-auto px-6 max-w-6xl">
         
         <motion.div
@@ -39,7 +39,7 @@ export function ElegantTestimonials() {
           <div className="text-sm text-emerald-600 font-light tracking-widest uppercase mb-4">
             Testimonials
           </div>
-          <h2 className="text-5xl md:text-7xl font-light text-neutral-900 mb-6 tracking-tight">
+          <h2 className="text-5xl md:text-7xl font-light text-white mb-6 tracking-tight">
             Client Experiences
           </h2>
         </motion.div>
@@ -52,23 +52,23 @@ export function ElegantTestimonials() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: index * 0.1 }}
-              className="p-8 md:p-10 bg-neutral-50 hover:bg-neutral-100 transition-colors duration-300"
+              className="p-8 md:p-10 bg-neutral-800 hover:bg-neutral-750 transition-colors duration-300 border border-neutral-700"
             >
               
               {/* Quote Mark */}
               <div className="text-6xl text-emerald-400/20 font-serif mb-4">"</div>
               
-              <p className="text-neutral-700 text-lg font-light leading-relaxed mb-8">
+              <p className="text-neutral-300 text-lg font-light leading-relaxed mb-8">
                 {testimonial.quote}
               </p>
               
-              <div className="flex items-center gap-4 pt-6 border-t border-neutral-200">
-                <div className="w-12 h-12 rounded-full bg-neutral-300" />
-                <div>
-                  <div className="text-neutral-900 font-light">{testimonial.author}</div>
-                  <div className="text-sm text-neutral-500 font-light">{testimonial.location}</div>
+                <div className="flex items-center gap-4 pt-6 border-t border-neutral-700">
+                  <div className="w-12 h-12 rounded-full bg-neutral-700" />
+                  <div>
+                    <div className="text-white font-light">{testimonial.author}</div>
+                    <div className="text-sm text-neutral-400 font-light">{testimonial.location}</div>
+                  </div>
                 </div>
-              </div>
             </motion.div>
           ))}
         </div>
@@ -89,16 +89,16 @@ export function ElegantTestimonials() {
           <div className="hidden md:block w-px h-12 bg-neutral-200" />
           <div className="md:hidden w-24 h-px bg-neutral-200" />
           
-          <div className="text-center">
-            <div className="text-3xl text-neutral-900 font-light mb-2">5,000+</div>
-            <div className="text-sm font-light">Satisfied Clients</div>
-          </div>
-          
-          <div className="hidden md:block w-px h-12 bg-neutral-200" />
-          <div className="md:hidden w-24 h-px bg-neutral-200" />
-          
-          <div className="text-center">
-            <div className="text-3xl text-neutral-900 font-light mb-2">Licensed</div>
+                  <div className="text-center">
+                    <div className="text-3xl text-white font-light mb-2">5,000+</div>
+                    <div className="text-sm font-light">Satisfied Clients</div>
+                  </div>
+                  
+                  <div className="hidden md:block w-px h-12 bg-neutral-600" />
+                  <div className="md:hidden w-24 h-px bg-neutral-600" />
+                  
+                  <div className="text-center">
+                    <div className="text-3xl text-white font-light mb-2">Licensed</div>
             <div className="text-sm font-light">NYS Approved</div>
           </div>
         </motion.div>

@@ -25,7 +25,7 @@ const steps = [
 
 export function SophisticatedHowItWorks() {
   return (
-    <section id="how-it-works" className="py-24 md:py-32 bg-neutral-50">
+    <section id="how-it-works" className="py-24 md:py-32 bg-black">
       <div className="container mx-auto px-6 max-w-5xl">
         
         <motion.div
@@ -35,7 +35,7 @@ export function SophisticatedHowItWorks() {
           transition={{ duration: 0.8, ease: "easeOut" }}
           className="text-center mb-16 md:mb-20"
         >
-          <h2 className="text-5xl md:text-7xl font-light text-neutral-900 mb-6 tracking-tight">
+          <h2 className="text-5xl md:text-7xl font-light text-white mb-6 tracking-tight">
             Simple. Secure. Swift.
           </h2>
         </motion.div>
@@ -57,10 +57,10 @@ export function SophisticatedHowItWorks() {
                 </div>
                 
                 <div className="flex-1 text-center md:text-left">
-                  <h3 className="text-2xl md:text-3xl text-neutral-900 font-light mb-3 tracking-tight">
+                  <h3 className="text-2xl md:text-3xl text-white font-light mb-3 tracking-tight">
                     {step.title}
                   </h3>
-                  <p className="text-neutral-600 text-base md:text-lg font-light leading-relaxed">
+                  <p className="text-neutral-400 text-base md:text-lg font-light leading-relaxed">
                     {step.description}
                   </p>
                 </div>
@@ -73,7 +73,7 @@ export function SophisticatedHowItWorks() {
                   whileInView={{ opacity: 1 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.6, delay: (index + 1) * 0.1 }}
-                  className="hidden md:block w-px h-8 md:h-12 bg-neutral-300 ml-12"
+                  className="hidden md:block w-px h-8 md:h-12 bg-neutral-700 ml-12"
                 />
               )}
             </div>

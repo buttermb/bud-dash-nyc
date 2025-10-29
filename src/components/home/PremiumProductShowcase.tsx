@@ -39,7 +39,7 @@ export function PremiumProductShowcase() {
   const navigate = useNavigate();
 
   return (
-    <section className="py-24 md:py-32 bg-neutral-50">
+    <section className="py-24 md:py-32 bg-neutral-900">
       <div className="container mx-auto px-6 max-w-7xl">
         
         {/* Elegant Section Header */}
@@ -53,10 +53,10 @@ export function PremiumProductShowcase() {
           <div className="text-sm text-emerald-600 font-light tracking-widest uppercase mb-4">
             Our Collection
           </div>
-          <h2 className="text-5xl md:text-7xl font-light text-neutral-900 mb-6 tracking-tight">
+          <h2 className="text-5xl md:text-7xl font-light text-white mb-6 tracking-tight">
             Curated Flower
           </h2>
-          <p className="text-xl text-neutral-500 font-light max-w-2xl leading-relaxed">
+          <p className="text-xl text-neutral-400 font-light max-w-2xl leading-relaxed">
             Hand-selected premium strains. Each batch lab-verified 
             for quality, purity, and consistency.
           </p>
@@ -71,7 +71,7 @@ export function PremiumProductShowcase() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: index * 0.1 }}
-              className="group relative bg-white overflow-hidden cursor-pointer transition-all duration-500 hover:shadow-2xl"
+              className="group relative bg-neutral-800 overflow-hidden cursor-pointer transition-all duration-500 hover:shadow-2xl"
               onClick={() => navigate('/menu')}
             >
               
@@ -94,15 +94,15 @@ export function PremiumProductShowcase() {
               <div className="p-8">
                 
                 {/* Strain Type Badge */}
-                <div className="inline-block px-3 py-1 bg-emerald-50 text-emerald-700 text-xs font-light tracking-wider mb-4">
+                <div className="inline-block px-3 py-1 bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-xs font-light tracking-wider mb-4">
                   {product.type}
                 </div>
                 
-                <h3 className="text-2xl font-light text-neutral-900 mb-3 tracking-tight">
+                <h3 className="text-2xl font-light text-white mb-3 tracking-tight">
                   {product.name}
                 </h3>
                 
-                <p className="text-neutral-500 text-sm font-light leading-relaxed mb-6">
+                <p className="text-neutral-400 text-sm font-light leading-relaxed mb-6">
                   {product.description}
                 </p>
                 
@@ -117,17 +117,17 @@ export function PremiumProductShowcase() {
                 </div>
                 
                 {/* Pricing */}
-                <div className="flex items-center justify-between pt-6 border-t border-neutral-100">
+                <div className="flex items-center justify-between pt-6 border-t border-neutral-700">
                   <div>
                     <div className="text-xs text-neutral-400 font-light mb-1">From</div>
-                    <div className="text-2xl text-neutral-900 font-light">${product.price}</div>
+                    <div className="text-2xl text-white font-light">${product.price}</div>
                   </div>
                   <button 
                     onClick={(e) => {
                       e.stopPropagation();
                       navigate('/menu');
                     }}
-                    className="px-6 py-3 bg-neutral-900 text-white text-sm font-light tracking-wide hover:bg-emerald-600 transition-all duration-300"
+                    className="px-6 py-3 bg-emerald-600 text-white text-sm font-light tracking-wide hover:bg-emerald-500 transition-all duration-300"
                   >
                     Select
                   </button>
@@ -148,7 +148,7 @@ export function PremiumProductShowcase() {
         >
           <button
             onClick={() => navigate('/menu')}
-            className="inline-flex items-center gap-2 text-neutral-900 font-light tracking-wide hover:text-emerald-600 transition-colors group"
+            className="inline-flex items-center gap-2 text-white font-light tracking-wide hover:text-emerald-400 transition-colors group"
           >
             <span>View Full Collection</span>
             <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
