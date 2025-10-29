@@ -27,11 +27,11 @@ export function ElegantFinalCTA() {
         className="container mx-auto px-6 max-w-4xl text-center relative z-10"
       >
         
-        <h2 className="text-5xl md:text-8xl font-light text-white mb-8 tracking-tight">
+        <h2 className="text-4xl sm:text-6xl md:text-7xl font-light text-white mb-6 sm:mb-8 tracking-tight">
           Experience the Difference
         </h2>
         
-        <p className="text-xl text-white/60 mb-12 font-light leading-relaxed">
+        <p className="text-base sm:text-lg md:text-xl text-white/60 mb-8 sm:mb-12 font-light leading-relaxed max-w-2xl mx-auto">
           Premium flower delivered with care. Join thousands of satisfied 
           clients across Manhattan, Brooklyn, and Queens.
         </p>
@@ -39,7 +39,7 @@ export function ElegantFinalCTA() {
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
           <Button
             onClick={() => navigate('/menu')}
-            className="px-10 py-4 bg-white text-neutral-900 font-light tracking-wide hover:bg-emerald-400 transition-all duration-300 h-auto"
+            className="px-10 py-4 bg-neutral-100 text-neutral-900 font-light tracking-wide hover:bg-emerald-500 hover:text-white transition-all duration-300 h-auto shadow-lg hover:shadow-emerald-500/30"
           >
             Browse Collection
           </Button>

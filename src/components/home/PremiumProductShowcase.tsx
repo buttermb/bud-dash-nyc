@@ -53,10 +53,10 @@ export function PremiumProductShowcase() {
           <div className="text-sm text-emerald-600 font-light tracking-widest uppercase mb-4">
             Our Collection
           </div>
-          <h2 className="text-5xl md:text-7xl font-light text-white mb-6 tracking-tight">
+          <h2 className="text-4xl sm:text-6xl md:text-7xl font-light text-white mb-6 tracking-tight">
             Curated Flower
           </h2>
-          <p className="text-xl text-neutral-400 font-light max-w-2xl leading-relaxed">
+          <p className="text-base sm:text-lg md:text-xl text-neutral-400 font-light max-w-2xl leading-relaxed">
             Hand-selected premium strains. Each batch lab-verified 
             for quality, purity, and consistency.
           </p>

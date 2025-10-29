@@ -44,7 +44,7 @@ export function WhyUs() {
           <div className="text-sm text-emerald-400 font-light tracking-widest uppercase mb-4">
             The Difference
           </div>
-          <h2 className="text-5xl md:text-7xl font-light text-white mb-6 tracking-tight">
+          <h2 className="text-4xl sm:text-6xl md:text-7xl font-light text-white mb-6 tracking-tight">
             Excellence in Every Detail
           </h2>
         </motion.div>

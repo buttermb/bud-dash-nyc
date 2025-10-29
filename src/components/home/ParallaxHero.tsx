@@ -60,7 +60,7 @@ export function ParallaxHero() {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.3, ease: "easeOut" }}
-              className="text-5xl sm:text-6xl md:text-7xl font-black tracking-tight leading-tight"
+              className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tight leading-tight"
             >
               Premium Flower
             </motion.h1>
@@ -69,7 +69,7 @@ export function ParallaxHero() {
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.8, delay: 0.6, ease: "easeOut" }}
             >
-              <span className="text-5xl sm:text-6xl md:text-7xl font-black bg-gradient-to-r from-primary via-primary/80 to-primary bg-clip-text text-transparent">
+              <span className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black bg-gradient-to-r from-primary via-primary/80 to-primary bg-clip-text text-transparent">
                 Delivery NYC
               </span>
             </motion.div>

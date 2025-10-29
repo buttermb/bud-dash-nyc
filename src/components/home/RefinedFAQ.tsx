@@ -43,7 +43,7 @@ export function RefinedFAQ() {
           transition={{ duration: 0.8, ease: "easeOut" }}
           className="text-center mb-16 md:mb-20"
         >
-          <h2 className="text-5xl md:text-7xl font-light text-white mb-6 tracking-tight">
+          <h2 className="text-4xl sm:text-6xl md:text-7xl font-light text-white mb-6 tracking-tight">
             Common Questions
           </h2>
         </motion.div>

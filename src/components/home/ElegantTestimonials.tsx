@@ -39,7 +39,7 @@ export function ElegantTestimonials() {
           <div className="text-sm text-emerald-600 font-light tracking-widest uppercase mb-4">
             Testimonials
           </div>
-          <h2 className="text-5xl md:text-7xl font-light text-white mb-6 tracking-tight">
+          <h2 className="text-4xl sm:text-6xl md:text-7xl font-light text-white mb-6 tracking-tight">
             Client Experiences
           </h2>
         </motion.div>
@@ -86,16 +86,16 @@ export function ElegantTestimonials() {
             <div className="text-sm font-light">Rated 4.9/5</div>
           </div>
           
-          <div className="hidden md:block w-px h-12 bg-neutral-200" />
-          <div className="md:hidden w-24 h-px bg-neutral-200" />
+          <div className="hidden md:block w-px h-12 bg-neutral-600" />
+          <div className="md:hidden w-24 h-px bg-neutral-600" />
           
-                  <div className="text-center">
-                    <div className="text-3xl text-white font-light mb-2">5,000+</div>
-                    <div className="text-sm font-light">Satisfied Clients</div>
-                  </div>
+          <div className="text-center">
+            <div className="text-3xl text-white font-light mb-2">5,000+</div>
+            <div className="text-sm font-light">Satisfied Clients</div>
+          </div>
                   
-                  <div className="hidden md:block w-px h-12 bg-neutral-600" />
-                  <div className="md:hidden w-24 h-px bg-neutral-600" />
+          <div className="hidden md:block w-px h-12 bg-neutral-600" />
+          <div className="md:hidden w-24 h-px bg-neutral-600" />
                   
                   <div className="text-center">
                     <div className="text-3xl text-white font-light mb-2">Licensed</div>
