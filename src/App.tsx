@@ -95,6 +95,7 @@ const RiskFactorManagement = lazy(() => import("./pages/admin/RiskFactorManageme
 const UserAccount = lazy(() => import("./pages/UserAccount"));
 const AdminAnalytics = lazy(() => import("./pages/admin/AdminAnalytics"));
 const AdminAuditLogs = lazy(() => import("./pages/admin/AdminAuditLogs"));
+const AdminQuickExport = lazy(() => import("./pages/admin/AdminQuickExport"));
 const AdminAgeVerification = lazy(() => import("./pages/admin/AdminAgeVerification"));
 const AdminCourierApplications = lazy(() => import("./pages/admin/AdminCourierApplications"));
 const AdminDeliverySafety = lazy(() => import("./pages/admin/AdminDeliverySafety"));
