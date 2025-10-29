@@ -81,6 +81,8 @@ export default function LuxuryNav() {
                 <button 
                   onClick={() => navigate('/')}
                   className="w-9 h-9 flex items-center justify-center text-white/60 hover:text-white transition-colors"
+                  aria-label="Search"
+                  title="Search"
                 >
                   <Search className="w-5 h-5" />
                 </button>
@@ -89,6 +91,8 @@ export default function LuxuryNav() {
                 <button 
                   onClick={() => navigate('/cart')}
                   className="relative w-9 h-9 flex items-center justify-center text-white/60 hover:text-white transition-colors"
+                  aria-label="Shopping cart"
+                  title="Shopping cart"
                 >
                   <ShoppingCart className="w-5 h-5" />
                   <span className="absolute -top-1 -right-1 w-4 h-4 bg-emerald-500 text-black text-[10px] font-medium rounded-full flex items-center justify-center">
@@ -100,6 +104,8 @@ export default function LuxuryNav() {
                 <button 
                   onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                   className="md:hidden w-9 h-9 flex items-center justify-center text-white/60 hover:text-white transition-colors"
+                  aria-label="Menu"
+                  title="Menu"
                 >
                   <Menu className="w-5 h-5" />
                 </button>
