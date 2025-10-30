@@ -2775,10 +2775,10 @@ export type Database = {
           last_order_date: string | null
           lifetime_value: number | null
           login_attempts: number | null
+          marketing_opt_in: boolean | null
           name_change_count: number | null
           order_limit: number | null
           phone: string | null
-          referral_code: string | null
           reported_issues: number | null
           risk_score: number | null
           selfie_verified: boolean | null
@@ -2816,10 +2816,10 @@ export type Database = {
           last_order_date?: string | null
           lifetime_value?: number | null
           login_attempts?: number | null
+          marketing_opt_in?: boolean | null
           name_change_count?: number | null
           order_limit?: number | null
           phone?: string | null
-          referral_code?: string | null
           reported_issues?: number | null
           risk_score?: number | null
           selfie_verified?: boolean | null
@@ -2857,10 +2857,10 @@ export type Database = {
           last_order_date?: string | null
           lifetime_value?: number | null
           login_attempts?: number | null
+          marketing_opt_in?: boolean | null
           name_change_count?: number | null
           order_limit?: number | null
           phone?: string | null
-          referral_code?: string | null
           reported_issues?: number | null
           risk_score?: number | null
           selfie_verified?: boolean | null
@@ -2938,6 +2938,39 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      referral_daily_stats: {
+        Row: {
+          created_at: string | null
+          date: string
+          id: string
+          total_clicks: number | null
+          total_conversions: number | null
+          total_rewards_earned: number | null
+          total_signups: number | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          date: string
+          id?: string
+          total_clicks?: number | null
+          total_conversions?: number | null
+          total_rewards_earned?: number | null
+          total_signups?: number | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          date?: string
+          id?: string
+          total_clicks?: number | null
+          total_conversions?: number | null
+          total_rewards_earned?: number | null
+          total_signups?: number | null
+          user_id?: string
+        }
+        Relationships: []
       }
       reviews: {
         Row: {
@@ -3195,6 +3228,10 @@ export type Database = {
         }
         Returns: Json
       }
+      decrement_giveaway_entries: {
+        Args: { p_entries: number; p_giveaway_id: string; p_user_id: string }
+        Returns: undefined
+      }
       decrement_inventory: {
         Args: { _product_id: string; _quantity: number }
         Returns: boolean
@@ -3202,7 +3239,6 @@ export type Database = {
       generate_admin_pin: { Args: never; Returns: string }
       generate_entry_number: { Args: never; Returns: string }
       generate_otp: { Args: never; Returns: string }
-      generate_referral_code: { Args: never; Returns: string }
       generate_tracking_code: { Args: never; Returns: string }
       generate_user_id_code: {
         Args: { p_borough: string; p_user_id: string }
@@ -3280,6 +3316,10 @@ export type Database = {
         Args: { coupon_id: string }
         Returns: undefined
       }
+      increment_giveaway_entries: {
+        Args: { p_entries: number; p_giveaway_id: string; p_user_id: string }
+        Returns: undefined
+      }
       is_admin: { Args: { _user_id: string }; Returns: boolean }
       is_age_verified: { Args: { _user_id: string }; Returns: boolean }
       is_device_blocked: { Args: { _fingerprint: string }; Returns: boolean }
@@ -3351,7 +3391,7 @@ export type Database = {
       [_ in never]: never
     }
   }
-} as const
+}
 
 type DatabaseWithoutInternals = Omit<Database, "__InternalSupabase">
 
@@ -3369,7 +3409,7 @@ export type Tables<
     : never = never,
 > = DefaultSchemaTableNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
-} as const
+}
   ? (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
       DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Views"])[TableName] extends {
       Row: infer R
@@ -3397,7 +3437,7 @@ export type TablesInsert<
     : never = never,
 > = DefaultSchemaTableNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
-} as const
+}
   ? DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"][TableName] extends {
       Insert: infer I
     }
@@ -3422,7 +3462,7 @@ export type TablesUpdate<
     : never = never,
 > = DefaultSchemaTableNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
-} as const
+}
   ? DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"][TableName] extends {
       Update: infer U
     }
@@ -3447,7 +3487,7 @@ export type Enums<
     : never = never,
 > = DefaultSchemaEnumNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
-} as const
+}
   ? DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"][EnumName]
   : DefaultSchemaEnumNameOrOptions extends keyof DefaultSchema["Enums"]
     ? DefaultSchema["Enums"][DefaultSchemaEnumNameOrOptions]
@@ -3464,7 +3504,7 @@ export type CompositeTypes<
     : never = never,
 > = PublicCompositeTypeNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
-} as const
+}
   ? DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"][CompositeTypeName]
   : PublicCompositeTypeNameOrOptions extends keyof DefaultSchema["CompositeTypes"]
     ? DefaultSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
